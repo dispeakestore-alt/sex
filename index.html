@@ -9,12 +9,14 @@
     
     <style>
         :root {
-            --bg-color: #0d0f17;
-            --card-bg: rgba(255, 255, 255, 0.05);
+            --bg-color: #0b0d14;
+            --card-bg: rgba(23, 27, 40, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
             --primary-accent: #8a2be2;
             --secondary-accent: #00f2fe;
+            --success-color: #00e676;
             --text-color: #ffffff;
-            --text-dim: #a0a5ba;
+            --text-dim: #94a3b8;
         }
 
         body {
@@ -23,116 +25,129 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
             box-sizing: border-box;
             overflow-x: hidden;
         }
 
-        h2 {
-            font-size: 20px;
+        .header {
+            text-align: center;
             margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
         }
 
-        .card-perspective {
-            perspective: 1000px;
-            width: 100%;
-            max-width: 340px;
-            margin-bottom: 24px;
+        .header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0 0 6px 0;
+            background: linear-gradient(90deg, #ffffff, var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .alexandrova-card {
+        /* Карточка статистики */
+        .stats-card {
             background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(0, 242, 254, 0.15));
             border: 1px solid rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
             border-radius: 20px;
-            padding: 24px;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(138, 43, 226, 0.3);
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
-            position: relative;
-            overflow: hidden;
+            padding: 18px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .card-badge {
-            display: inline-block;
-            background: linear-gradient(90deg, #8a2be2, #00f2fe);
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-
-        .card-title {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            background: linear-gradient(90deg, #ffffff, #00f2fe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 8px 0;
-        }
-
-        .voucher-box {
-            display: none;
-            margin-top: 16px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px dashed var(--secondary-accent);
-            border-radius: 12px;
-            padding: 12px;
-        }
-
-        .voucher-code {
-            font-family: 'Courier New', monospace;
-            font-size: 18px;
-            font-weight: bold;
-            color: #00f2fe;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            word-break: break-all;
-        }
-
-        .copy-btn {
-            background: #00f2fe;
-            color: #000;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .tasks-container {
-            width: 100%;
-            max-width: 340px;
-        }
-
-        .task-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 16px;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
             margin-bottom: 14px;
         }
 
-        .task-title {
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--secondary-accent);
+        }
+
+        .stat-lbl {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 2px;
+        }
+
+        .progress-bar-bg {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* Сетка из 30 слотов */
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .slot-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            position: relative;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .slot-card.completed {
+            border-color: rgba(0, 230, 118, 0.3);
+            background: rgba(0, 230, 118, 0.03);
+        }
+
+        .slot-card.inactive {
+            opacity: 0.5;
+            filter: grayscale(0.8);
+        }
+
+        .slot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .slot-badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--secondary-accent);
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .slot-title {
             font-size: 15px;
             font-weight: 600;
             margin-bottom: 4px;
         }
 
-        .task-desc {
+        .slot-desc {
             font-size: 12px;
             color: var(--text-dim);
             margin-bottom: 12px;
+            min-height: 32px;
         }
 
         .input-group {
@@ -142,10 +157,10 @@
 
         .code-input {
             flex: 1;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 10px;
-            padding: 10px 12px;
+            padding: 8px 12px;
             color: #fff;
             font-size: 13px;
             outline: none;
@@ -156,103 +171,179 @@
             color: white;
             border: none;
             border-radius: 10px;
-            padding: 10px 16px;
+            padding: 8px 14px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
         }
 
-        .completed-badge {
-            color: #00e676;
+        .status-badge-completed {
+            color: var(--success-color);
             font-size: 13px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Модалка с ваучером */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #171b28;
+            border: 1px solid var(--secondary-accent);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            max-width: 320px;
+            width: 100%;
+        }
+
+        .voucher-code {
+            font-family: monospace;
+            font-size: 20px;
+            color: var(--secondary-accent);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 14px 0;
+            letter-spacing: 2px;
+            word-break: break-all;
+        }
+
+        .modal-btn {
+            background: var(--secondary-accent);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
         }
     </style>
 </head>
 <body>
 
-    <h2>Ежедневные задания</h2>
+    <div class="header">
+        <h1>ALEXANDROVA_CHAT</h1>
+    </div>
 
-    <div class="card-perspective">
-        <div class="alexandrova-card" id="mainCard">
-            <div class="card-badge">Ежедневный приз</div>
-            <div class="card-title">ALEXANDROVA_CHAT</div>
-            <div id="cardStatus" style="font-size: 13px; color: var(--text-dim); margin-top: 6px;">
-                Выполните задание ниже, чтобы получить ваш ваучер
+    <!-- Панель Статистики -->
+    <div class="stats-card">
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-val" id="completedVal">0 / 30</div>
+                <div class="stat-lbl">Выполнено</div>
             </div>
-
-            <div class="voucher-box" id="voucherBox">
-                <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 4px;">Ваш уникальный ваучер:</div>
-                <div class="voucher-code" id="voucherCode">ALEX-XXXX-XXXX</div>
-                <button class="copy-btn" onclick="copyVoucher()">Скопировать</button>
+            <div class="stat-box">
+                <div class="stat-val" id="remainingVal">30</div>
+                <div class="stat-lbl">Осталось</div>
             </div>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressFill"></div>
         </div>
     </div>
 
-    <div class="tasks-container" id="tasksList">
-        <div style="text-align: center; color: var(--text-dim);">Загрузка заданий...</div>
+    <!-- Сетка 30 Слотов -->
+    <div class="slots-grid" id="slotsGrid">
+        <div style="text-align: center; grid-column: 1/-1; color: var(--text-dim);">Загрузка ячеек...</div>
+    </div>
+
+    <!-- Модалка Ваучера -->
+    <div class="modal" id="voucherModal">
+        <div class="modal-content">
+            <h3 style="margin: 0; color: #fff;">🎉 Поздравляем!</h3>
+            <p style="font-size: 13px; color: var(--text-dim); margin-top: 6px;">Ваш ваучер за выполнение задания:</p>
+            <div class="voucher-code" id="modalVoucherCode">XXXX-XXXX</div>
+            <button class="modal-btn" onclick="copyAndClose()">Скопировать и закрыть</button>
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // ВАЖНО: Укажи IP своего VPS сервера
+        // Укажи IP своего VPS
         const API_BASE_URL = "http://5.129.201.177"; 
 
-        const card = document.getElementById('mainCard');
-        document.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 15;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 15;
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
-
-        async function loadTasks() {
+        async function loadAppData() {
             try {
-                const res = await fetch(`${API_BASE_URL}/api/tasks`, {
+                const res = await fetch(`${API_BASE_URL}/api/user-stats-tasks`, {
                     headers: { 'X-Init-Data': tg.initData }
                 });
                 const data = await res.json();
                 
                 if (data.status === 'ok') {
-                    renderTasks(data.tasks);
+                    renderStats(data.data);
+                    renderSlots(data.data.tasks);
                 } else {
-                    document.getElementById('tasksList').innerHTML = `<div style="color: #ff5252; text-align: center;">${data.message || 'Ошибка'}</div>`;
+                    document.getElementById('slotsGrid').innerHTML = `<div style="color: #ff5252; text-align: center; grid-column: 1/-1;">${data.message || 'Ошибка загрузки'}</div>`;
                 }
             } catch (err) {
-                document.getElementById('tasksList').innerHTML = `<div style="color: #ff5252; text-align: center;">Ошибка соединения с API</div>`;
+                document.getElementById('slotsGrid').innerHTML = `<div style="color: #ff5252; text-align: center; grid-column: 1/-1;">Ошибка подключения к бэкенду</div>`;
             }
         }
 
-        function renderTasks(tasks) {
-            const container = document.getElementById('tasksList');
-            if (!tasks || tasks.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: var(--text-dim);">Заданий пока нет</div>';
-                return;
-            }
+        function renderStats(data) {
+            document.getElementById('completedVal').innerText = `${data.completed_count} / ${data.total_slots}`;
+            document.getElementById('remainingVal').innerText = data.remaining_count;
+            
+            const pct = Math.round((data.completed_count / data.total_slots) * 100);
+            document.getElementById('progressFill').style.width = `${pct}%`;
+        }
 
-            container.innerHTML = tasks.map(task => `
-                <div class="task-card">
-                    <div class="task-title">${task.title}</div>
-                    <div class="task-desc">${task.description || ''}</div>
-                    ${task.completed ? `
-                        <div class="completed-badge">✓ Задание выполнено</div>
-                    ` : `
-                        <div class="input-group">
-                            <input type="text" class="code-input" id="input-${task.id}" placeholder="Введите код">
-                            <button class="submit-btn" onclick="submitTask(${task.id})">Получить</button>
+        function renderSlots(tasks) {
+            const container = document.getElementById('slotsGrid');
+            container.innerHTML = tasks.map(task => {
+                const isCompleted = task.completed;
+                const isActive = task.is_active;
+
+                let cardClass = 'slot-card';
+                if (isCompleted) cardClass += ' completed';
+                if (!isActive) cardClass += ' inactive';
+
+                return `
+                    <div class="${cardClass}">
+                        <div class="slot-header">
+                            <span class="slot-badge">Слот #${task.slot_number}</span>
+                            ${isCompleted ? '<span class="status-badge-completed">✓ Выполнено</span>' : ''}
                         </div>
-                    `}
-                </div>
-            `).join('');
+                        <div class="slot-title">${task.title}</div>
+                        <div class="slot-desc">${task.description}</div>
+                        
+                        ${!isCompleted && isActive ? `
+                            <div class="input-group">
+                                <input type="text" class="code-input" id="input-${task.slot_number}" placeholder="Введите код">
+                                <button class="submit-btn" onclick="submitSlot(${task.slot_number})">Ввод</button>
+                            </div>
+                        ` : ''}
+
+                        ${!isActive ? `
+                            <div style="font-size: 11px; color: var(--text-dim); font-style: italic;">Задание пока не доступно</div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
         }
 
-        async function submitTask(taskId) {
-            const inputEl = document.getElementById(`input-${taskId}`);
+        async function submitSlot(slotNumber) {
+            const inputEl = document.getElementById(`input-${slotNumber}`);
             const code = inputEl ? inputEl.value.trim() : '';
 
             if (!code) {
-                tg.showAlert('Введите код!');
+                tg.showAlert('Введите секретный код!');
                 return;
             }
 
@@ -262,7 +353,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         init_data: tg.initData,
-                        task_id: taskId,
+                        slot_number: slotNumber,
                         code: code
                     })
                 });
@@ -271,11 +362,10 @@
 
                 if (data.status === 'ok') {
                     confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                    document.getElementById('cardStatus').innerText = '🎉 Поздравляем с выполнением задания!';
-                    document.getElementById('voucherCode').innerText = data.voucher;
-                    document.getElementById('voucherBox').style.display = 'block';
+                    document.getElementById('modalVoucherCode').innerText = data.voucher;
+                    document.getElementById('voucherModal').style.display = 'flex';
                     tg.HapticFeedback.notificationOccurred('success');
-                    loadTasks();
+                    loadAppData();
                 } else {
                     tg.showAlert(data.message || 'Неверный код!');
                     tg.HapticFeedback.notificationOccurred('error');
@@ -285,14 +375,15 @@
             }
         }
 
-        function copyVoucher() {
-            const code = document.getElementById('voucherCode').innerText;
+        function copyAndClose() {
+            const code = document.getElementById('modalVoucherCode').innerText;
             navigator.clipboard.writeText(code).then(() => {
                 tg.showAlert('Ваучер скопирован!');
+                document.getElementById('voucherModal').style.display = 'none';
             });
         }
 
-        loadTasks();
+        loadAppData();
     </script>
 </body>
 </html>
