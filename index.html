@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>ALEXANDROVA_CHAT App</title>
-    <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Библиотека конфетти -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
@@ -39,7 +37,6 @@
             text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
         }
 
-        /* 3D Контейнер для карточки */
         .card-perspective {
             perspective: 1000px;
             width: 100%;
@@ -47,7 +44,6 @@
             margin-bottom: 24px;
         }
 
-        /* Анимированная карточка ALEXANDROVA_CHAT */
         .alexandrova-card {
             background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(0, 242, 254, 0.15));
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -57,20 +53,9 @@
             text-align: center;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(138, 43, 226, 0.3);
             transform-style: preserve-3d;
-            transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+            transition: transform 0.1s ease-out;
             position: relative;
             overflow: hidden;
-        }
-
-        .alexandrova-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-            pointer-events: none;
         }
 
         .card-badge {
@@ -102,7 +87,6 @@
             border: 1px dashed var(--secondary-accent);
             border-radius: 12px;
             padding: 12px;
-            animation: fadeIn 0.5s ease;
         }
 
         .voucher-code {
@@ -124,12 +108,8 @@
             font-weight: bold;
             cursor: pointer;
             font-size: 12px;
-            transition: opacity 0.2s;
         }
 
-        .copy-btn:active { opacity: 0.7; }
-
-        /* Список заданий */
         .tasks-container {
             width: 100%;
             max-width: 340px;
@@ -171,10 +151,6 @@
             outline: none;
         }
 
-        .code-input:focus {
-            border-color: var(--primary-accent);
-        }
-
         .submit-btn {
             background: linear-gradient(135deg, var(--primary-accent), #6a11cb);
             color: white;
@@ -184,23 +160,12 @@
             font-weight: 600;
             font-size: 13px;
             cursor: pointer;
-            transition: transform 0.1s;
         }
-
-        .submit-btn:active { transform: scale(0.96); }
 
         .completed-badge {
             color: #00e676;
             font-size: 13px;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -208,7 +173,6 @@
 
     <h2>Ежедневные задания</h2>
 
-    <!-- Анимированная 3D карточка -->
     <div class="card-perspective">
         <div class="alexandrova-card" id="mainCard">
             <div class="card-badge">Ежедневный приз</div>
@@ -217,7 +181,6 @@
                 Выполните задание ниже, чтобы получить ваш ваучер
             </div>
 
-            <!-- Блок с ваучером (показывается при успехе) -->
             <div class="voucher-box" id="voucherBox">
                 <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 4px;">Ваш уникальный ваучер:</div>
                 <div class="voucher-code" id="voucherCode">ALEX-XXXX-XXXX</div>
@@ -226,19 +189,17 @@
         </div>
     </div>
 
-    <!-- Контейнер заданий -->
     <div class="tasks-container" id="tasksList">
         <div style="text-align: center; color: var(--text-dim);">Загрузка заданий...</div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем Web App на весь экран
+        tg.expand();
 
-        // Меняй этот URL на IP своего VPS или домен API (например, https://your-vps-ip:8000)
-        const API_BASE_URL = "https://your-domain.ru"; 
+        // ВАЖНО: Укажи IP своего VPS сервера
+        const API_BASE_URL = "http://5.129.201.177"; 
 
-        // 3D Наклон карточки при движении пальцем/мышкой
         const card = document.getElementById('mainCard');
         document.addEventListener('mousemove', (e) => {
             const xAxis = (window.innerWidth / 2 - e.pageX) / 15;
@@ -246,14 +207,6 @@
             card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
         });
 
-        document.addEventListener('touchmove', (e) => {
-            const touch = e.touches[0];
-            const xAxis = (window.innerWidth / 2 - touch.pageX) / 15;
-            const yAxis = (window.innerHeight / 2 - touch.pageY) / 15;
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
-
-        // Загрузка заданий с сервера
         async function loadTasks() {
             try {
                 const res = await fetch(`${API_BASE_URL}/api/tasks`, {
@@ -264,10 +217,10 @@
                 if (data.status === 'ok') {
                     renderTasks(data.tasks);
                 } else {
-                    document.getElementById('tasksList').innerHTML = `<div style="color: #ff5252; text-align: center;">${data.message || 'Ошибка загрузки'}</div>`;
+                    document.getElementById('tasksList').innerHTML = `<div style="color: #ff5252; text-align: center;">${data.message || 'Ошибка'}</div>`;
                 }
             } catch (err) {
-                document.getElementById('tasksList').innerHTML = `<div style="color: #ff5252; text-align: center;">Ошибка соединения с сервером API</div>`;
+                document.getElementById('tasksList').innerHTML = `<div style="color: #ff5252; text-align: center;">Ошибка соединения с API</div>`;
             }
         }
 
@@ -299,7 +252,7 @@
             const code = inputEl ? inputEl.value.trim() : '';
 
             if (!code) {
-                tg.showAlert('Пожалуйста, введите код!');
+                tg.showAlert('Введите код!');
                 return;
             }
 
@@ -317,33 +270,28 @@
                 const data = await res.json();
 
                 if (data.status === 'ok') {
-                    // Анимация конфетти
                     confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                    
-                    // Показываем ваучер на карточке
                     document.getElementById('cardStatus').innerText = '🎉 Поздравляем с выполнением задания!';
                     document.getElementById('voucherCode').innerText = data.voucher;
                     document.getElementById('voucherBox').style.display = 'block';
-
                     tg.HapticFeedback.notificationOccurred('success');
-                    loadTasks(); // Обновляем список заданий
+                    loadTasks();
                 } else {
                     tg.showAlert(data.message || 'Неверный код!');
                     tg.HapticFeedback.notificationOccurred('error');
                 }
             } catch (e) {
-                tg.showAlert('Произошла ошибка при отправке запроса');
+                tg.showAlert('Ошибка отправки запроса');
             }
         }
 
         function copyVoucher() {
             const code = document.getElementById('voucherCode').innerText;
             navigator.clipboard.writeText(code).then(() => {
-                tg.showAlert('Ваучер скопирован в буфер обмена!');
+                tg.showAlert('Ваучер скопирован!');
             });
         }
 
-        // Запуск при открытии
         loadTasks();
     </script>
 </body>
