@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Админ-панель</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root {
+    --bg: var(--tg-theme-bg-color, #fff);
+    --bg2: var(--tg-theme-secondary-bg-color, #f4f4f5);
+    --text: var(--tg-theme-text-color, #111);
+    --hint: var(--tg-theme-hint-color, #888);
+    --btn: var(--tg-theme-button-color, #2481cc);
+    --btnText: var(--tg-theme-button-text-color, #fff);
+    --danger: #ef4444;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  .top {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid rgba(128,128,128,0.15);
+    padding: 14px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(10px);
+  }
+  .top h1 { margin: 0; font-size: 18px; }
+  .tabs { display: flex; gap: 6px; padding: 12px 20px; }
+  .tab {
+    padding: 8px 14px; border-radius: 10px; cursor: pointer;
+    background: var(--bg2); font-size: 14px; font-weight: 500;
+    border: none; color: var(--text);
+  }
+  .tab.active { background: var(--btn); color: var(--btnText); }
+  .content { padding: 0 20px 40px; max-width: 900px; margin: 0 auto; }
+  .card {
+    background: var(--bg2);
+    padding: 16px;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .card .info { flex: 1; min-width: 0; }
+  .card .name { font-weight: 600; font-size: 15px; }
+  .card .desc { font-size: 13px; color: var(--hint); margin-top: 4px; word-break: break-word; }
+  .card .actions { display: flex; gap: 6px; }
+  button.icon {
+    background: transparent; border: none; cursor: pointer;
+    padding: 8px; border-radius: 8px; font-size: 16px;
+    color: var(--text);
+  }
+  button.icon:hover { background: rgba(128,128,128,0.15); }
+  button.icon.danger { color: var(--danger); }
+  .btn {
+    background: var(--btn); color: var(--btnText);
+    border: none; padding: 10px 16px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  .btn.ghost { background: var(--bg2); color: var(--text); }
+  .btn.danger { background: var(--danger); color: #fff; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .stat { background: var(--bg2); padding: 14px; border-radius: 14px; text-align: center; }
+  .stat .n { font-size: 22px; font-weight: 700; }
+  .stat .l { font-size: 12px; color: var(--hint); margin-top: 4px; }
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    display: none; align-items: center; justify-content: center;
+    z-index: 100; padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--bg); border-radius: 18px; padding: 22px;
+    width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+  }
+  .modal h3 { margin: 0 0 16px; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 13px; color: var(--hint); margin-bottom: 5px; }
+  .field input, .field textarea, .field select {
+    width: 100%; padding: 10px 12px; border-radius: 10px;
+    border: 1px solid rgba(128,128,128,0.25); background: var(--bg2);
+    color: var(--text); font-size: 14px; font-family: inherit; outline: none;
+  }
+  .field textarea { min-height: 100px; resize: vertical; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+  .login {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 20px;
+  }
+  .login .box { width: 100%; max-width: 380px; background: var(--bg2); padding: 28px; border-radius: 18px; }
+  .login h2 { margin: 0 0 6px; }
+  .login p { margin: 0 0 20px; color: var(--hint); font-size: 14px; }
+  .hidden { display: none !important; }
+  .empty { text-align: center; padding: 40px 20px; color: var(--hint); }
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: #111; color: #fff; padding: 10px 20px; border-radius: 10px;
+    font-size: 14px; opacity: 0; transition: opacity 0.2s; z-index: 999;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="loginView" class="login">
+  <div class="box">
+    <h2>🛠 Админ-панель</h2>
+    <p>Введите пароль для входа</p>
+    <div class="field">
+      <input id="pwdInput" type="password" placeholder="Пароль" />
+    </div>
+    <button class="btn" style="width:100%" onclick="login()">Войти</button>
+  </div>
+</div>
+
+<div id="appView" class="hidden">
+  <div class="top">
+    <h1>🛠 Админ-панель</h1>
+    <button class="btn ghost" onclick="logout()">Выйти</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="projects" onclick="switchTab('projects')">📁 Проекты</button>
+    <button class="tab" data-tab="users" onclick="switchTab('users')">👥 Пользователи</button>
+  </div>
+
+  <div class="content">
+    <div id="tab-projects">
+      <div class="stats" id="stats"></div>
+      <button class="btn" onclick="openProjectModal()" style="margin-bottom:16px">➕ Новый проект</button>
+      <div id="projectsList"></div>
+    </div>
+
+    <div id="tab-users" class="hidden">
+      <div id="usersList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Модалка проекта -->
+<div class="modal-overlay" id="projectModal">
+  <div class="modal">
+    <h3 id="projectModalTitle">Новый проект</h3>
+    <div class="field">
+      <label>Иконка (эмодзи)</label>
+      <input id="p_icon" placeholder="📁" />
+    </div>
+    <div class="field">
+      <label>Название</label>
+      <input id="p_name" placeholder="Название проекта" />
+    </div>
+    <div class="field">
+      <label>Описание</label>
+      <textarea id="p_desc" placeholder="Краткое описание..."></textarea>
+    </div>
+    <div class="field">
+      <label>Порядок</label>
+      <input id="p_sort" type="number" value="0" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="closeModal('projectModal')">Отмена</button>
+      <button class="btn" onclick="saveProject()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Модалка вопросов -->
+<div class="modal-overlay" id="questionsModal">
+  <div class="modal">
+    <h3 id="qModalTitle">Вопросы</h3>
+    <button class="btn" onclick="openQuestionModal()" style="margin-bottom:14px">➕ Добавить вопрос</button>
+    <div id="questionsList"></div>
+  </div>
+</div>
+
+<!-- Модалка вопроса -->
+<div class="modal-overlay" id="questionModal">
+  <div class="modal">
+    <h3 id="questionModalTitle">Новый вопрос</h3>
+    <div class="field">
+      <label>Вопрос</label>
+      <input id="q_title" placeholder="Текст вопроса" />
+    </div>
+    <div class="field">
+      <label>Ответ</label>
+      <textarea id="q_answer" placeholder="Подробный ответ..."></textarea>
+    </div>
+    <div class="field">
+      <label>Порядок</label>
+      <input id="q_sort" type="number" value="0" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="closeModal('questionModal')">Отмена</button>
+      <button class="btn" onclick="saveQuestion()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const tg = window.Telegram?.WebApp;
+if (tg) { tg.ready(); tg.expand(); }
+
+let PWD = sessionStorage.getItem('admin_pwd') || '';
+let currentProjectId = null;
+let editProjectId = null;
+let editQuestionId = null;
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+async function api(path, opts = {}) {
+  const r = await fetch('/api/admin' + path, {
+    ...opts,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Password': PWD,
+      ...(opts.headers || {})
+    }
+  });
+  if (r.status === 401) {
+    logout();
+    throw new Error('Unauthorized');
+  }
+  return r.json();
+}
+
+async function login() {
+  const pwd = document.getElementById('pwdInput').value;
+  if (!pwd) return toast('Введите пароль');
+  PWD = pwd;
+  try {
+    await api('/stats');
+    sessionStorage.setItem('admin_pwd', PWD);
+    showApp();
+  } catch (e) {
+    toast('Неверный пароль');
+    PWD = '';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('admin_pwd');
+  PWD = '';
+  document.getElementById('appView').classList.add('hidden');
+  document.getElementById('loginView').classList.remove('hidden');
+}
+
+function showApp() {
+  document.getElementById('loginView').classList.add('hidden');
+  document.getElementById('appView').classList.remove('hidden');
+  loadStats();
+  loadProjects();
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.getElementById('tab-projects').classList.toggle('hidden', tab !== 'projects');
+  document.getElementById('tab-users').classList.toggle('hidden', tab !== 'users');
+  if (tab === 'users') loadUsers();
+}
+
+/* ---------- PROJECTS ---------- */
+async function loadStats() {
+  try {
+    const s = await api('/stats');
+    document.getElementById('stats').innerHTML = `
+      <div class="stat"><div class="n">${s.projects}</div><div class="l">Проектов</div></div>
+      <div class="stat"><div class="n">${s.questions}</div><div class="l">Вопросов</div></div>
+      <div class="stat"><div class="n">${s.users}</div><div class="l">Пользователей</div></div>
+    `;
+  } catch {}
+}
+
+async function loadProjects() {
+  const list = await (await fetch('/api/projects')).json();
+  const el = document.getElementById('projectsList');
+  if (!list.length) {
+    el.innerHTML = '<div class="empty">Нет проектов. Создайте первый!</div>';
+    return;
+  }
+  el.innerHTML = list.map(p => `
+    <div class="card">
+      <div class="info" onclick="openQuestions(${p.id})" style="cursor:pointer">
+        <div class="name">${p.icon || '📁'} ${escapeHtml(p.name)}</div>
+        <div class="desc">${escapeHtml(p.description || '')}</div>
+      </div>
+      <div class="actions">
+        <button class="icon" onclick="openQuestions(${p.id})" title="Вопросы">❓</button>
+        <button class="icon" onclick='openProjectModal(${JSON.stringify(p).replace(/'/g, "&#39;")})' title="Редактировать">✏️</button>
+        <button class="icon danger" onclick="deleteProject(${p.id})" title="Удалить">🗑</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openProjectModal(p = null) {
+  editProjectId = p?.id || null;
+  document.getElementById('projectModalTitle').textContent = p ? 'Редактировать проект' : 'Новый проект';
+  document.getElementById('p_icon').value = p?.icon || '📁';
+  document.getElementById('p_name').value = p?.name || '';
+  document.getElementById('p_desc').value = p?.description || '';
+  document.getElementById('p_sort').value = p?.sort_order || 0;
+  document.getElementById('projectModal').classList.add('show');
+}
+
+async function saveProject() {
+  const data = {
+    icon: document.getElementById('p_icon').value || '📁',
+    name: document.getElementById('p_name').value.trim(),
+    description: document.getElementById('p_desc').value.trim(),
+    sort_order: parseInt(document.getElementById('p_sort').value) || 0
+  };
+  if (!data.name) return toast('Введите название');
+  if (editProjectId) {
+    await api('/projects/' + editProjectId, { method: 'PUT', body: JSON.stringify(data) });
+  } else {
+    await api('/projects', { method: 'POST', body: JSON.stringify(data) });
+  }
+  closeModal('projectModal');
+  toast('Сохранено ✅');
+  loadProjects();
+  loadStats();
+}
+
+async function deleteProject(id) {
+  if (!confirm('Удалить проект и все его вопросы?')) return;
+  await api('/projects/' + id, { method: 'DELETE' });
+  toast('Удалено');
+  loadProjects();
+  loadStats();
+}
+
+/* ---------- QUESTIONS ---------- */
+async function openQuestions(projectId) {
+  currentProjectId = projectId;
+  document.getElementById('questionsModal').classList.add('show');
+  await loadQuestions();
+}
+
+async function loadQuestions() {
+  const data = await (await fetch('/api/projects/' + currentProjectId)).json();
+  document.getElementById('qModalTitle').textContent = 'Вопросы · ' + data.name;
+  const el = document.getElementById('questionsList');
+  if (!data.questions.length) {
+    el.innerHTML = '<div class="empty">Пока нет вопросов</div>';
+    return;
+  }
+  el.innerHTML = data.questions.map(q => `
+    <div class="card">
+      <div class="info">
+        <div class="name">${escapeHtml(q.title)}</div>
+        <div class="desc">${escapeHtml(q.answer).slice(0, 120)}${q.answer.length > 120 ? '...' : ''}</div>
+      </div>
+      <div class="actions">
+        <button class="icon" onclick='openQuestionModal(${JSON.stringify(q).replace(/'/g, "&#39;")})'>✏️</button>
+        <button class="icon danger" onclick="deleteQuestion(${q.id})">🗑</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openQuestionModal(q = null) {
+  editQuestionId = q?.id || null;
+  document.getElementById('questionModalTitle').textContent = q ? 'Редактировать вопрос' : 'Новый вопрос';
+  document.getElementById('q_title').value = q?.title || '';
+  document.getElementById('q_answer').value = q?.answer || '';
+  document.getElementById('q_sort').value = q?.sort_order || 0;
+  document.getElementById('questionModal').classList.add('show');
+}
+
+async function saveQuestion() {
+  const data = {
+    project_id: currentProjectId,
+    title: document.getElementById('q_title').value.trim(),
+    answer: document.getElementById('q_answer').value.trim(),
+    sort_order: parseInt(document.getElementById('q_sort').value) || 0
+  };
+  if (!data.title || !data.answer) return toast('Заполните все поля');
+  if (editQuestionId) {
+    await api('/questions/' + editQuestionId, { method: 'PUT', body: JSON.stringify(data) });
+  } else {
+    await api('/questions', { method: 'POST', body: JSON.stringify(data) });
+  }
+  closeModal('questionModal');
+  toast('Сохранено ✅');
+  loadQuestions();
+  loadStats();
+}
+
+async function deleteQuestion(id) {
+  if (!confirm('Удалить вопрос?')) return;
+  await api('/questions/' + id, { method: 'DELETE' });
+  toast('Удалено');
+  loadQuestions();
+  loadStats();
+}
+
+/* ---------- USERS ---------- */
+async function loadUsers() {
+  const users = await api('/users');
+  const el = document.getElementById('usersList');
+  if (!users.length) { el.innerHTML = '<div class="empty">Пока нет пользователей</div>'; return; }
+  el.innerHTML = users.map(u => `
+    <div class="card">
+      <div class="info">
+        <div class="name">${escapeHtml(u.first_name || '')} ${escapeHtml(u.last_name || '')} ${u.username ? '@' + escapeHtml(u.username) : ''}</div>
+        <div class="desc">ID: ${u.telegram_id} · ${new Date(u.joined_at).toLocaleString()}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ---------- HELPERS ---------- */
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// авто-логин если пароль уже в сессии
+if (PWD) {
+  api('/stats').then(showApp).catch(() => logout());
+}
+</script>
+</body>
+</html>
