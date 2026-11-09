@@ -639,15 +639,6 @@
         /* ==================== БИЛЕТИК ==================== */
         .ticket-wrap { display: flex; flex-direction: column; gap: 14px; width: 100%; }
 
-        .welvura-banner {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.08);
-            display: block;
-        }
-
         .ticket-hero {
             background: linear-gradient(160deg, rgba(30, 22, 10, 0.95), rgba(15, 10, 5, 0.98));
             border: 1px solid rgba(255, 204, 0, 0.28);
@@ -655,13 +646,14 @@
             backdrop-filter: blur(12px);
             display: flex; flex-direction: column; align-items: center; gap: 20px;
             position: relative; overflow: hidden;
+            width: 100%;
         }
         .ticket-hero::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
             background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.8), transparent);
         }
 
-        /* Сетка тарифов - адаптированная */
+        /* Сетка тарифов - расширенная на мобильных */
         .ticket-tiers {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -679,12 +671,13 @@
             background: rgba(255, 255, 255, 0.04);
             border: 2px solid var(--border-color);
             border-radius: 14px;
-            padding: 14px 10px;
+            padding: 16px 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex; flex-direction: column; align-items: center; gap: 6px;
             color: #fff; font-family: var(--font-text);
             position: relative;
+            width: 100%;
         }
         .ticket-tier:hover { background: rgba(255, 255, 255, 0.08); }
         .ticket-tier.active {
@@ -699,19 +692,19 @@
         }
 
         .tier-top {
-            font-size: 9px; font-weight: 800; letter-spacing: 1.2px;
+            font-size: 10px; font-weight: 800; letter-spacing: 1.2px;
             color: var(--text-muted); text-transform: uppercase;
         }
         .ticket-tier.active .tier-top { color: var(--accent-yellow); }
 
         .tier-amount {
-            font-family: var(--font-title); font-size: 16px;
+            font-family: var(--font-title); font-size: 18px;
             font-weight: 800; color: #fff;
         }
         .ticket-tier.active .tier-amount { color: var(--accent-yellow); text-shadow: 0 0 10px rgba(255, 204, 0, 0.6); }
 
         .tier-range {
-            font-size: 10px; color: var(--text-muted);
+            font-size: 11px; color: var(--text-muted);
             font-weight: 700; letter-spacing: 0.3px;
         }
         .ticket-tier.active .tier-range { color: #ffdd33; }
@@ -727,7 +720,7 @@
         .ticket {
             position: relative;
             width: 100%;
-            max-width: 340px;
+            max-width: 100%;
             height: 410px;
             filter: drop-shadow(0 12px 30px rgba(255, 204, 0, 0.25));
             transition: transform 0.3s ease;
@@ -838,7 +831,7 @@
             text-shadow: 0 0 20px rgba(255,255,255,0.9);
         }
         .reveal-amount.tick {
-            transform: scale(1.05); /* Легкий тик при прокруте */
+            transform: scale(1.05);
         }
         .reveal-amount.final {
             animation: revealPop 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -885,7 +878,6 @@
             letter-spacing: 2px; text-transform: uppercase;
         }
 
-        /* Зубчатый верхний край для всех частей */
         .ticket-stub-wrap::before {
             content: '';
             position: absolute;
@@ -897,7 +889,6 @@
             z-index: 4;
         }
 
-        /* Анимация отрыва с левой части */
         .stub-part.torn-left {
             animation: tearLeft 1.2s cubic-bezier(0.4, 0, 0.7, 1) forwards;
         }
@@ -1048,10 +1039,6 @@
                 gap: 30px;
                 align-items: start;
             }
-            #tab-ticket .welvura-banner {
-                grid-column: 1 / -1;
-                margin-bottom: 10px;
-            }
             #tab-ticket .ticket-wrap {
                 display: contents;
             }
@@ -1095,14 +1082,13 @@
             #tab-ticket .reveal-amount { font-size: 64px; }
         }
 
-        /* Дополнительная адаптация под узкие телефоны */
         @media (max-width: 380px) {
             .ticket { height: 380px; }
             .ticket-top { height: 250px; padding: 18px 16px; }
             .ticket-reveal, .ticket-stub-wrap, .stub-part { height: 130px; }
             .reveal-amount { font-size: 38px; }
-            .ticket-tier { padding: 10px 6px; }
-            .tier-amount { font-size: 14px; }
+            .ticket-tier { padding: 14px 10px; }
+            .tier-amount { font-size: 16px; }
         }
     </style>
 </head>
@@ -1327,11 +1313,11 @@
         <!-- ВКЛАДКА: БИЛЕТИК -->
         <div id="tab-ticket" class="tab-content">
             <div class="ticket-wrap">
-
+                
                 <div class="ticket-hero">
                     
-                    <!-- Левая колонка (на ПК) -->
-                    <div class="ticket-settings-col">
+                    <!-- Левая колонка (на ПК) / Блоки сверху (на телефонах) -->
+                    <div class="ticket-settings-col" style="width: 100%;">
                         <div class="ticket-tiers" id="ticket-tiers">
                             <button class="ticket-tier active" data-tier="1000" onclick="selectTicketTier(1000)">
                                 <span class="tier-top">Билет</span>
@@ -1356,8 +1342,8 @@
                         </div>
                     </div>
 
-                    <!-- Правая колонка (на ПК) -->
-                    <div class="ticket-display-col">
+                    <!-- Правая колонка (на ПК) / Билет снизу (на телефонах) -->
+                    <div class="ticket-display-col" style="width: 100%;">
                         <div class="ticket-stage">
                             <div class="ticket" id="ticket">
                                 <div class="ticket-body">
@@ -1374,9 +1360,7 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Обрывной блок с перфорацией -->
                                 <div class="ticket-stub-wrap" id="ticket-stub-wrap">
-                                    <!-- 3 части, которые будут отрываться -->
                                     <div class="stub-part" style="left:0; width:33.33%;">
                                         <div class="stub-content">
                                             <div class="stub-text">ОТКРОЙ</div>
@@ -2357,7 +2341,6 @@
                 revealEl.textContent = '???';
                 revealEl.className = 'reveal-amount';
             }
-            // Возвращаем части билета на место
             document.querySelectorAll('.stub-part').forEach(part => {
                 part.classList.remove('torn-left', 'torn-mid', 'torn-right');
                 part.style.display = '';
@@ -2372,7 +2355,6 @@
             }
         }
 
-        // Генерация суммы: 70% — минимум/0, 30% — среднее/максимум
         function generateTicketAmount(tier) {
             const range = TICKET_TIERS[tier];
             if (!range) return 0;
@@ -2391,7 +2373,6 @@
                 else amount = Math.floor(min + Math.random() * span * 0.40);
             }
             
-            // Жесткая гарантия, что сумма не превышает максимум
             return Math.min(Math.max(amount, min), max);
         }
 
@@ -2407,7 +2388,6 @@
         }
 
         function performTear() {
-            // Анимация отрыва с левой части (как рвешь бумагу)
             const parts = document.querySelectorAll('.stub-part');
             if (parts[0]) parts[0].classList.add('torn-left');
             if (parts[1]) setTimeout(() => parts[1].classList.add('torn-mid'), 100);
@@ -2417,9 +2397,8 @@
             
             const finalAmount = generateTicketAmount(ticketState.selectedTier);
             
-            // Вспышка и прокрут после того, как части улетят
             setTimeout(() => {
-                startRevealFlash(finalAmount);
+                startгромкоеВращение(finalAmount);
             }, 900);
         }
 
@@ -2454,8 +2433,8 @@
             }
         }
 
-        // Прокрутка чисел в reveal (красивая, с замедлением)
-        function startRevealFlash(finalAmount) {
+        // НАСТРОЙКА ПРОКРУТА НА 6 СЕКУНД
+        function startгромкоеВращение(finalAmount) {
             const revealEl = document.getElementById('reveal-amount');
             if (!revealEl) return;
             revealEl.classList.add('flashing');
@@ -2464,7 +2443,7 @@
             const maxForFlash = TICKET_TIERS[tier].max;
             
             let elapsed = 0;
-            const duration = 2200; // Медленнее и драматичнее
+            const duration = 6000; // Ровно 6 секунд прокрута
             
             function step() {
                 if (elapsed < duration) {
@@ -2472,11 +2451,11 @@
                     revealEl.classList.add('tick');
                     setTimeout(() => revealEl.classList.remove('tick'), 50);
                     
-                    elapsed += 40;
+                    elapsed += 50;
                     
-                    // Экспоненциальное замедление (слот-машина)
+                    // Плавное замедление за 6 секунд
                     const progress = elapsed / duration;
-                    const delay = 30 + Math.pow(progress, 4) * 600;
+                    const delay = 30 + Math.pow(progress, 3) * 350;
                     
                     setTimeout(step, delay);
                 } else {
@@ -2535,7 +2514,6 @@
             const isWin = amount > 0;
             const tier = ticketState.selectedTier;
             
-            // Кастомные SVG иконки вместо эмодзи
             const WIN_SVG = `<svg viewBox="0 0 100 100" style="width: 80px; height: 80px; filter: drop-shadow(0 0 20px rgba(255,204,0,0.6)); animation: winnerPulse 1.5s ease-in-out infinite;">
                 <circle cx="50" cy="50" r="45" fill="none" stroke="#ffcc00" stroke-width="4" stroke-dasharray="10 10"/>
                 <path d="M50 20 L60 40 L80 40 L65 55 L70 75 L50 65 L30 75 L35 55 L20 40 L40 40 Z" fill="#ffcc00"/>
