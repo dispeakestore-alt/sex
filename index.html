@@ -661,24 +661,28 @@
             background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.8), transparent);
         }
 
+        /* Сетка тарифов - адаптированная */
         .ticket-tiers {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
             width: 100%;
         }
-        @media (max-width: 500px) {
-            .ticket-tiers { grid-template-columns: repeat(2, 1fr); }
+        @media (min-width: 1024px) {
+            .ticket-tiers {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
         }
 
         .ticket-tier {
             background: rgba(255, 255, 255, 0.04);
             border: 2px solid var(--border-color);
             border-radius: 14px;
-            padding: 10px 6px;
+            padding: 14px 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
             color: #fff; font-family: var(--font-text);
             position: relative;
         }
@@ -690,24 +694,24 @@
             transform: translateY(-2px);
         }
         .ticket-tier.active::after {
-            content: '✓'; position: absolute; top: 4px; right: 6px;
-            font-size: 11px; color: var(--accent-yellow); font-weight: 900;
+            content: '✓'; position: absolute; top: 6px; right: 8px;
+            font-size: 12px; color: var(--accent-yellow); font-weight: 900;
         }
 
         .tier-top {
-            font-size: 8.5px; font-weight: 800; letter-spacing: 1.2px;
+            font-size: 9px; font-weight: 800; letter-spacing: 1.2px;
             color: var(--text-muted); text-transform: uppercase;
         }
         .ticket-tier.active .tier-top { color: var(--accent-yellow); }
 
         .tier-amount {
-            font-family: var(--font-title); font-size: 15px;
+            font-family: var(--font-title); font-size: 16px;
             font-weight: 800; color: #fff;
         }
         .ticket-tier.active .tier-amount { color: var(--accent-yellow); text-shadow: 0 0 10px rgba(255, 204, 0, 0.6); }
 
         .tier-range {
-            font-size: 9.5px; color: var(--text-muted);
+            font-size: 10px; color: var(--text-muted);
             font-weight: 700; letter-spacing: 0.3px;
         }
         .ticket-tier.active .tier-range { color: #ffdd33; }
@@ -722,9 +726,9 @@
 
         .ticket {
             position: relative;
-            width: 320px;
-            height: 400px;
-            max-width: 100%;
+            width: 100%;
+            max-width: 340px;
+            height: 410px;
             filter: drop-shadow(0 12px 30px rgba(255, 204, 0, 0.25));
             transition: transform 0.3s ease;
         }
@@ -753,7 +757,7 @@
         }
 
         .ticket-top {
-            height: 270px;
+            height: 280px;
             padding: 24px 22px;
             display: flex; flex-direction: column; gap: 10px;
             position: relative; z-index: 1;
@@ -822,16 +826,19 @@
         }
         .reveal-amount {
             font-family: var(--font-title);
-            font-size: 42px; font-weight: 900;
+            font-size: 44px; font-weight: 900;
             color: #ffcc00;
             text-shadow: 0 0 25px rgba(255, 204, 0, 0.7);
             letter-spacing: 1px;
             z-index: 1;
-            transition: color 0.15s;
+            transition: transform 0.1s ease, color 0.1s;
         }
         .reveal-amount.flashing {
             color: #ffffff;
             text-shadow: 0 0 20px rgba(255,255,255,0.9);
+        }
+        .reveal-amount.tick {
+            transform: scale(1.05); /* Легкий тик при прокруте */
         }
         .reveal-amount.final {
             animation: revealPop 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -848,7 +855,6 @@
             bottom: 0; left: 0; right: 0;
             height: 130px;
             z-index: 3;
-            /* Контейнер для частей */
         }
         
         .stub-part {
@@ -862,7 +868,6 @@
             gap: 8px;
             overflow: hidden;
             transform-origin: 50% 100%;
-            /* Стыки между частями */
             border-left: 1px dashed rgba(58, 31, 0, 0.2);
             border-right: 1px dashed rgba(58, 31, 0, 0.2);
         }
@@ -949,33 +954,11 @@
         .ticket-start-btn:disabled::after { display: none; }
         .ticket-start-btn svg { width: 18px; height: 18px; fill: currentColor; }
 
-        /* Статистика */
-        .ticket-stats {
-            display: flex; gap: 10px; width: 100%;
-        }
-        .ticket-stat {
-            flex: 1;
-            display: flex; flex-direction: column;
-            align-items: center; gap: 3px;
-            background: rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 204, 0, 0.2);
-            border-radius: 12px; padding: 9px 6px;
-        }
-        .ticket-stat-label {
-            font-size: 8.5px; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 1px; font-weight: 800;
-        }
-        .ticket-stat-value {
-            font-family: var(--font-title); font-size: 15px; font-weight: 800;
-        }
-        .ticket-stat-value.gold { color: #ffcc00; text-shadow: 0 0 12px rgba(255,204,0,0.6); }
-        .ticket-stat-value.cyan { color: #00d4ff; text-shadow: 0 0 12px rgba(0,212,255,0.6); }
-
         /* ==================== ДЕСКТОП / АДАПТИВ ==================== */
         @media (min-width: 1024px) {
             body { padding-bottom: 0; }
             .app-container {
-                max-width: 1200px; /* Шире для ПК */
+                max-width: 1200px;
                 width: 100%;
                 padding: 22px 34px 34px;
                 gap: 18px;
@@ -1066,34 +1049,21 @@
                 align-items: start;
             }
             #tab-ticket .welvura-banner {
-                grid-column: 1 / -1; /* Баннер на всю ширину */
+                grid-column: 1 / -1;
                 margin-bottom: 10px;
             }
             #tab-ticket .ticket-wrap {
                 display: contents;
             }
             #tab-ticket .ticket-hero {
-                display: contents; /* Убираем фон контейнера на ПК */
+                display: contents;
             }
             
-            /* Левая колонка: Настройки */
             .ticket-settings-col {
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
             }
-            #tab-ticket .ticket-tiers {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-            #tab-ticket .ticket-tier {
-                padding: 16px 10px;
-            }
-            #tab-ticket .tier-amount { font-size: 20px; }
-            #tab-ticket .tier-range { font-size: 11px; }
-            #tab-ticket .ticket-stats { margin-top: 10px; }
-
-            /* Правая колонка: Билет */
             .ticket-display-col {
                 display: flex;
                 flex-direction: column;
@@ -1106,6 +1076,7 @@
             #tab-ticket .ticket {
                 width: 380px;
                 height: 480px;
+                max-width: none;
             }
             #tab-ticket .ticket-top { height: 320px; padding: 30px 26px; }
             #tab-ticket .ticket-reveal,
@@ -1122,6 +1093,16 @@
             #tab-ticket .ticket-stub-wrap,
             #tab-ticket .stub-part { height: 180px; }
             #tab-ticket .reveal-amount { font-size: 64px; }
+        }
+
+        /* Дополнительная адаптация под узкие телефоны */
+        @media (max-width: 380px) {
+            .ticket { height: 380px; }
+            .ticket-top { height: 250px; padding: 18px 16px; }
+            .ticket-reveal, .ticket-stub-wrap, .stub-part { height: 130px; }
+            .reveal-amount { font-size: 38px; }
+            .ticket-tier { padding: 10px 6px; }
+            .tier-amount { font-size: 14px; }
         }
     </style>
 </head>
@@ -1375,17 +1356,6 @@
                                 <span class="tier-amount">10000₽</span>
                                 <span class="tier-range">150 — 750₽</span>
                             </button>
-                        </div>
-
-                        <div class="ticket-stats">
-                            <div class="ticket-stat">
-                                <span class="ticket-stat-label">Выиграно сегодня</span>
-                                <span class="ticket-stat-value gold" id="ticket-total-won">0₽</span>
-                            </div>
-                            <div class="ticket-stat">
-                                <span class="ticket-stat-label">Открыто билетов</span>
-                                <span class="ticket-stat-value cyan" id="ticket-total-opened">0</span>
-                            </div>
                         </div>
                     </div>
 
@@ -2364,38 +2334,8 @@
 
         const ticketState = {
             selectedTier: 1000,
-            running: false,
-            totalWon: 0,
-            totalOpened: 0
+            running: false
         };
-
-        function loadTicketState() {
-            try {
-                const saved = localStorage.getItem('alexandrovaTicketStateV1');
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    ticketState.totalWon = parsed.totalWon || 0;
-                    ticketState.totalOpened = parsed.totalOpened || 0;
-                }
-            } catch (e) {}
-            updateTicketStats();
-        }
-
-        function saveTicketState() {
-            try {
-                localStorage.setItem('alexandrovaTicketStateV1', JSON.stringify({
-                    totalWon: ticketState.totalWon,
-                    totalOpened: ticketState.totalOpened
-                }));
-            } catch (e) {}
-        }
-
-        function updateTicketStats() {
-            const wonEl = document.getElementById('ticket-total-won');
-            const openedEl = document.getElementById('ticket-total-opened');
-            if (wonEl) wonEl.textContent = ticketState.totalWon + '₽';
-            if (openedEl) openedEl.textContent = ticketState.totalOpened;
-        }
 
         function selectTicketTier(tier) {
             if (ticketState.running) return;
@@ -2445,11 +2385,9 @@
             
             let amount;
             if (isLucky) {
-                // 30% — от середины до максимума
                 const lowBound = min + span * 0.5;
                 amount = Math.floor(lowBound + Math.random() * (max - lowBound + 1));
             } else {
-                // 70% — в основном минимум, иногда чуть больше
                 const r = Math.random();
                 if (r < 0.50) amount = min;
                 else if (r < 0.80) amount = Math.floor(min + Math.random() * span * 0.15);
@@ -2474,11 +2412,8 @@
         function performTear() {
             // Анимация отрыва с левой части (как рвешь бумагу)
             const parts = document.querySelectorAll('.stub-part');
-            // Левая часть
             if (parts[0]) parts[0].classList.add('torn-left');
-            // Средняя часть
             if (parts[1]) setTimeout(() => parts[1].classList.add('torn-mid'), 100);
-            // Правая часть
             if (parts[2]) setTimeout(() => parts[2].classList.add('torn-right'), 200);
             
             spawnTearParticles();
@@ -2491,7 +2426,6 @@
             }, 900);
         }
 
-        // Генерация частиц отрыва
         function spawnTearParticles() {
             const wrap = document.getElementById('ticket-stub-wrap');
             if (!wrap) return;
@@ -2523,27 +2457,31 @@
             }
         }
 
-        // Прокрутка чисел в reveal (в стиле слот-машины с замедлением)
+        // Прокрутка чисел в reveal (красивая, с замедлением)
         function startRevealFlash(finalAmount) {
             const revealEl = document.getElementById('reveal-amount');
             if (!revealEl) return;
             revealEl.classList.add('flashing');
             
             const tier = ticketState.selectedTier;
-            // Жестко ограничиваем максимальное число для прокрутки, чтобы не было больше максимума
             const maxForFlash = TICKET_TIERS[tier].max;
             
             let elapsed = 0;
-            let interval = 40;
-            const duration = 1800;
+            const duration = 2200; // Медленнее и драматичнее
             
             function step() {
                 if (elapsed < duration) {
                     revealEl.textContent = Math.floor(Math.random() * (maxForFlash + 1)) + '₽';
-                    elapsed += interval;
-                    if (elapsed > duration * 0.5) interval *= 1.15;
-                    if (elapsed > duration * 0.8) interval *= 1.3;
-                    setTimeout(step, interval);
+                    revealEl.classList.add('tick');
+                    setTimeout(() => revealEl.classList.remove('tick'), 50);
+                    
+                    elapsed += 40;
+                    
+                    // Экспоненциальное замедление (слот-машина)
+                    const progress = elapsed / duration;
+                    const delay = 30 + Math.pow(progress, 4) * 600;
+                    
+                    setTimeout(step, delay);
                 } else {
                     finishReveal(finalAmount);
                 }
@@ -2558,15 +2496,9 @@
             revealEl.classList.add('final');
             revealEl.textContent = finalAmount + '₽';
             
-            // Бонус-вспышка при выигрыше
             if (finalAmount > 0) {
                 spawnWinBurst();
             }
-            
-            ticketState.totalWon += finalAmount;
-            ticketState.totalOpened++;
-            saveTicketState();
-            updateTicketStats();
             
             setTimeout(() => showTicketResult(finalAmount), 650);
         }
@@ -2606,12 +2538,27 @@
             const isWin = amount > 0;
             const tier = ticketState.selectedTier;
             
+            // Кастомные SVG иконки вместо эмодзи
+            const WIN_SVG = `<svg viewBox="0 0 100 100" style="width: 80px; height: 80px; filter: drop-shadow(0 0 20px rgba(255,204,0,0.6)); animation: winnerPulse 1.5s ease-in-out infinite;">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#ffcc00" stroke-width="4" stroke-dasharray="10 10"/>
+                <path d="M50 20 L60 40 L80 40 L65 55 L70 75 L50 65 L30 75 L35 55 L20 40 L40 40 Z" fill="#ffcc00"/>
+            </svg>`;
+            
+            const LOSE_SVG = `<svg viewBox="0 0 100 100" style="width: 80px; height: 80px; filter: drop-shadow(0 0 15px rgba(139,148,168,0.4));">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#8b94a8" stroke-width="4"/>
+                <path d="M35 40 A 5 5 0 0 1 45 40" fill="none" stroke="#8b94a8" stroke-width="4" stroke-linecap="round"/>
+                <path d="M55 40 A 5 5 0 0 1 65 40" fill="none" stroke="#8b94a8" stroke-width="4" stroke-linecap="round"/>
+                <path d="M35 65 Q50 50 65 65" fill="none" stroke="#8b94a8" stroke-width="4" stroke-linecap="round"/>
+            </svg>`;
+
             showModal(
                 '',
                 `<div class="winner-icon-wrap">
-                    <div class="winner-icon" style="font-size:52px; line-height:1;">${isWin ? '🎉' : '😔'}</div>
+                    <div class="winner-icon" style="background: none; animation: none;">
+                        ${isWin ? WIN_SVG : LOSE_SVG}
+                    </div>
                 </div>
-                <div class="winner-label" style="color:${isWin ? '#ffcc00' : '#8b94a8'};">${isWin ? 'ПОЗДРАВЛЯЕМ' : 'НЕ ПОВЕЗЛО'}</div>
+                <div class="winner-label" style="color:${isWin ? '#ffcc00' : '#8b94a8'}; margin-top: 10px;">${isWin ? 'ПОЗДРАВЛЯЕМ' : 'НЕ ПОВЕЗЛО'}</div>
                 <div style="font-family: var(--font-title); font-size: 42px; color: ${isWin ? '#ffcc00' : '#8b94a8'}; font-weight: 900; text-shadow: 0 0 25px ${isWin ? 'rgba(255,204,0,0.7)' : 'rgba(139,148,168,0.3)'}; margin: 10px 0; letter-spacing: 1px;">
                     ${amount}₽
                 </div>
@@ -2632,7 +2579,6 @@
         renderWheelSVG();
         renderRocketParticipants();
         updateRocketStats();
-        loadTicketState();
         
         if (rocketState.active && rocketState.endTime) {
             document.getElementById('rocket-duration-panel').style.display = 'none';
