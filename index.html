@@ -49,7 +49,7 @@
 
         input, textarea, .selectable { user-select: text; -webkit-user-select: text; }
 
-        button, a, .nav-btn, .btn-main, .btn-round, .btn-small, .btn-add, .btn-remove, .perm-remove, .modal-btn, .rocket-start-btn, .rocket-share-btn, .flower-start-btn, .flower-count-btn, .flower-clear-btn, .flower-opt-btn, .flower-participant-add, .p-chip {
+        button, a, .nav-btn, .btn-main, .btn-round, .btn-small, .btn-add, .btn-remove, .perm-remove, .modal-btn, .rocket-start-btn, .rocket-share-btn, .ticket-tier, .ticket-start-btn, .p-chip {
             touch-action: manipulation;
         }
 
@@ -62,12 +62,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 6px rgba(155, 93, 229, 0.5);
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, rgba(155, 93, 229, 1) 0%, rgba(255, 204, 0, 1) 100%);
-            box-shadow: 0 0 12px rgba(255, 204, 0, 0.7);
-        }
-        ::-webkit-scrollbar-corner { background: transparent; }
-        ::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
 
         .bg-frost {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -82,18 +76,6 @@
             z-index: -1;
             pointer-events: none;
         }
-        .baby-yoda {
-            position: fixed; bottom: -10px; right: -20px;
-            width: 280px; height: 350px;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.15;
-            background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/Grogu_Mandalorian_Disney.jpg/220px-Grogu_Mandalorian_Disney.jpg');
-            background-size: contain; background-repeat: no-repeat; background-position: bottom right;
-            mask-image: linear-gradient(to top, black 40%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to top, black 40%, transparent 100%);
-            filter: grayscale(100%) brightness(200%);
-        }
 
         #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
         .shooting-star {
@@ -106,12 +88,7 @@
         .shooting-star::after {
             content: ''; position: absolute; right: -4px; top: 50%; transform: translateY(-50%);
             width: 10px; height: 10px; background: #fff; border-radius: 50%;
-            box-shadow: 0 0 6px 2px #fff, 0 0 14px 5px var(--glow), 0 0 30px 12px var(--glow-soft), 0 0 50px 20px var(--glow-soft);
-        }
-        .shooting-star::before {
-            content: ''; position: absolute; right: -16px; top: 50%; transform: translateY(-50%);
-            width: 34px; height: 34px; background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
-            border-radius: 50%; opacity: 0.7;
+            box-shadow: 0 0 6px 2px #fff, 0 0 14px 5px var(--glow);
         }
         @keyframes shootStar {
             0% { opacity: 0; transform: translate(0, 0) rotate(135deg) scaleX(0.2); }
@@ -197,7 +174,6 @@
             border-radius: 50%;
             pointer-events: none;
             animation: sparkFly 0.75s ease-out forwards;
-            will-change: transform, opacity;
         }
         @keyframes sparkFly {
             0% { transform: translate(0, 0) scale(1); opacity: 1; }
@@ -373,336 +349,7 @@
             border-radius: 50%; box-shadow: 0 0 15px var(--accent-yellow);
         }
 
-        /* ==================== ЦВЕТОК ==================== */
-        .flower-wrap { display: flex; flex-direction: column; gap: 14px; width: 100%; }
-
-        .flower-hero {
-            background: linear-gradient(160deg, rgba(38, 16, 32, 0.98), rgba(15, 6, 20, 0.98));
-            border: 1px solid rgba(255, 77, 157, 0.25);
-            border-radius: 20px; padding: 14px;
-            backdrop-filter: blur(12px); position: relative; overflow: hidden;
-            display: flex; flex-direction: column; align-items: center; gap: 12px;
-        }
-        .flower-hero::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 77, 157, 0.7), transparent);
-        }
-
-        .flower-header-bar {
-            display: flex; justify-content: space-between; align-items: center;
-            width: 100%; padding: 4px 6px;
-        }
-        .flower-hb-label {
-            font-family: var(--font-title);
-            font-size: 13px; font-weight: 800;
-            color: #fff;
-            background: rgba(255, 77, 157, 0.12);
-            padding: 6px 16px; border-radius: 8px;
-            letter-spacing: 2px;
-            border: 1px solid rgba(255, 77, 157, 0.35);
-            display: flex; align-items: center; gap: 8px;
-            text-shadow: 0 0 12px rgba(255, 77, 157, 0.5);
-        }
-        .flower-hb-label svg { width: 16px; height: 16px; fill: #ff4d9d; filter: drop-shadow(0 0 6px rgba(255, 77, 157, 0.8)); }
-        .flower-hb-amount {
-            font-family: var(--font-title);
-            font-size: 13px; font-weight: 800;
-            color: #ffcc00;
-            background: rgba(255, 204, 0, 0.1);
-            padding: 6px 14px; border-radius: 8px;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(255, 204, 0, 0.3);
-            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
-        }
-        .flower-hb-amount.hidden { display: none; }
-
-        .flower-winners-selector {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 6px 14px; background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px; border: 1px solid rgba(255, 77, 157, 0.25);
-            width: 100%;
-        }
-        .flower-selector-label {
-            font-size: 10px; color: var(--text-muted);
-            text-transform: uppercase; font-weight: 800; letter-spacing: 1px;
-        }
-        .flower-count-btn {
-            width: 28px; height: 28px; border-radius: 8px;
-            background: rgba(255, 77, 157, 0.15);
-            border: 1px solid rgba(255, 77, 157, 0.4);
-            color: #ff4d9d;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.2s;
-            font-size: 16px; font-weight: 900; line-height: 1;
-        }
-        .flower-count-btn:hover { background: rgba(255, 77, 157, 0.3); box-shadow: 0 0 12px rgba(255, 77, 157, 0.5); }
-        .flower-count-btn:active { transform: scale(0.9); }
-        .flower-count-value {
-            font-family: var(--font-title); font-size: 20px;
-            color: var(--accent-yellow); font-weight: 800;
-            min-width: 28px; text-align: center;
-            text-shadow: 0 0 12px rgba(255, 204, 0, 0.5);
-        }
-
-        .flower-stage {
-            width: 100%;
-            aspect-ratio: 1;
-            max-width: 380px;
-            display: flex; align-items: center; justify-content: center;
-            position: relative;
-            padding: 6px 0;
-        }
-        .flower-svg {
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-            filter: drop-shadow(0 20px 50px rgba(255, 77, 157, 0.25));
-        }
-
-        .flower-petal {
-            transform-box: view-box;
-            transform-origin: 250px 250px;
-            cursor: default;
-        }
-        .flower-petal.plucked {
-            animation: petalPluck 1.4s cubic-bezier(0.4, 0.08, 0.7, 0.35) forwards;
-            pointer-events: none;
-        }
-        @keyframes petalPluck {
-            0% {
-                transform: translate(0, 0) rotate(var(--petal-rot));
-                opacity: 1;
-            }
-            14% {
-                transform: translate(-10px, -25px) rotate(calc(var(--petal-rot) + 12deg));
-                opacity: 1;
-            }
-            38% {
-                transform: translate(35px, 70px) rotate(calc(var(--petal-rot) + 50deg));
-                opacity: 1;
-            }
-            100% {
-                transform: translate(190px, 720px) rotate(calc(var(--petal-rot) + 165deg));
-                opacity: 0;
-            }
-        }
-
-        .flower-petal.winner-petal {
-            animation: winnerPetalGlow 1.2s ease-in-out infinite alternate;
-        }
-        @keyframes winnerPetalGlow {
-            from {
-                filter: drop-shadow(0 0 10px rgba(255, 204, 0, 0.7))
-                        drop-shadow(0 0 22px rgba(255, 204, 0, 0.35));
-            }
-            to {
-                filter: drop-shadow(0 0 22px rgba(255, 204, 0, 1))
-                        drop-shadow(0 0 44px rgba(255, 204, 0, 0.6));
-            }
-        }
-
-        /* Секция пьедестала */
-        .flower-podium {
-            display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
-            min-height: 40px; width: 100%; align-items: center;
-            padding: 4px 0;
-        }
-        .flower-podium-hint {
-            color: var(--text-muted);
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-        }
-        .flower-podium-item {
-            display: flex; align-items: center; gap: 6px;
-            padding: 6px 12px 6px 6px;
-            background: linear-gradient(135deg, rgba(255, 77, 157, 0.22), rgba(255, 204, 0, 0.14));
-            border: 1px solid rgba(255, 77, 157, 0.65);
-            border-radius: 10px;
-            box-shadow: 0 0 22px rgba(255, 77, 157, 0.45);
-            animation: podiumAppear 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-family: var(--font-title);
-            font-size: 11px;
-            color: #ff4d9d;
-            text-shadow: 0 0 10px rgba(255, 77, 157, 0.6);
-            font-weight: 800;
-        }
-        @keyframes podiumAppear {
-            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
-            70% { transform: scale(1.15) rotate(8deg); opacity: 1; }
-            100% { transform: scale(1) rotate(0); opacity: 1; }
-        }
-        .medal-icon {
-            width: 26px; height: 26px;
-            flex-shrink: 0;
-            filter: drop-shadow(0 0 6px rgba(255, 204, 0, 0.8));
-        }
-
-        /* Настройки */
-        .flower-settings {
-            display: flex; flex-direction: column; gap: 8px;
-            width: 100%;
-        }
-        .flower-setting-row {
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 10px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 77, 157, 0.2);
-            border-radius: 12px;
-            padding: 8px 12px;
-        }
-        .flower-setting-label {
-            font-size: 10px; color: var(--text-muted);
-            text-transform: uppercase; font-weight: 800; letter-spacing: 1px;
-            flex-shrink: 0;
-        }
-        .flower-setting-options {
-            display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end;
-        }
-        .flower-opt-btn {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 5px 9px;
-            border-radius: 6px;
-            font-family: var(--font-text);
-            font-size: 10px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s;
-            touch-action: manipulation;
-        }
-        .flower-opt-btn:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
-        .flower-opt-btn.active {
-            background: linear-gradient(135deg, #ff4d9d, #9b5de5);
-            color: #fff;
-            border-color: transparent;
-            box-shadow: 0 0 12px rgba(255, 77, 157, 0.5);
-        }
-
-        /* Участники */
-        .flower-participants {
-            display: flex; flex-direction: column; gap: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 14px; padding: 12px;
-            border: 1px solid rgba(255, 77, 157, 0.2);
-            width: 100%;
-        }
-        .flower-participants-header {
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 11px; font-weight: 800; text-transform: uppercase;
-            color: var(--text-muted); letter-spacing: 1px;
-        }
-        .flower-participants-header .count {
-            color: #ff4d9d;
-            font-family: var(--font-title);
-            text-shadow: 0 0 10px rgba(255, 77, 157, 0.6);
-        }
-        .flower-clear-btn {
-            color: #ff4d4d;
-            font-size: 10px;
-            cursor: pointer;
-            font-weight: 800;
-            padding: 4px 8px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 77, 77, 0.3);
-            background: rgba(255, 77, 77, 0.05);
-            transition: all 0.2s;
-            touch-action: manipulation;
-        }
-        .flower-clear-btn:hover { background: rgba(255, 77, 77, 0.15); }
-
-        .flower-participant-input-row {
-            display: flex; gap: 8px;
-        }
-        .flower-participant-input {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 77, 157, 0.2);
-            border-radius: 10px;
-            padding: 12px;
-            color: white;
-            font-family: var(--font-text);
-            font-size: 13px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        .flower-participant-input:focus { border-color: #ff4d9d; box-shadow: 0 0 12px rgba(255, 77, 157, 0.25); }
-        .flower-participant-add {
-            background: linear-gradient(135deg, #ff4d9d, #9b5de5);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            padding: 0 18px;
-            font-weight: 800;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .flower-participant-add:hover { box-shadow: 0 0 15px rgba(255, 77, 157, 0.5); }
-        .flower-participant-add:active { transform: scale(0.95); }
-
-        .flower-participants-list {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px; padding: 8px;
-            min-height: 44px; max-height: 140px; overflow-y: auto;
-            border: 1px solid rgba(255, 77, 157, 0.2);
-            display: flex; flex-wrap: wrap; gap: 6px;
-            align-content: flex-start;
-        }
-        .flower-participant-chip {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 5px 8px 5px 10px;
-            background: linear-gradient(135deg, rgba(255, 77, 157, 0.18), rgba(155, 93, 229, 0.1));
-            border: 1px solid rgba(255, 77, 157, 0.4);
-            border-radius: 20px;
-            font-family: var(--font-text);
-            font-size: 11px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 0.3px;
-        }
-        .flower-participant-chip .chip-remove {
-            background: none; border: none;
-            color: #ff4d4d; font-size: 14px; line-height: 1;
-            cursor: pointer; padding: 0 3px;
-            font-weight: 900; opacity: 0.6;
-            transition: opacity 0.2s;
-            touch-action: manipulation;
-        }
-        .flower-participant-chip .chip-remove:hover { opacity: 1; }
-
-        .flower-start-btn {
-            position: relative; overflow: hidden; width: 100%;
-            background: linear-gradient(135deg, #ff4d9d, #9b5de5);
-            color: #fff; border: none; border-radius: 14px;
-            padding: 16px;
-            font-family: var(--font-title); font-size: 14px;
-            font-weight: 800; text-transform: uppercase;
-            cursor: pointer; transition: all 0.2s ease;
-            box-shadow: 0 6px 0 #4a2a90, 0 12px 25px rgba(255, 77, 157, 0.4);
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            letter-spacing: 1px;
-        }
-        .flower-start-btn::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg); animation: shine 3s infinite;
-        }
-        .flower-start-btn:active:not(:disabled) {
-            transform: translateY(6px);
-            box-shadow: 0 0 0 #4a2a90, 0 5px 10px rgba(255, 77, 157, 0.3);
-        }
-        .flower-start-btn:disabled {
-            background: #333; box-shadow: 0 6px 0 #111; color: #777;
-            cursor: not-allowed; transform: translateY(6px);
-        }
-        .flower-start-btn:disabled::after { display: none; }
-        .flower-start-btn svg { width: 18px; height: 18px; fill: currentColor; }
-
-        /* ==================== РАКЕТА ==================== */
+        /* РАКЕТА */
         .rocket-wrap { display: flex; flex-direction: column; gap: 14px; width: 100%; }
         .rocket-hero {
             background: linear-gradient(160deg, rgba(25, 28, 45, 0.9), rgba(15, 18, 30, 0.9));
@@ -712,28 +359,20 @@
             display: flex; flex-direction: column; align-items: center; gap: 14px;
             min-height: 440px;
         }
-        .rocket-hero::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.5), transparent);
-        }
         .rocket-title {
             font-family: var(--font-title); font-size: 20px;
             text-transform: uppercase; letter-spacing: 2px;
             background: linear-gradient(135deg, #00d4ff, #9b5de5, #ffcc00);
             -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.5));
         }
         .rocket-stage {
-            position: relative;
-            width: 220px; height: 340px;
+            position: relative; width: 220px; height: 340px;
             display: flex; justify-content: center; align-items: center;
-            margin-top: 6px; overflow: visible;
         }
         .rocket-svg {
             width: 100%; height: 100%; overflow: visible;
             animation: rocketIdle 3s ease-in-out infinite;
-            transform-origin: 50% 50%;
             filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.4));
         }
         @keyframes rocketIdle {
@@ -742,7 +381,6 @@
         }
         .rocket-svg.shaking {
             animation: rocketShake 0.1s ease-in-out infinite;
-            filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.8));
         }
         @keyframes rocketShake {
             0%, 100% { transform: translate(0, 0) rotate(0); }
@@ -764,7 +402,6 @@
             0% { transform: scaleY(0.9) scaleX(0.95); opacity: 0.85; }
             100% { transform: scaleY(1.2) scaleX(1.05); opacity: 1; }
         }
-        .thrust-group { transform-origin: 50% 0%; }
 
         .pop-particles {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -791,16 +428,15 @@
             0% { transform: scale(0); opacity: 1; }
             100% { transform: scale(25); opacity: 0; }
         }
+
         .rocket-timer {
             font-family: var(--font-title); font-size: 38px; font-weight: 900;
             color: #fff;
             text-shadow: 0 0 25px rgba(0, 212, 255, 0.7), 0 0 50px rgba(155, 93, 229, 0.5);
-            letter-spacing: 2px; line-height: 1;
         }
         .rocket-timer.warning {
             color: #ff4d9d;
             animation: timerPulse 0.6s ease-in-out infinite;
-            text-shadow: 0 0 25px rgba(255, 77, 157, 0.9), 0 0 50px rgba(255, 77, 157, 0.5);
         }
         @keyframes timerPulse {
             0%, 100% { transform: scale(1); }
@@ -821,72 +457,45 @@
             text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px;
         }
         .rocket-stat-value { font-family: var(--font-title); font-size: 20px; font-weight: 800; }
-        .rocket-stat-value.cyan { color: #00d4ff; text-shadow: 0 0 12px rgba(0,212,255,0.6); }
-        .rocket-stat-value.purple { color: #9b5de5; text-shadow: 0 0 12px rgba(155,93,229,0.6); }
-        .rocket-stat-value.gold { color: var(--accent-yellow); text-shadow: 0 0 12px rgba(255,204,0,0.6); }
+        .rocket-stat-value.cyan { color: #00d4ff; }
+        .rocket-stat-value.purple { color: #9b5de5; }
+        .rocket-stat-value.gold { color: var(--accent-yellow); }
+
         .rocket-controls { display: flex; gap: 10px; width: 100%; }
         .rocket-start-btn {
             flex: 2;
             background: linear-gradient(135deg, #00d4ff, #9b5de5);
             color: #fff; border: none; border-radius: 14px; padding: 16px 10px;
             font-family: var(--font-title); font-size: 14px; font-weight: 800;
-            text-transform: uppercase; cursor: pointer; transition: all 0.2s ease;
-            box-shadow: 0 5px 0 #4a2a90, 0 10px 25px rgba(0, 212, 255, 0.4);
+            text-transform: uppercase; cursor: pointer;
+            box-shadow: 0 5px 0 #4a2a90;
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            letter-spacing: 1px; position: relative; overflow: hidden;
         }
-        .rocket-start-btn::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg); animation: shine 3s infinite;
-        }
-        .rocket-start-btn:active:not(:disabled) {
-            transform: translateY(5px);
-            box-shadow: 0 0 0 #4a2a90, 0 5px 10px rgba(0, 212, 255, 0.3);
-        }
-        .rocket-start-btn:disabled {
-            background: #333; box-shadow: 0 5px 0 #111; color: #777;
-            cursor: not-allowed; transform: translateY(5px);
-        }
-        .rocket-start-btn:disabled::after { display: none; }
+        .rocket-start-btn:active:not(:disabled) { transform: translateY(5px); box-shadow: 0 0 0 #4a2a90; }
+        .rocket-start-btn:disabled { background: #333; box-shadow: 0 5px 0 #111; color: #777; transform: translateY(5px); }
         .rocket-start-btn svg { width: 18px; height: 18px; fill: currentColor; }
+        
         .rocket-share-btn {
             flex: 1; background: rgba(0, 212, 255, 0.1);
             border: 1px solid rgba(0, 212, 255, 0.4); color: #00d4ff;
             border-radius: 14px; padding: 16px 8px;
             font-family: var(--font-title); font-size: 12px; font-weight: 800;
-            text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+            text-transform: uppercase; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 6px;
         }
-        .rocket-share-btn:hover { background: rgba(0, 212, 255, 0.2); box-shadow: 0 0 15px rgba(0, 212, 255, 0.4); }
-        .rocket-share-btn:active { transform: scale(0.96); }
-        .rocket-share-btn svg { width: 16px; height: 16px; fill: currentColor; }
         .rocket-duration {
             display: flex; align-items: center; justify-content: center; gap: 12px;
             padding: 8px 16px; background: rgba(0, 0, 0, 0.3);
             border-radius: 12px; border: 1px solid var(--border-color); width: 100%;
         }
-        .rocket-duration-label {
-            font-size: 11px; color: var(--text-muted);
-            text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px;
-        }
         .rocket-duration-value {
             font-family: var(--font-title); font-size: 18px;
             color: var(--accent-cyan); font-weight: 800;
-            min-width: 70px; text-align: center;
         }
         .rocket-participants {
             display: flex; flex-direction: column; gap: 10px;
             background: var(--card-bg); border-radius: 16px; padding: 15px;
-            border: 1px solid var(--border-color); backdrop-filter: blur(12px);
-        }
-        .rocket-participants-header {
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);
-        }
-        .rocket-participants-header span:last-child {
-            font-family: var(--font-title); color: #00d4ff;
-            font-size: 14px; text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+            border: 1px solid var(--border-color);
         }
         .rocket-participants-list {
             background: rgba(0, 0, 0, 0.3);
@@ -894,7 +503,6 @@
             min-height: 60px; max-height: 240px; overflow-y: auto;
             border: 1px solid var(--border-color);
             display: flex; flex-wrap: wrap; gap: 6px;
-            align-content: flex-start;
         }
         .p-chip {
             display: inline-flex; align-items: center; gap: 4px;
@@ -903,29 +511,11 @@
             border-radius: 20px;
             font-family: var(--font-text);
             font-size: 11px; font-weight: 800; color: #fff;
-            letter-spacing: 0.3px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: transform 0.15s;
         }
-        .p-chip:active { transform: scale(0.95); }
         .p-dot {
             width: 16px; height: 16px;
             border-radius: 50%; flex-shrink: 0;
             box-shadow: 0 0 8px currentColor;
-            position: relative;
-        }
-        .p-dot::after {
-            content: ''; position: absolute;
-            top: 2px; left: 3px;
-            width: 5px; height: 5px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            filter: blur(1px);
-        }
-        .p-id {
-            font-family: var(--font-title);
-            font-size: 10px;
-            letter-spacing: -0.3px;
         }
 
         /* РУЛЕТКА */
@@ -945,50 +535,22 @@
             background: linear-gradient(135deg, #00d4ff, #ffcc00);
             -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.6));
             animation: winnerPulse 1.5s ease-in-out infinite;
             text-align: center;
             display: flex; align-items: center; justify-content: center; gap: 12px;
         }
-        .roulette-title svg { width: 28px; height: 28px; fill: #ffcc00; filter: drop-shadow(0 0 10px rgba(255,204,0,0.8)); }
         .roulette-container {
             position: relative; width: 100%; max-width: 460px; height: 130px;
             overflow: hidden; border-radius: 16px;
             background: linear-gradient(160deg, rgba(25, 28, 45, 0.95), rgba(15, 18, 30, 0.95));
             border: 1px solid rgba(0, 212, 255, 0.3);
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.3), inset 0 0 30px rgba(0,0,0,0.8);
-        }
-        .roulette-container::before,
-        .roulette-container::after {
-            content: ''; position: absolute;
-            top: 0; bottom: 0; width: 80px; z-index: 3; pointer-events: none;
-        }
-        .roulette-container::before {
-            left: 0; background: linear-gradient(90deg, rgba(5, 6, 10, 0.95), transparent);
-        }
-        .roulette-container::after {
-            right: 0; background: linear-gradient(-90deg, rgba(5, 6, 10, 0.95), transparent);
         }
         .roulette-pointer {
             position: absolute; top: 0; bottom: 0; left: 50%;
             width: 3px;
             background: linear-gradient(180deg, transparent, #00d4ff, #ffcc00, #00d4ff, transparent);
-            z-index: 4; box-shadow: 0 0 20px #00d4ff;
+            z-index: 4;
             transform: translateX(-50%); pointer-events: none;
-        }
-        .roulette-pointer::before {
-            content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
-            width: 0; height: 0;
-            border-left: 10px solid transparent; border-right: 10px solid transparent;
-            border-top: 14px solid #ffcc00;
-            filter: drop-shadow(0 0 8px #ffcc00);
-        }
-        .roulette-pointer::after {
-            content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
-            width: 0; height: 0;
-            border-left: 10px solid transparent; border-right: 10px solid transparent;
-            border-bottom: 14px solid #ffcc00;
-            filter: drop-shadow(0 0 8px #ffcc00);
         }
         .roulette-track {
             position: absolute; top: 0; left: 0; height: 100%;
@@ -1003,37 +565,21 @@
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             padding: 6px; gap: 6px;
-            position: relative; overflow: hidden;
         }
         .roulette-tile .tile-dot {
             width: 26px; height: 26px;
             border-radius: 50%;
             box-shadow: 0 0 12px currentColor;
-            position: relative; flex-shrink: 0;
-        }
-        .roulette-tile .tile-dot::after {
-            content: ''; position: absolute;
-            top: 4px; left: 5px;
-            width: 8px; height: 8px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            filter: blur(1.5px);
         }
         .roulette-tile .tile-id {
             font-family: var(--font-title);
             font-size: 12px; font-weight: 800; color: #fff;
-            text-shadow: 0 0 6px rgba(0, 212, 255, 0.6);
-            letter-spacing: 0.5px;
         }
         .roulette-tile.winner-tile {
             border-color: #ffcc00;
             background: linear-gradient(160deg, rgba(80, 60, 20, 0.9), rgba(40, 30, 10, 0.9));
-            box-shadow: 0 0 25px rgba(255, 204, 0, 0.6);
         }
-        .roulette-tile.winner-tile .tile-id {
-            color: #ffcc00;
-            text-shadow: 0 0 12px rgba(255, 204, 0, 0.9);
-        }
+        .roulette-tile.winner-tile .tile-id { color: #ffcc00; }
 
         /* МОДАЛКА */
         .modal-overlay {
@@ -1052,75 +598,21 @@
             transform: translateY(30px) scale(0.95);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,212,255,0.15);
-            max-height: 90vh; overflow-y: auto;
         }
         .modal-overlay.active .modal-box { transform: translateY(0) scale(1); }
-        .modal-title {
-            font-family: var(--font-title); font-size: 18px;
-            margin-bottom: 15px; color: var(--accent-cyan);
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
-        .modal-title svg { width: 22px; height: 22px; fill: currentColor; }
-        .modal-text {
-            font-size: 14px; color: var(--text-muted);
-            margin-bottom: 20px; line-height: 1.5;
-        }
-        .winner-icon-wrap { display: flex; justify-content: center; margin-bottom: 15px; }
-        .winner-icon {
-            width: 80px; height: 80px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.25) 0%, rgba(0, 212, 255, 0.05) 50%, transparent 70%);
-            animation: winnerPulse 1.8s ease-in-out infinite;
-            position: relative;
-        }
-        .winner-icon::before {
-            content: ''; position: absolute; inset: 0; border-radius: 50%;
-            background: radial-gradient(circle, transparent 40%, rgba(0, 212, 255, 0.2) 60%, transparent 75%);
-            animation: winnerRing 2s ease-in-out infinite;
-        }
-        .winner-icon svg {
-            width: 46px; height: 46px; fill: #00d4ff;
-            filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.9)) drop-shadow(0 0 16px rgba(0, 212, 255, 0.5));
-            z-index: 1;
-        }
-        @keyframes winnerPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-        @keyframes winnerRing {
-            0%, 100% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.15); opacity: 0.3; }
-        }
-        .winner-label {
-            font-family: var(--font-title); font-size: 13px;
-            color: #00d4ff; letter-spacing: 3px;
-            text-transform: uppercase; margin-bottom: 15px; font-weight: 800;
-        }
-        .winner-name {
-            font-family: var(--font-title); font-size: 26px;
-            color: #00d4ff; font-weight: 800;
-            text-shadow: 0 0 15px rgba(0,212,255,0.5), 0 0 30px rgba(0,212,255,0.3);
-            padding: 10px;
-            background: rgba(0, 212, 255, 0.06);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 12px;
-            word-break: break-word;
-        }
+        .modal-title { font-family: var(--font-title); font-size: 18px; margin-bottom: 15px; color: var(--accent-cyan); }
+        .modal-text { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
         .modal-actions { display: flex; gap: 12px; }
         .modal-btn {
-            flex: 1; padding: 14px;
-            border-radius: 14px; border: none;
+            flex: 1; padding: 14px; border-radius: 14px; border: none;
             font-weight: 800; font-size: 13px; cursor: pointer;
             font-family: var(--font-text);
-            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .modal-btn:active { transform: scale(0.95); }
-        .modal-btn.keep { background: var(--accent-yellow); color: #000; box-shadow: 0 4px 15px rgba(255,204,0,0.3); }
-        .modal-btn.delete { background: #ff4d4d; color: #fff; box-shadow: 0 4px 15px rgba(255,77,77,0.3); }
+        .modal-btn.keep { background: var(--accent-yellow); color: #000; }
+        .modal-btn.delete { background: #ff4d4d; color: #fff; }
         .modal-btn.cancel { background: rgba(255,255,255,0.1); color: #fff; }
-        .modal-btn.add { background: var(--accent-purple); color: #fff; box-shadow: 0 4px 15px rgba(155,93,229,0.3); }
-        .modal-btn.cyan { background: linear-gradient(135deg, #00d4ff, #9b5de5); color: #fff; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4); }
+        .modal-btn.add { background: var(--accent-purple); color: #fff; }
+        .modal-btn.cyan { background: linear-gradient(135deg, #00d4ff, #9b5de5); color: #fff; }
 
         .perm-list {
             max-height: 160px; overflow-y: auto;
@@ -1131,36 +623,10 @@
         }
         .perm-item {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 8px 12px;
-            background: rgba(255,204,0,0.08);
+            padding: 8px 12px; background: rgba(255,204,0,0.08);
             border-left: 3px solid var(--accent-yellow);
             border-radius: 6px; font-size: 12px; font-weight: 600;
-            color: #fff; transition: background 0.2s; gap: 8px;
-        }
-        .perm-item:hover { background: rgba(255,204,0,0.15); }
-        .perm-name { display: flex; align-items: center; gap: 6px; overflow: hidden; }
-        .perm-name span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .crown-icon { width: 16px; height: 16px; fill: var(--accent-yellow); flex-shrink: 0; filter: drop-shadow(0 0 4px rgba(255, 204, 0, 0.8)); }
-        .perm-remove {
-            background: rgba(255, 77, 77, 0.15);
-            border: 1px solid rgba(255, 77, 77, 0.3);
-            color: #ff4d4d; font-size: 12px; cursor: pointer;
-            border-radius: 6px; padding: 3px 8px;
-            opacity: 0.8; transition: opacity 0.2s, background 0.2s;
-            font-family: var(--font-text); font-weight: 800; flex-shrink: 0;
-        }
-        .perm-remove:hover { opacity: 1; background: rgba(255, 77, 77, 0.3); }
-        .perm-empty { color: var(--text-muted); font-size: 12px; text-align: center; padding: 15px; }
-
-        .share-link-box {
-            background: rgba(0,0,0,0.4);
-            padding: 12px; border-radius: 10px;
-            font-size: 11px; word-break: break-all;
-            color: #00d4ff; font-family: monospace;
-            user-select: text; -webkit-user-select: text;
-            cursor: text;
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            line-height: 1.5; text-align: left;
+            color: #fff; gap: 8px;
         }
 
         footer {
@@ -1170,8 +636,492 @@
         }
         footer a { color: var(--accent-yellow); text-decoration: none; }
 
-        @media (min-width: 900px) {
-            .app-container { max-width: 520px; }
+        /* ==================== БИЛЕТИК ==================== */
+        .ticket-wrap { display: flex; flex-direction: column; gap: 14px; width: 100%; }
+
+        .welvura-banner {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.08);
+            display: block;
+        }
+
+        .ticket-hero {
+            background: linear-gradient(160deg, rgba(30, 22, 10, 0.95), rgba(15, 10, 5, 0.98));
+            border: 1px solid rgba(255, 204, 0, 0.28);
+            border-radius: 22px; padding: 18px 16px;
+            backdrop-filter: blur(12px);
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            position: relative; overflow: hidden;
+        }
+        .ticket-hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.8), transparent);
+        }
+
+        .ticket-tiers {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+        @media (max-width: 500px) {
+            .ticket-tiers { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .ticket-tier {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 10px 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            color: #fff; font-family: var(--font-text);
+            position: relative;
+        }
+        .ticket-tier:hover { background: rgba(255, 255, 255, 0.08); }
+        .ticket-tier.active {
+            background: linear-gradient(135deg, rgba(255, 204, 0, 0.22), rgba(255, 107, 0, 0.15));
+            border-color: var(--accent-yellow);
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.45);
+            transform: translateY(-2px);
+        }
+        .ticket-tier.active::after {
+            content: '✓'; position: absolute; top: 4px; right: 6px;
+            font-size: 11px; color: var(--accent-yellow); font-weight: 900;
+        }
+
+        .tier-top {
+            font-size: 8.5px; font-weight: 800; letter-spacing: 1.2px;
+            color: var(--text-muted); text-transform: uppercase;
+        }
+        .ticket-tier.active .tier-top { color: var(--accent-yellow); }
+
+        .tier-amount {
+            font-family: var(--font-title); font-size: 15px;
+            font-weight: 800; color: #fff;
+        }
+        .ticket-tier.active .tier-amount { color: var(--accent-yellow); text-shadow: 0 0 10px rgba(255, 204, 0, 0.6); }
+
+        .tier-range {
+            font-size: 9.5px; color: var(--text-muted);
+            font-weight: 700; letter-spacing: 0.3px;
+        }
+        .ticket-tier.active .tier-range { color: #ffdd33; }
+
+        /* Сцена билета */
+        .ticket-stage {
+            width: 100%;
+            display: flex; justify-content: center;
+            padding: 10px 0 6px;
+            perspective: 1200px;
+        }
+
+        .ticket {
+            position: relative;
+            width: 320px;
+            height: 400px;
+            max-width: 100%;
+            filter: drop-shadow(0 12px 30px rgba(255, 204, 0, 0.25));
+            transition: transform 0.3s ease;
+        }
+
+        .ticket-body {
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: linear-gradient(160deg, #ffdb4d 0%, #ffb300 35%, #ff8c00 100%);
+            overflow: hidden;
+            box-shadow: inset 0 0 60px rgba(255, 140, 0, 0.25), inset 0 1px 0 rgba(255,255,255,0.4);
+        }
+        /* блик */
+        .ticket-body::before {
+            content: '';
+            position: absolute; top: 0; left: -80%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.35), transparent);
+            transform: skewX(-20deg);
+            animation: ticketShine 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+        @keyframes ticketShine {
+            0%, 100% { left: -80%; }
+            45%, 55% { left: 130%; }
+        }
+
+        .ticket-top {
+            height: 270px;
+            padding: 24px 22px;
+            display: flex; flex-direction: column; gap: 10px;
+            position: relative; z-index: 1;
+            color: #3a1f00;
+        }
+
+        .ticket-brand {
+            font-family: var(--font-title); font-size: 16px;
+            font-weight: 900; letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #3a1f00;
+        }
+        .ticket-id {
+            font-family: var(--font-text); font-size: 11px;
+            font-weight: 800; letter-spacing: 0.8px;
+            color: rgba(58, 31, 0, 0.65);
+            text-transform: uppercase;
+        }
+        .ticket-tier-line {
+            font-family: var(--font-text); font-size: 12px;
+            font-weight: 700; margin-top: 6px;
+            color: rgba(58, 31, 0, 0.7);
+        }
+        .ticket-tier-line b {
+            font-family: var(--font-title); font-size: 16px;
+            color: #3a1f00;
+        }
+        .ticket-stars {
+            margin-top: auto;
+            font-size: 22px; letter-spacing: 3px;
+            color: #3a1f00;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+        }
+        .ticket-secret {
+            font-size: 9px; letter-spacing: 1.5px;
+            color: rgba(58, 31, 0, 0.55);
+            text-transform: uppercase; font-weight: 800;
+            margin-top: 4px;
+        }
+
+        /* Зона reveal */
+        .ticket-reveal {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 130px;
+            background: linear-gradient(160deg, #2a1f3d 0%, #1a1124 100%);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 4px;
+            z-index: 1;
+            box-shadow: inset 0 1px 0 rgba(255, 204, 0, 0.2);
+            overflow: hidden;
+            border-radius: 0 0 20px 20px;
+        }
+        .ticket-reveal::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(155, 93, 229, 0.2), transparent 70%);
+            pointer-events: none;
+        }
+        .reveal-label {
+            font-family: var(--font-text); font-size: 9px;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(255, 204, 0, 0.7); font-weight: 800;
+            z-index: 1;
+        }
+        .reveal-amount {
+            font-family: var(--font-title);
+            font-size: 42px; font-weight: 900;
+            color: #ffcc00;
+            text-shadow: 0 0 25px rgba(255, 204, 0, 0.7);
+            letter-spacing: 1px;
+            z-index: 1;
+            transition: color 0.15s;
+        }
+        .reveal-amount.flashing {
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255,255,255,0.9);
+        }
+        .reveal-amount.final {
+            animation: revealPop 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes revealPop {
+            0% { transform: scale(0.4); }
+            55% { transform: scale(1.35); }
+            100% { transform: scale(1); }
+        }
+
+        /* Обрывок (стаб) - Перфорация */
+        .ticket-stub-wrap {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 130px;
+            z-index: 3;
+            /* Контейнер для частей */
+        }
+        
+        .stub-part {
+            position: absolute;
+            bottom: 0;
+            height: 130px;
+            background: linear-gradient(160deg, #ffd633 0%, #ffaa00 100%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 8px;
+            overflow: hidden;
+            transform-origin: 50% 100%;
+            /* Стыки между частями */
+            border-left: 1px dashed rgba(58, 31, 0, 0.2);
+            border-right: 1px dashed rgba(58, 31, 0, 0.2);
+        }
+        .stub-part:first-child { border-radius: 0 0 0 20px; border-left: none; }
+        .stub-part:last-child { border-radius: 0 0 20px 0; border-right: none; }
+
+        .stub-content {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 6px;
+        }
+        .stub-text {
+            font-family: var(--font-title);
+            font-size: 11px; font-weight: 800;
+            color: rgba(58, 31, 0, 0.7);
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+
+        /* Зубчатый верхний край для всех частей */
+        .ticket-stub-wrap::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: 0; right: 0;
+            height: 10px;
+            background: 
+                linear-gradient(135deg, transparent 50%, #ffdb4d 50%) 0 0 / 10px 10px repeat-x,
+                linear-gradient(45deg, transparent 50%, #ffdb4d 50%) 5px 0 / 10px 10px repeat-x;
+            z-index: 4;
+        }
+
+        /* Анимация отрыва с левой части */
+        .stub-part.torn-left {
+            animation: tearLeft 1.2s cubic-bezier(0.4, 0, 0.7, 1) forwards;
+        }
+        @keyframes tearLeft {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            10% { transform: translate(-2px, 2px) rotate(-2deg); opacity: 1; }
+            100% { transform: translate(-160px, 200px) rotate(-35deg); opacity: 0; }
+        }
+
+        .stub-part.torn-mid {
+            animation: tearMid 1.2s cubic-bezier(0.4, 0, 0.7, 1) forwards;
+        }
+        @keyframes tearMid {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            10% { transform: translate(0, 3px) rotate(0deg); opacity: 1; }
+            100% { transform: translate(0, 250px) rotate(0deg) scale(0.9); opacity: 0; }
+        }
+
+        .stub-part.torn-right {
+            animation: tearRight 1.2s cubic-bezier(0.4, 0, 0.7, 1) forwards;
+        }
+        @keyframes tearRight {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            10% { transform: translate(2px, 2px) rotate(2deg); opacity: 1; }
+            100% { transform: translate(160px, 200px) rotate(35deg); opacity: 0; }
+        }
+
+        /* Кнопка */
+        .ticket-start-btn {
+            position: relative; overflow: hidden; width: 100%;
+            background: linear-gradient(135deg, #ffcc00, #ff8c00);
+            color: #2a1600; border: none; border-radius: 14px;
+            padding: 16px;
+            font-family: var(--font-title); font-size: 14px;
+            font-weight: 800; text-transform: uppercase;
+            cursor: pointer; transition: all 0.2s ease;
+            box-shadow: 0 6px 0 #a35c00, 0 12px 25px rgba(255, 204, 0, 0.4);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            letter-spacing: 1px;
+        }
+        .ticket-start-btn::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); animation: shine 3s infinite;
+        }
+        .ticket-start-btn:active:not(:disabled) {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 #a35c00, 0 5px 10px rgba(255, 204, 0, 0.3);
+        }
+        .ticket-start-btn:disabled {
+            background: #333; box-shadow: 0 6px 0 #111; color: #777;
+            cursor: not-allowed; transform: translateY(6px);
+        }
+        .ticket-start-btn:disabled::after { display: none; }
+        .ticket-start-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+        /* Статистика */
+        .ticket-stats {
+            display: flex; gap: 10px; width: 100%;
+        }
+        .ticket-stat {
+            flex: 1;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 3px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            border-radius: 12px; padding: 9px 6px;
+        }
+        .ticket-stat-label {
+            font-size: 8.5px; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1px; font-weight: 800;
+        }
+        .ticket-stat-value {
+            font-family: var(--font-title); font-size: 15px; font-weight: 800;
+        }
+        .ticket-stat-value.gold { color: #ffcc00; text-shadow: 0 0 12px rgba(255,204,0,0.6); }
+        .ticket-stat-value.cyan { color: #00d4ff; text-shadow: 0 0 12px rgba(0,212,255,0.6); }
+
+        /* ==================== ДЕСКТОП / АДАПТИВ ==================== */
+        @media (min-width: 1024px) {
+            body { padding-bottom: 0; }
+            .app-container {
+                max-width: 1200px; /* Шире для ПК */
+                width: 100%;
+                padding: 22px 34px 34px;
+                gap: 18px;
+            }
+            .main-title { font-size: 42px; letter-spacing: 1px; }
+            .main-title span { display: inline; margin-left: 10px; }
+
+            nav {
+                justify-content: center;
+                gap: 12px;
+                padding-bottom: 18px;
+            }
+            .nav-btn { padding: 12px 22px; font-size: 12.5px; border-radius: 18px; }
+            .nav-btn svg { width: 22px; height: 22px; }
+            .nav-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.09); }
+
+            footer { font-size: 11px; padding: 22px 0 10px; }
+
+            #tab-wheel.active {
+                display: grid;
+                grid-template-columns: minmax(360px, 440px) minmax(380px, 1fr);
+                grid-template-areas:
+                    "wheel controls"
+                    "wheel spin"
+                    "wheel participants";
+                gap: 18px 30px;
+                align-items: start;
+                align-content: start;
+            }
+            #tab-wheel .wheel-container {
+                grid-area: wheel;
+                width: 440px; height: 440px;
+            }
+            #tab-wheel .control-panel { grid-area: controls; max-width: none; margin: 0; padding: 18px 26px; }
+            #tab-wheel .control-value { font-size: 24px; }
+            #tab-wheel .btn-main { grid-area: spin; margin: 0; max-width: none; }
+            #tab-wheel .participants-section { grid-area: participants; max-width: none; margin: 0; }
+            #tab-wheel .participants-list { max-height: 300px; }
+            #tab-wheel .input-area { min-height: 96px; }
+
+            .rocket-hero {
+                display: grid;
+                grid-template-columns: minmax(300px, 1fr) minmax(360px, 1.15fr);
+                grid-template-areas:
+                    "title    title"
+                    "stage    timer"
+                    "stage    stats"
+                    "stage    duration"
+                    "stage    controls"
+                    "stage    launch";
+                gap: 16px 36px;
+                align-items: start;
+                justify-items: stretch;
+                padding: 26px 32px;
+                min-height: auto;
+            }
+            .rocket-title { grid-area: title; text-align: center; font-size: 24px; }
+            .rocket-stage { grid-area: stage; margin: 0 auto; }
+            .rocket-hero > div:nth-child(3) { grid-area: timer; }
+            .rocket-stats { grid-area: stats; }
+            #rocket-duration-panel { grid-area: duration; }
+            .rocket-controls { grid-area: controls; }
+            #launch-now-btn { grid-area: launch; width: 100%; justify-content: center; padding: 12px; }
+            .rocket-participants-list { max-height: 300px; }
+
+            #tab-chat.active {
+                display: grid;
+                grid-template-columns: minmax(320px, 440px) minmax(340px, 1fr);
+                grid-template-areas:
+                    "cwheel info"
+                    "cwheel controls"
+                    "cwheel btn";
+                gap: 18px 34px;
+                align-items: center;
+                align-content: center;
+                justify-items: stretch;
+            }
+            #tab-chat .wheel-container { grid-area: cwheel; width: 400px; height: 400px; margin: 0 auto; }
+            #tab-chat .chat-wheel-info { grid-area: info; min-height: 120px; }
+            #tab-chat .control-panel { grid-area: controls; max-width: none; margin: 0; padding: 18px 26px; }
+            #tab-chat .btn-main { grid-area: btn; max-width: none; margin: 0; }
+
+            /* --- БИЛЕТИК НА ПК --- */
+            #tab-ticket.active {
+                display: grid;
+                grid-template-columns: 1fr 1.2fr;
+                gap: 30px;
+                align-items: start;
+            }
+            #tab-ticket .welvura-banner {
+                grid-column: 1 / -1; /* Баннер на всю ширину */
+                margin-bottom: 10px;
+            }
+            #tab-ticket .ticket-wrap {
+                display: contents;
+            }
+            #tab-ticket .ticket-hero {
+                display: contents; /* Убираем фон контейнера на ПК */
+            }
+            
+            /* Левая колонка: Настройки */
+            .ticket-settings-col {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+            #tab-ticket .ticket-tiers {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            #tab-ticket .ticket-tier {
+                padding: 16px 10px;
+            }
+            #tab-ticket .tier-amount { font-size: 20px; }
+            #tab-ticket .tier-range { font-size: 11px; }
+            #tab-ticket .ticket-stats { margin-top: 10px; }
+
+            /* Правая колонка: Билет */
+            .ticket-display-col {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            #tab-ticket .ticket-stage {
+                padding: 0;
+            }
+            #tab-ticket .ticket {
+                width: 380px;
+                height: 480px;
+            }
+            #tab-ticket .ticket-top { height: 320px; padding: 30px 26px; }
+            #tab-ticket .ticket-reveal,
+            #tab-ticket .ticket-stub-wrap,
+            #tab-ticket .stub-part { height: 160px; }
+            #tab-ticket .reveal-amount { font-size: 56px; }
+            #tab-ticket .ticket-start-btn { width: 100%; max-width: 380px; }
+        }
+
+        @media (min-width: 1400px) {
+            #tab-ticket .ticket { width: 420px; height: 520px; }
+            #tab-ticket .ticket-top { height: 340px; }
+            #tab-ticket .ticket-reveal,
+            #tab-ticket .ticket-stub-wrap,
+            #tab-ticket .stub-part { height: 180px; }
+            #tab-ticket .reveal-amount { font-size: 64px; }
         }
     </style>
 </head>
@@ -1181,7 +1131,6 @@
 
     <div class="bg-frost"></div>
     <div class="bg-glow"></div>
-    <div class="baby-yoda"></div>
 
     <div class="app-container">
         
@@ -1194,31 +1143,17 @@
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>
                 Колесо
             </button>
-            <button class="nav-btn" onclick="switchTab('tab-flower', this)">
-                <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="4.5" r="3.1"/>
-                    <circle cx="12" cy="19.5" r="3.1"/>
-                    <circle cx="4.5" cy="12" r="3.1"/>
-                    <circle cx="19.5" cy="12" r="3.1"/>
-                    <circle cx="6.7" cy="6.7" r="2.9"/>
-                    <circle cx="17.3" cy="17.3" r="2.9"/>
-                    <circle cx="6.7" cy="17.3" r="2.9"/>
-                    <circle cx="17.3" cy="6.7" r="2.9"/>
-                    <circle cx="12" cy="12" r="2.6" style="fill:#ffcc00"/>
-                </svg>
-                Цветок
-            </button>
             <button class="nav-btn" onclick="switchTab('tab-rocket', this)">
                 <svg viewBox="0 0 24 24"><path d="M12 2.5s-4 4.5-4 10c0 2.5.7 4.8 1.8 6.6L8 22h8l-1.8-2.9C15.3 17.3 16 15 16 12.5c0-5.5-4-10-4-10zm0 3.5c1.7 1.9 3 4.5 3 6.5 0 1.7-.4 3.2-1 4.5h-4c-.6-1.3-1-2.8-1-4.5 0-2 1.3-4.6 3-6.5zm-1 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm2 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM7.5 18.5L6 21h12l-1.5-2.5h-9z"/></svg>
                 Ракета
             </button>
+            <button class="nav-btn" onclick="switchTab('tab-ticket', this)">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-2V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM8 4h8v2H8V4zm12 14H4V8h16v10z"/></svg>
+                Билетик
+            </button>
             <button class="nav-btn" onclick="switchTab('tab-chat', this)">
                 <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
                 Для чата
-            </button>
-            <button class="nav-btn" onclick="switchTab('tab-ai', this)">
-                <svg viewBox="0 0 24 24"><path d="M12 2C9 2 6.5 4 5.2 6.8 3.3 7.2 2 8.9 2 11c0 1.6.8 3 2 3.9V19c0 .6.4 1 1 1h2v1.5c0 .8.7 1.5 1.5 1.5S10 22.3 10 21.5V20h4v1.5c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5V20h2c.6 0 1-.4 1-1v-4.1c1.2-.9 2-2.3 2-3.9 0-2.1-1.3-3.8-3.2-4.2C17.5 4 15 2 12 2zm-3 9c-.8 0-1.5-.7-1.5-1.5S8.2 8 9 8s1.5.7 1.5 1.5S9.8 11 9 11zm6 0c-.8 0-1.5-.7-1.5-1.5S14.2 8 15 8s1.5.7 1.5 1.5S15.8 11 15 11zm-3 5c-1.1 0-2.2-.5-2.9-1.3l1.2-1.1c.5.5 1.1.8 1.7.8s1.2-.3 1.7-.8l1.2 1.1c-.7.8-1.8 1.3-2.9 1.3z"/></svg>
-                Боня ИИ
             </button>
         </nav>
 
@@ -1275,83 +1210,6 @@
                 </div>
 
                 <div class="participants-list" id="participants-list"></div>
-            </div>
-        </div>
-
-        <!-- ВКЛАДКА: ЦВЕТОК -->
-        <div id="tab-flower" class="tab-content">
-            <div class="flower-wrap">
-                <div class="flower-hero">
-                    
-                    <div class="flower-header-bar">
-                        <div class="flower-hb-label">
-                            <svg viewBox="0 0 24 24">
-                                <circle cx="12" cy="5" r="2.8"/>
-                                <circle cx="12" cy="19" r="2.8"/>
-                                <circle cx="5" cy="12" r="2.8"/>
-                                <circle cx="19" cy="12" r="2.8"/>
-                                <circle cx="7.1" cy="7.1" r="2.6"/>
-                                <circle cx="16.9" cy="16.9" r="2.6"/>
-                                <circle cx="7.1" cy="16.9" r="2.6"/>
-                                <circle cx="16.9" cy="7.1" r="2.6"/>
-                                <circle cx="12" cy="12" r="2.2" style="fill:#ffcc00"/>
-                            </svg>
-                            ЦВЕТОК
-                        </div>
-                    </div>
-                    
-                    <div class="flower-winners-selector">
-                        <span class="flower-selector-label">Победителей:</span>
-                        <button class="flower-count-btn" onclick="changeFlowerWinners(-1)">−</button>
-                        <span class="flower-count-value" id="flower-winners-count">1</span>
-                        <button class="flower-count-btn" onclick="changeFlowerWinners(1)">+</button>
-                    </div>
-
-                    <div class="flower-stage" id="flower-stage">
-                        <svg class="flower-svg" id="flower-svg" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet"></svg>
-                    </div>
-                    
-                    <div class="flower-podium" id="flower-podium">
-                        <span class="flower-podium-hint">Победители появятся здесь</span>
-                    </div>
-                    
-                    <div class="flower-settings">
-                        <div class="flower-setting-row">
-                            <span class="flower-setting-label">Открывание лепестка</span>
-                            <div class="flower-setting-options" id="flower-time-options">
-                                <button class="flower-opt-btn" data-time="2">2 сек</button>
-                                <button class="flower-opt-btn active" data-time="3">3 сек</button>
-                                <button class="flower-opt-btn" data-time="4">4 сек</button>
-                                <button class="flower-opt-btn" data-time="5">5 сек</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flower-participants">
-                        <div class="flower-participants-header">
-                            <span>УЧАСТНИКИ <span class="count" id="flower-participants-count">0</span></span>
-                            <span class="flower-clear-btn" onclick="clearFlowerParticipants()">ОЧИСТИТЬ</span>
-                        </div>
-                        <div class="flower-participant-input-row">
-                            <input type="text" class="flower-participant-input" id="flower-input" placeholder="Имя участника..." maxlength="20">
-                            <button class="flower-participant-add" onclick="addFlowerParticipant()">+</button>
-                        </div>
-                        <div class="flower-participants-list" id="flower-participants-list">
-                            <span class="flower-podium-hint" style="padding:6px;">Пока никого нет</span>
-                        </div>
-                    </div>
-                    
-                    <button class="flower-start-btn" id="flower-start-btn" onclick="startFlower()">
-                        <svg viewBox="0 0 24 24">
-                            <circle cx="12" cy="5" r="2.8"/>
-                            <circle cx="12" cy="19" r="2.8"/>
-                            <circle cx="5" cy="12" r="2.8"/>
-                            <circle cx="19" cy="12" r="2.8"/>
-                            <circle cx="12" cy="12" r="2.2" style="fill:#ffcc00"/>
-                        </svg>
-                        ОТРЫВАТЬ ЛЕПЕСТКИ
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -1474,13 +1332,109 @@
                 </div>
 
                 <div class="rocket-participants">
-                    <div class="rocket-participants-header">
+                    <div class="rocket-participants-header" style="display:flex; justify-content:space-between; font-size:11px; font-weight:800; text-transform:uppercase; color:var(--text-muted);">
                         <span>НА БОРТУ:</span>
-                        <span id="rocket-participants-count">0</span>
+                        <span id="rocket-participants-count" style="font-family:var(--font-title); color:#00d4ff;">0</span>
                     </div>
                     <div class="rocket-participants-list" id="rocket-participants-list">
                         <div class="perm-empty" style="width: 100%;">Пока никого нет</div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ВКЛАДКА: БИЛЕТИК -->
+        <div id="tab-ticket" class="tab-content">
+            <div class="ticket-wrap">
+                
+                <!-- Баннер -->
+                <img src="https://ibb.co.com/ds2HkyBb" alt="Welvura Banner" class="welvura-banner">
+
+                <div class="ticket-hero">
+                    
+                    <!-- Левая колонка (на ПК) -->
+                    <div class="ticket-settings-col">
+                        <div class="ticket-tiers" id="ticket-tiers">
+                            <button class="ticket-tier active" data-tier="1000" onclick="selectTicketTier(1000)">
+                                <span class="tier-top">Билет</span>
+                                <span class="tier-amount">1000₽</span>
+                                <span class="tier-range">0 — 100₽</span>
+                            </button>
+                            <button class="ticket-tier" data-tier="3000" onclick="selectTicketTier(3000)">
+                                <span class="tier-top">Билет</span>
+                                <span class="tier-amount">3000₽</span>
+                                <span class="tier-range">0 — 300₽</span>
+                            </button>
+                            <button class="ticket-tier" data-tier="5000" onclick="selectTicketTier(5000)">
+                                <span class="tier-top">Билет</span>
+                                <span class="tier-amount">5000₽</span>
+                                <span class="tier-range">100 — 500₽</span>
+                            </button>
+                            <button class="ticket-tier" data-tier="10000" onclick="selectTicketTier(10000)">
+                                <span class="tier-top">Билет</span>
+                                <span class="tier-amount">10000₽</span>
+                                <span class="tier-range">150 — 750₽</span>
+                            </button>
+                        </div>
+
+                        <div class="ticket-stats">
+                            <div class="ticket-stat">
+                                <span class="ticket-stat-label">Выиграно сегодня</span>
+                                <span class="ticket-stat-value gold" id="ticket-total-won">0₽</span>
+                            </div>
+                            <div class="ticket-stat">
+                                <span class="ticket-stat-label">Открыто билетов</span>
+                                <span class="ticket-stat-value cyan" id="ticket-total-opened">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Правая колонка (на ПК) -->
+                    <div class="ticket-display-col">
+                        <div class="ticket-stage">
+                            <div class="ticket" id="ticket">
+                                <div class="ticket-body">
+                                    <div class="ticket-top">
+                                        <div class="ticket-brand">Alexandrova Chat</div>
+                                        <div class="ticket-id">Билет <b id="ticket-id-num">#1247</b></div>
+                                        <div class="ticket-tier-line">Сумма: <b id="ticket-tier-amount">1000₽</b></div>
+                                        <div class="ticket-stars">★ ★ ★ ★ ★</div>
+                                        <div class="ticket-secret">Секретный бонус внутри</div>
+                                    </div>
+                                    <div class="ticket-reveal">
+                                        <div class="reveal-label">Бонус</div>
+                                        <div class="reveal-amount" id="reveal-amount">???</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Обрывной блок с перфорацией -->
+                                <div class="ticket-stub-wrap" id="ticket-stub-wrap">
+                                    <!-- 3 части, которые будут отрываться -->
+                                    <div class="stub-part" style="left:0; width:33.33%;">
+                                        <div class="stub-content">
+                                            <div class="stub-text">ОТКРОЙ</div>
+                                        </div>
+                                    </div>
+                                    <div class="stub-part" style="left:33.33%; width:33.33%;">
+                                        <div class="stub-content">
+                                            <div class="stub-text">ОТКРОЙ</div>
+                                        </div>
+                                    </div>
+                                    <div class="stub-part" style="left:66.66%; width:33.33%;">
+                                        <div class="stub-content">
+                                            <div class="stub-text">ОТКРОЙ</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="ticket-start-btn" id="ticket-start-btn" onclick="openTicket()">
+                            <svg viewBox="0 0 24 24"><path d="M20 6h-2V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM8 4h8v2H8V4zm12 14H4V8h16v10z"/></svg>
+                            ОТКРЫТЬ БИЛЕТ
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -1509,110 +1463,6 @@
             </div>
 
             <button class="btn-main" id="chat-spin-btn" onclick="spinChatWheel()">ЗАПУСТИТЬ КОЛЕСО</button>
-        </div>
-
-        <!-- ВКЛАДКА: Боня ИИ -->
-        <div id="tab-ai" class="tab-content">
-            <div class="ai-wrap">
-
-                <aside class="ai-side">
-                    <div class="corgi-avatar">
-                        <div class="corgi-halo"></div>
-                        <svg class="corgi-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <radialGradient id="corgiFur" cx="38%" cy="28%" r="85%">
-                                    <stop offset="0%" stop-color="#ffcf8f"/>
-                                    <stop offset="55%" stop-color="#f5a95c"/>
-                                    <stop offset="100%" stop-color="#d9823b"/>
-                                </radialGradient>
-                                <linearGradient id="corgiEarGrad" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#f5a95c"/>
-                                    <stop offset="100%" stop-color="#cf7a34"/>
-                                </linearGradient>
-                                <radialGradient id="corgiMuzzle" cx="50%" cy="35%" r="70%">
-                                    <stop offset="0%" stop-color="#ffffff"/>
-                                    <stop offset="100%" stop-color="#f6e6d6"/>
-                                </radialGradient>
-                            </defs>
-
-                            <path d="M70 86 Q44 48 38 22 Q35 10 47 17 Q80 36 94 64 Z" fill="url(#corgiEarGrad)" stroke="#c9742f" stroke-width="2.5" stroke-linejoin="round"/>
-                            <path d="M130 86 Q156 48 162 22 Q165 10 153 17 Q120 36 106 64 Z" fill="url(#corgiEarGrad)" stroke="#c9742f" stroke-width="2.5" stroke-linejoin="round"/>
-                            <path d="M72 78 Q52 48 47 28 Q45 21 53 26 Q79 43 90 64 Z" fill="#ffc9a3" opacity="0.85"/>
-                            <path d="M128 78 Q148 48 153 28 Q155 21 147 26 Q121 43 110 64 Z" fill="#ffc9a3" opacity="0.85"/>
-
-                            <ellipse cx="100" cy="114" rx="66" ry="60" fill="url(#corgiFur)" stroke="#c9742f" stroke-width="2.5"/>
-                            <path d="M100 58 Q82 62 82 96 Q82 122 100 126 Q118 122 118 96 Q118 62 100 58 Z" fill="#fff8f0" opacity="0.9"/>
-                            <ellipse cx="100" cy="143" rx="45" ry="33" fill="url(#corgiMuzzle)"/>
-
-                            <ellipse cx="73" cy="107" rx="9.5" ry="10.5" fill="#2b1b12"/>
-                            <ellipse cx="127" cy="107" rx="9.5" ry="10.5" fill="#2b1b12"/>
-                            <circle cx="70" cy="103" r="3.4" fill="#ffffff"/>
-                            <circle cx="124" cy="103" r="3.4" fill="#ffffff"/>
-                            <circle cx="76" cy="112" r="1.6" fill="#ffffff" opacity="0.7"/>
-                            <circle cx="130" cy="112" r="1.6" fill="#ffffff" opacity="0.7"/>
-
-                            <path d="M100 124 Q86 124 86 132 Q86 140 100 140 Q114 140 114 132 Q114 124 100 124 Z" fill="#2b1b12"/>
-                            <ellipse cx="96" cy="128" rx="3" ry="2" fill="#ffffff" opacity="0.35"/>
-
-                            <path d="M100 140 L100 146" stroke="#2b1b12" stroke-width="2.6" stroke-linecap="round"/>
-                            <path d="M100 146 Q92 154 84 147" stroke="#2b1b12" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-                            <path d="M100 146 Q108 154 116 147" stroke="#2b1b12" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-
-                            <path d="M92 151 Q100 146 108 151 Q108 165 100 165 Q92 165 92 151 Z" fill="#ff7ea8" stroke="#e05b87" stroke-width="1.2"/>
-
-                            <ellipse cx="56" cy="132" rx="11" ry="6.5" fill="#ff9bb5" opacity="0.45"/>
-                            <ellipse cx="144" cy="132" rx="11" ry="6.5" fill="#ff9bb5" opacity="0.45"/>
-                        </svg>
-                    </div>
-
-                    <h3 class="ai-side-name">Боня</h3>
-                    <div class="ai-side-status"><span class="ai-status-dot"></span> Онлайн · отвечаю мгновенно</div>
-                    <p class="ai-side-desc">Привет! Я Боня 🐾 — твой карманный помощник. Пишу код, объясняю сложное простыми словами и всегда поддержу, если грустно.</p>
-
-                    <div class="ai-side-stats">
-                        <div class="ai-stat">
-                            <span class="ai-stat-val">∞</span>
-                            <span class="ai-stat-lbl">терпения</span>
-                        </div>
-                        <div class="ai-stat">
-                            <span class="ai-stat-val">24/7</span>
-                            <span class="ai-stat-lbl">на связи</span>
-                        </div>
-                    </div>
-                </aside>
-
-                <section class="ai-chat">
-                    <header class="ai-chat-head">
-                        <div class="ai-chat-head-left">
-                            <span class="ai-mini-avatar">🐶</span>
-                            <div>
-                                <div class="ai-chat-title">Чат с Боней</div>
-                                <div class="ai-chat-sub" id="ai-chat-sub">Онлайн · отвечает мгновенно</div>
-                            </div>
-                        </div>
-                        <button class="ai-clear-btn" id="ai-clear-chat">Очистить</button>
-                    </header>
-
-                    <div class="ai-messages" id="ai-messages"></div>
-
-                    <div class="ai-suggestions" id="ai-suggestions">
-                        <button class="ai-sug" data-q="Что ты умеешь?">Что ты умеешь?</button>
-                        <button class="ai-sug" data-q="Напиши код на Python">Напиши код</button>
-                        <button class="ai-sug" data-q="Мне грустно, поддержи меня">Поддержи меня</button>
-                        <button class="ai-sug" data-q="Расскажи шутку">Расскажи шутку</button>
-                        <button class="ai-sug" data-q="Объясни сортировку">Сортировка</button>
-                        <button class="ai-sug" data-q="Дай совет">Дай совет</button>
-                    </div>
-
-                    <div class="ai-input-row">
-                        <textarea id="ai-input" rows="1" placeholder="Напиши сообщение Боня..." maxlength="1500"></textarea>
-                        <button class="ai-send-btn" id="ai-send-btn" aria-label="Отправить">
-                            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                        </button>
-                    </div>
-                </section>
-
-            </div>
         </div>
 
         <footer>
@@ -1644,74 +1494,11 @@
     </div>
 
     <script>
-        // === SVG ИКОНКИ (медали) ===
-        const MEDAL_GOLD = `<svg class="medal-icon" viewBox="0 0 24 24">
-            <defs>
-                <linearGradient id="goldMedalGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#ffe066"/>
-                    <stop offset="50%" stop-color="#ffcc00"/>
-                    <stop offset="100%" stop-color="#cc8800"/>
-                </linearGradient>
-            </defs>
-            <path d="M 8 1 L 10 7 L 12 5 L 14 7 L 16 1 Z" fill="#9b5de5"/>
-            <circle cx="12" cy="15" r="8" fill="url(#goldMedalGrad)" stroke="#8a5a00" stroke-width="0.7"/>
-            <circle cx="12" cy="15" r="5.5" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/>
-            <path d="M12 10.5 L13.3 13.2 L16.3 13.6 L14.15 15.7 L14.65 18.7 L12 17.3 L9.35 18.7 L9.85 15.7 L7.7 13.6 L10.7 13.2 Z" fill="#fff" opacity="0.95"/>
-        </svg>`;
-
-        const MEDAL_SILVER = `<svg class="medal-icon" viewBox="0 0 24 24">
-            <defs>
-                <linearGradient id="silverMedalGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#f0f4ff"/>
-                    <stop offset="50%" stop-color="#b8c4d8"/>
-                    <stop offset="100%" stop-color="#7a8aa8"/>
-                </linearGradient>
-            </defs>
-            <path d="M 8 1 L 10 7 L 12 5 L 14 7 L 16 1 Z" fill="#00d4ff"/>
-            <circle cx="12" cy="15" r="8" fill="url(#silverMedalGrad)" stroke="#4a5468" stroke-width="0.7"/>
-            <circle cx="12" cy="15" r="5.5" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/>
-            <path d="M12 10.5 L13.3 13.2 L16.3 13.6 L14.15 15.7 L14.65 18.7 L12 17.3 L9.35 18.7 L9.85 15.7 L7.7 13.6 L10.7 13.2 Z" fill="#fff" opacity="0.95"/>
-        </svg>`;
-
-        const MEDAL_BRONZE = `<svg class="medal-icon" viewBox="0 0 24 24">
-            <defs>
-                <linearGradient id="bronzeMedalGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#e8a870"/>
-                    <stop offset="50%" stop-color="#c8722e"/>
-                    <stop offset="100%" stop-color="#8a4515"/>
-                </linearGradient>
-            </defs>
-            <path d="M 8 1 L 10 7 L 12 5 L 14 7 L 16 1 Z" fill="#ff6b00"/>
-            <circle cx="12" cy="15" r="8" fill="url(#bronzeMedalGrad)" stroke="#5a2c08" stroke-width="0.7"/>
-            <circle cx="12" cy="15" r="5.5" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/>
-            <path d="M12 10.5 L13.3 13.2 L16.3 13.6 L14.15 15.7 L14.65 18.7 L12 17.3 L9.35 18.7 L9.85 15.7 L7.7 13.6 L10.7 13.2 Z" fill="#fff" opacity="0.95"/>
-        </svg>`;
-
-        const MEDAL_STAR = `<svg class="medal-icon" viewBox="0 0 24 24">
-            <defs>
-                <linearGradient id="starMedalGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#00d4ff"/>
-                    <stop offset="100%" stop-color="#9b5de5"/>
-                </linearGradient>
-            </defs>
-            <path d="M 8 1 L 10 7 L 12 5 L 14 7 L 16 1 Z" fill="#9b5de5"/>
-            <circle cx="12" cy="15" r="8" fill="url(#starMedalGrad)" stroke="#4a2a90" stroke-width="0.7"/>
-            <circle cx="12" cy="15" r="5.5" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.5"/>
-            <path d="M12 10.5 L13.3 13.2 L16.3 13.6 L14.15 15.7 L14.65 18.7 L12 17.3 L9.35 18.7 L9.85 15.7 L7.7 13.6 L10.7 13.2 Z" fill="#fff" opacity="0.95"/>
-        </svg>`;
-
-        function getMedalSVG(rank) {
-            if (rank === 0) return MEDAL_GOLD;
-            if (rank === 1) return MEDAL_SILVER;
-            if (rank === 2) return MEDAL_BRONZE;
-            return MEDAL_STAR;
-        }
-
         // === ЗАЩИТА ОТ ДВОЙНОГО ТАПА ===
         let lastTapTarget = null;
         let lastTapTime = 0;
         document.addEventListener('touchend', function(e) {
-            const target = e.target.closest('button, a, .nav-btn, .btn-main, .btn-round, .btn-small, .btn-add, .btn-remove, .perm-remove, .modal-btn, .rocket-start-btn, .rocket-share-btn, .flower-start-btn, .flower-count-btn, .flower-clear-btn, .flower-opt-btn, .flower-participant-add, .chip-remove');
+            const target = e.target.closest('button, a, .nav-btn, .btn-main, .btn-round, .btn-small, .btn-add, .btn-remove, .perm-remove, .modal-btn, .rocket-start-btn, .rocket-share-btn, .ticket-tier, .ticket-start-btn, .p-chip');
             if (!target) { lastTapTarget = null; return; }
             const now = Date.now();
             if (lastTapTarget === target && now - lastTapTime < 350) e.preventDefault();
@@ -1723,16 +1510,6 @@
             time: 12,
             permanent: ['Anta', 'Karina'],
             current: ['Anta', 'Karina']
-        };
-
-        // === ЦВЕТОК ===
-        const FLOWER_PETAL_COUNT = 20;
-        let flowerState = {
-            running: false,
-            participants: [],
-            winnersCount: 1,
-            displayTime: 3,
-            winners: []
         };
         
         let rocketState = {
@@ -1777,21 +1554,10 @@
                     rocketState.launched = parsed.launched || false;
                 } catch (e) { console.error(e); }
             }
-
-            const savedFlower = localStorage.getItem('alexandrovaFlowerStateV1');
-            if (savedFlower) {
-                try {
-                    const parsed = JSON.parse(savedFlower);
-                    flowerState.participants = parsed.participants || [];
-                    flowerState.winnersCount = parsed.winnersCount || 1;
-                    flowerState.displayTime = parsed.displayTime || 3;
-                } catch (e) { console.error(e); }
-            }
             
             document.getElementById('spin-time').innerText = state.time;
             document.getElementById('chat-time').innerText = state.time + " сек";
             document.getElementById('rocket-duration-value').innerText = rocketState.duration + ' мин';
-            document.getElementById('flower-winners-count').innerText = flowerState.winnersCount;
         }
         function saveState() {
             localStorage.setItem('alexandrovaWheelStateV22', JSON.stringify(state));
@@ -1804,13 +1570,6 @@
                 active: rocketState.active,
                 endTime: rocketState.endTime,
                 launched: rocketState.launched
-            }));
-        }
-        function saveFlowerState() {
-            localStorage.setItem('alexandrovaFlowerStateV1', JSON.stringify({
-                participants: flowerState.participants,
-                winnersCount: flowerState.winnersCount,
-                displayTime: flowerState.displayTime
             }));
         }
 
@@ -1880,12 +1639,6 @@
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             btnElement.classList.add('active');
-            
-            if (tabId === 'tab-flower') {
-                if (!flowerState.running) {
-                    renderFlower();
-                }
-            }
         }
 
         function changeTime(amount) {
@@ -1894,404 +1647,6 @@
                 document.getElementById('spin-time').innerText = state.time;
                 document.getElementById('chat-time').innerText = state.time + " сек";
                 saveState();
-            }
-        }
-
-        // ==================== ЦВЕТОК ====================
-        function shuffleArray(arr) {
-            const a = [...arr];
-            for (let i = a.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [a[i], a[j]] = [a[j], a[i]];
-            }
-            return a;
-        }
-
-        function addFlowerParticipant() {
-            const input = document.getElementById('flower-input');
-            const name = input.value.trim();
-            if (!name) return;
-            if (flowerState.participants.includes(name)) {
-                input.value = '';
-                return;
-            }
-            if (flowerState.participants.length >= FLOWER_PETAL_COUNT) {
-                alert('Максимум ' + FLOWER_PETAL_COUNT + ' участников!');
-                return;
-            }
-            flowerState.participants.push(name);
-            input.value = '';
-            input.focus();
-            saveFlowerState();
-            renderFlowerParticipants();
-            renderFlower();
-            updateFlowerWinnersMax();
-        }
-
-        function removeFlowerParticipant(index) {
-            if (flowerState.running) return;
-            flowerState.participants.splice(index, 1);
-            saveFlowerState();
-            renderFlowerParticipants();
-            renderFlower();
-            updateFlowerWinnersMax();
-        }
-
-        function clearFlowerParticipants() {
-            if (flowerState.participants.length === 0) return;
-            if (flowerState.running) return;
-            showModal('Очистить участников?', 'Все участники будут удалены.', [
-                { text: 'Отмена', class: 'cancel', action: closeModal },
-                { text: 'Очистить', class: 'delete', action: () => {
-                    flowerState.participants = [];
-                    flowerState.winners = [];
-                    saveFlowerState();
-                    renderFlowerParticipants();
-                    renderFlower();
-                    document.getElementById('flower-podium').innerHTML = '<span class="flower-podium-hint">Победители появятся здесь</span>';
-                    updateFlowerWinnersMax();
-                    closeModal();
-                }}
-            ]);
-        }
-
-        function renderFlowerParticipants() {
-            const list = document.getElementById('flower-participants-list');
-            const countEl = document.getElementById('flower-participants-count');
-            if (countEl) countEl.innerText = flowerState.participants.length;
-            
-            if (flowerState.participants.length === 0) {
-                list.innerHTML = '<span class="flower-podium-hint" style="padding:6px;">Пока никого нет</span>';
-                return;
-            }
-            list.innerHTML = '';
-            flowerState.participants.forEach((name, i) => {
-                const chip = document.createElement('div');
-                chip.className = 'flower-participant-chip';
-                chip.innerHTML = `<span>${name}</span><button class="chip-remove" onclick="removeFlowerParticipant(${i})">×</button>`;
-                list.appendChild(chip);
-            });
-        }
-
-        function updateFlowerWinnersMax() {
-            const maxCount = Math.min(5, Math.max(1, flowerState.participants.length || 1));
-            if (flowerState.winnersCount > maxCount) {
-                flowerState.winnersCount = maxCount;
-                document.getElementById('flower-winners-count').innerText = maxCount;
-                saveFlowerState();
-            }
-        }
-
-        function changeFlowerWinners(amount) {
-            if (flowerState.running) return;
-            const maxCount = Math.min(5, Math.max(1, flowerState.participants.length || 1));
-            const newCount = flowerState.winnersCount + amount;
-            if (newCount >= 1 && newCount <= maxCount) {
-                flowerState.winnersCount = newCount;
-                document.getElementById('flower-winners-count').innerText = newCount;
-                saveFlowerState();
-            }
-        }
-
-        function setFlowerDisplayTime(time) {
-            if (flowerState.running) return;
-            flowerState.displayTime = time;
-            saveFlowerState();
-            document.querySelectorAll('#flower-time-options .flower-opt-btn').forEach(btn => {
-                btn.classList.toggle('active', parseInt(btn.dataset.time, 10) === time);
-            });
-        }
-
-        function renderFlower() {
-            const svg = document.getElementById('flower-svg');
-            if (!svg) return;
-            svg.innerHTML = '';
-            
-            const NS = 'http://www.w3.org/2000/svg';
-            
-            // Defs
-            const defs = document.createElementNS(NS, 'defs');
-            defs.innerHTML = `
-                <radialGradient id="petalGrad" cx="50%" cy="82%" r="80%">
-                    <stop offset="0%" stop-color="#ffd0e3"/>
-                    <stop offset="30%" stop-color="#ff77b0"/>
-                    <stop offset="65%" stop-color="#e91e63"/>
-                    <stop offset="100%" stop-color="#8c0a3f"/>
-                </radialGradient>
-                <radialGradient id="petalGradEmpty" cx="50%" cy="82%" r="80%">
-                    <stop offset="0%" stop-color="#5a3548"/>
-                    <stop offset="60%" stop-color="#3a1f2e"/>
-                    <stop offset="100%" stop-color="#1a0a14"/>
-                </radialGradient>
-                <radialGradient id="petalGradWinner" cx="50%" cy="82%" r="80%">
-                    <stop offset="0%" stop-color="#fff5b8"/>
-                    <stop offset="35%" stop-color="#ffcc00"/>
-                    <stop offset="70%" stop-color="#ff8f00"/>
-                    <stop offset="100%" stop-color="#a35000"/>
-                </radialGradient>
-                <radialGradient id="flowerCenterGrad" cx="42%" cy="38%" r="68%">
-                    <stop offset="0%" stop-color="#fff8b8"/>
-                    <stop offset="30%" stop-color="#ffd83d"/>
-                    <stop offset="65%" stop-color="#ff9500"/>
-                    <stop offset="100%" stop-color="#a83a00"/>
-                </radialGradient>
-                <radialGradient id="flowerCenterGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#ffcc00" stop-opacity="0.55"/>
-                    <stop offset="55%" stop-color="#ff4d9d" stop-opacity="0.18"/>
-                    <stop offset="100%" stop-color="#ffcc00" stop-opacity="0"/>
-                </radialGradient>
-            `;
-            svg.appendChild(defs);
-            
-            // Petal path (base at 250,250, tip at ~38)
-            const petalPath = 'M 250 250 C 200 215, 183 128, 214 76 C 227 52, 240 42, 250 38 C 260 42, 273 52, 286 76 C 317 128, 300 215, 250 250 Z';
-            
-            // Create petals
-            for (let i = 0; i < FLOWER_PETAL_COUNT; i++) {
-                const angle = (360 / FLOWER_PETAL_COUNT) * i;
-                const name = flowerState.participants[i] || '';
-                const isEmpty = !name;
-                
-                const g = document.createElementNS(NS, 'g');
-                g.classList.add('flower-petal');
-                g.dataset.index = i;
-                g.style.setProperty('--petal-rot', angle + 'deg');
-                g.style.transform = `rotate(${angle}deg)`;
-                
-                const path = document.createElementNS(NS, 'path');
-                path.setAttribute('d', petalPath);
-                path.setAttribute('fill', isEmpty ? 'url(#petalGradEmpty)' : 'url(#petalGrad)');
-                path.setAttribute('stroke', isEmpty ? 'rgba(80, 40, 60, 0.5)' : 'rgba(255, 208, 227, 0.55)');
-                path.setAttribute('stroke-width', '1.2');
-                g.appendChild(path);
-                
-                // Subtle highlight
-                const highlight = document.createElementNS(NS, 'path');
-                highlight.setAttribute('d', 'M 250 232 C 220 202, 205 138, 228 96 C 236 82, 244 74, 250 70 C 256 74, 264 82, 272 96 C 295 138, 280 202, 250 232 Z');
-                highlight.setAttribute('fill', isEmpty ? 'rgba(255,255,255,0.02)' : 'rgba(255, 255, 255, 0.14)');
-                highlight.setAttribute('pointer-events', 'none');
-                g.appendChild(highlight);
-                
-                // Name text (counter-rotated to be upright)
-                if (name) {
-                    const textG = document.createElementNS(NS, 'g');
-                    textG.setAttribute('transform', `rotate(${-angle}, 250, 148)`);
-                    
-                    const displayName = name.length > 9 ? name.substring(0, 8) + '…' : name;
-                    
-                    const text = document.createElementNS(NS, 'text');
-                    text.setAttribute('x', 250);
-                    text.setAttribute('y', 148);
-                    text.setAttribute('text-anchor', 'middle');
-                    text.setAttribute('dominant-baseline', 'middle');
-                    text.setAttribute('font-family', 'Montserrat, sans-serif');
-                    text.setAttribute('font-size', '11');
-                    text.setAttribute('font-weight', '800');
-                    text.setAttribute('fill', '#ffffff');
-                    text.setAttribute('stroke', 'rgba(140, 10, 63, 0.75)');
-                    text.setAttribute('stroke-width', '2.2');
-                    text.setAttribute('paint-order', 'stroke');
-                    text.setAttribute('stroke-linejoin', 'round');
-                    text.textContent = displayName;
-                    textG.appendChild(text);
-                    g.appendChild(textG);
-                }
-                
-                svg.appendChild(g);
-            }
-            
-            // Center glow
-            const glow = document.createElementNS(NS, 'circle');
-            glow.setAttribute('cx', 250);
-            glow.setAttribute('cy', 250);
-            glow.setAttribute('r', 105);
-            glow.setAttribute('fill', 'url(#flowerCenterGlow)');
-            glow.setAttribute('pointer-events', 'none');
-            svg.appendChild(glow);
-            
-            // Center circle
-            const center = document.createElementNS(NS, 'circle');
-            center.setAttribute('cx', 250);
-            center.setAttribute('cy', 250);
-            center.setAttribute('r', 52);
-            center.setAttribute('fill', 'url(#flowerCenterGrad)');
-            center.setAttribute('stroke', '#a83a00');
-            center.setAttribute('stroke-width', '2');
-            center.setAttribute('style', 'filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.75));');
-            svg.appendChild(center);
-            
-            // Inner dots ring
-            for (let i = 0; i < 14; i++) {
-                const a = (Math.PI * 2 * i) / 14;
-                const r = 32;
-                const dot = document.createElementNS(NS, 'circle');
-                dot.setAttribute('cx', 250 + Math.cos(a) * r);
-                dot.setAttribute('cy', 250 + Math.sin(a) * r);
-                dot.setAttribute('r', 2.8);
-                dot.setAttribute('fill', '#7a2800');
-                dot.setAttribute('opacity', '0.55');
-                svg.appendChild(dot);
-            }
-            
-            // Center small dots
-            for (let i = 0; i < 5; i++) {
-                const a = (Math.PI * 2 * i) / 5 - Math.PI / 2;
-                const r = 16;
-                const dot = document.createElementNS(NS, 'circle');
-                dot.setAttribute('cx', 250 + Math.cos(a) * r);
-                dot.setAttribute('cy', 250 + Math.sin(a) * r);
-                dot.setAttribute('r', 2.2);
-                dot.setAttribute('fill', '#7a2800');
-                dot.setAttribute('opacity', '0.6');
-                svg.appendChild(dot);
-            }
-            
-            // Core dot
-            const coreDot = document.createElementNS(NS, 'circle');
-            coreDot.setAttribute('cx', 250);
-            coreDot.setAttribute('cy', 250);
-            coreDot.setAttribute('r', 4);
-            coreDot.setAttribute('fill', '#7a2800');
-            coreDot.setAttribute('opacity', '0.55');
-            svg.appendChild(coreDot);
-        }
-
-        function startFlower() {
-            if (flowerState.running) return;
-            if (flowerState.participants.length < 2) {
-                alert('Добавьте минимум 2 участника!');
-                return;
-            }
-            
-            flowerState.running = true;
-            flowerState.winners = [];
-            
-            // Reset petals - remove any previous classes
-            document.querySelectorAll('.flower-petal').forEach(el => {
-                el.classList.remove('plucked', 'winner-petal');
-                // Force reflow
-                void el.offsetWidth;
-            });
-            
-            document.getElementById('flower-podium').innerHTML = '';
-            
-            const startBtn = document.getElementById('flower-start-btn');
-            startBtn.disabled = true;
-            startBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.66-5.66l1.41-1.41M4.93 19.07l1.41-1.41m0-11.32L4.93 4.93m14.14 14.14l-1.41-1.41"/></svg> ОТРЫВАЕМ...';
-            
-            const totalParticipants = flowerState.participants.length;
-            const winnersCount = Math.min(flowerState.winnersCount, totalParticipants);
-            
-            // Named petal indices are 0..totalParticipants-1
-            const namedIndices = [];
-            for (let i = 0; i < totalParticipants; i++) namedIndices.push(i);
-            
-            // Pick winners (random from named)
-            const shuffledNamed = shuffleArray(namedIndices);
-            const winnerIndicesSet = new Set(shuffledNamed.slice(0, winnersCount));
-            
-            // Petals to pluck: all 20 petals except winners
-            const allIndices = [];
-            for (let i = 0; i < FLOWER_PETAL_COUNT; i++) allIndices.push(i);
-            const toPluck = shuffleArray(allIndices.filter(i => !winnerIndicesSet.has(i)));
-            
-            const winnersList = shuffledNamed.slice(0, winnersCount);
-            const displayTimeMs = flowerState.displayTime * 1000;
-            
-            let idx = 0;
-            
-            function pluckNext() {
-                if (idx >= toPluck.length) {
-                    setTimeout(() => finishFlower(winnersList), 500);
-                    return;
-                }
-                
-                const petalIndex = toPluck[idx];
-                const petalEl = document.querySelector(`.flower-petal[data-index="${petalIndex}"]`);
-                if (petalEl) {
-                    petalEl.classList.add('plucked');
-                }
-                idx++;
-                setTimeout(pluckNext, displayTimeMs);
-            }
-            
-            setTimeout(pluckNext, 500);
-        }
-
-        function finishFlower(winnersList) {
-            // Highlight winning petals
-            winnersList.forEach((petalIdx, rank) => {
-                const petalEl = document.querySelector(`.flower-petal[data-index="${petalIdx}"]`);
-                if (petalEl) {
-                    petalEl.classList.add('winner-petal');
-                    const path = petalEl.querySelector('path');
-                    if (path) path.setAttribute('fill', 'url(#petalGradWinner)');
-                }
-            });
-            
-            flowerState.winners = winnersList.map(i => flowerState.participants[i]);
-            
-            // Add to podium
-            const podium = document.getElementById('flower-podium');
-            podium.innerHTML = '';
-            winnersList.forEach((petalIdx, rank) => {
-                const medal = getMedalSVG(rank);
-                const name = flowerState.participants[petalIdx];
-                const item = document.createElement('div');
-                item.className = 'flower-podium-item';
-                item.innerHTML = `${medal}<span>${name}</span>`;
-                podium.appendChild(item);
-            });
-            
-            const startBtn = document.getElementById('flower-start-btn');
-            startBtn.disabled = false;
-            startBtn.innerHTML = '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.8"/><circle cx="12" cy="19" r="2.8"/><circle cx="5" cy="12" r="2.8"/><circle cx="19" cy="12" r="2.8"/><circle cx="12" cy="12" r="2.2" style="fill:#ffcc00"/></svg> ОТРЫВАТЬ ЛЕПЕСТКИ';
-            
-            flowerState.running = false;
-            saveFlowerState();
-            
-            const winnersHTML = flowerState.winners.map((w, i) => {
-                const medal = getMedalSVG(i);
-                return `<div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: rgba(255, 77, 157, 0.08); border: 1px solid rgba(255, 77, 157, 0.35); border-radius: 12px; margin-bottom: 8px; text-align: left;">
-                    ${medal}
-                    <span style="font-family: var(--font-title); font-size: 14px; color: #ff4d9d; font-weight: 800; text-shadow: 0 0 12px rgba(255,77,157,0.6); flex: 1;">${w}</span>
-                </div>`;
-            }).join('');
-            
-            setTimeout(() => {
-                showModal(
-                    '🌸 ПОБЕДИТЕЛИ',
-                    winnersHTML,
-                    [{ text: 'Отлично!', class: 'keep', action: closeModal }]
-                );
-            }, 300);
-        }
-
-        function initFlowerSettings() {
-            const timeOpts = document.getElementById('flower-time-options');
-            if (!timeOpts) return;
-            
-            timeOpts.querySelectorAll('.flower-opt-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const t = parseInt(btn.dataset.time, 10);
-                    setFlowerDisplayTime(t);
-                });
-                if (parseInt(btn.dataset.time, 10) === flowerState.displayTime) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-            
-            // Enter в поле ввода
-            const input = document.getElementById('flower-input');
-            if (input) {
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addFlowerParticipant();
-                    }
-                });
             }
         }
 
@@ -2317,7 +1672,7 @@
                 renderRocketParticipants();
                 updateRocketStats();
                 
-                const rocketBtn = document.querySelectorAll('.nav-btn')[2];
+                const rocketBtn = document.querySelectorAll('.nav-btn')[1];
                 if (rocketBtn) switchTab('tab-rocket', rocketBtn);
                 
                 setTimeout(() => {
@@ -2342,15 +1697,12 @@
             if (rocketState.launched) {
                 statusEl.innerText = 'Улетела';
                 statusEl.style.color = '#ff4d4d';
-                statusEl.style.textShadow = '0 0 12px rgba(255,77,77,0.6)';
             } else if (rocketState.active) {
                 statusEl.innerText = 'В полёте';
                 statusEl.style.color = '#00d26a';
-                statusEl.style.textShadow = '0 0 12px rgba(0,210,106,0.6)';
             } else {
                 statusEl.innerText = 'Ожидание';
                 statusEl.style.color = '#00d4ff';
-                statusEl.style.textShadow = '0 0 12px rgba(0,212,255,0.6)';
             }
         }
 
@@ -2620,7 +1972,6 @@
                     temp.style.top = '0';
                     temp.style.left = '0';
                     temp.style.opacity = '0';
-                    temp.style.pointerEvents = 'none';
                     document.body.appendChild(temp);
                     temp.focus();
                     temp.select();
@@ -2634,10 +1985,7 @@
             showModal(
                 '🔗 Ссылка на ракету',
                 `Отправьте эту ссылку в чат — кто перейдёт, получит свой ID и сядет на борт:<br><br>
-                <div class="share-link-box" id="share-link-box">${shareUrl}</div>
-                <p style="font-size: 11px; margin-top: 10px; color: var(--text-muted);">
-                    Нажмите «Скопировать» или выделите ссылку вручную
-                </p>`,
+                <div class="share-link-box" id="share-link-box">${shareUrl}</div>`,
                 [
                     { text: 'Закрыть', class: 'cancel', action: closeModal },
                     { text: 'Скопировать', class: 'cyan', action: () => {
@@ -2647,22 +1995,9 @@
                             if (box) {
                                 box.style.borderColor = 'rgba(0, 210, 106, 0.6)';
                                 box.style.color = '#00d26a';
-                                box.style.background = 'rgba(0, 210, 106, 0.1)';
                                 box.innerHTML = '✅ Скопировано!<br><br>' + shareUrl;
                             }
                             setTimeout(() => closeModal(), 1500);
-                        } else {
-                            if (box) {
-                                box.style.borderColor = 'rgba(255, 204, 0, 0.6)';
-                                box.style.color = '#ffcc00';
-                                box.style.background = 'rgba(255, 204, 0, 0.1)';
-                                const range = document.createRange();
-                                range.selectNodeContents(box);
-                                const sel = window.getSelection();
-                                sel.removeAllRanges();
-                                sel.addRange(range);
-                                box.innerHTML = '⚠️ Выделите ссылку и скопируйте вручную (Ctrl+C)<br><br>' + shareUrl;
-                            }
                         }
                     }}
                 ]
@@ -2832,37 +2167,26 @@
                     path.setAttribute('stroke-width', '2');
                     svg.appendChild(path);
 
-                    // === ТЕКСТ: радиальное размещение вдоль радиуса ===
                     const textAngle = startAngle + anglePerSlice / 2;
                     const textRad = (textAngle - 90) * Math.PI / 180;
-
-                    // Доступное место вдоль радиуса (от края центрального круга до края колеса)
                     const innerLimit = 42;
                     const outerLimit = radius - 8;
                     const textRadius = (innerLimit + outerLimit) / 2;
                     const maxHalfWidth = Math.min(textRadius - innerLimit, outerLimit - textRadius);
                     const maxTextWidth = maxHalfWidth * 2;
-
-                    // Размер шрифта — ограничен и дугой среза, и разумным максимумом
                     const arcAtText = textRadius * anglePerSlice * Math.PI / 180;
                     let fontSize = Math.floor(arcAtText * 0.5);
                     fontSize = Math.max(8, Math.min(fontSize, 13));
-
-                    // Обрезка имени под доступную ширину
                     const charWidth = fontSize * 0.58;
                     const maxChars = Math.max(4, Math.floor(maxTextWidth / charWidth));
                     let displayName = name;
                     if (displayName.length > maxChars) {
                         displayName = displayName.substring(0, maxChars - 1) + '…';
                     }
-
                     const textX = centerX + textRadius * Math.cos(textRad);
                     const textY = centerY + textRadius * Math.sin(textRad);
-
-                    // Радиальный текст: буквы идут от центра к краю
                     let rotation = textAngle - 90;
                     const normAngle = ((textAngle % 360) + 360) % 360;
-                    // Если текст смотрит в левую половину — переворачиваем, чтобы не был вверх ногами
                     if (normAngle > 90 && normAngle < 270) {
                         rotation += 180;
                     }
@@ -3030,16 +2354,285 @@
             }, duration * 1000);
         }
 
-        // ИНИЦИАЛИЗАЦИЯ
+        // ==================== БИЛЕТИК ====================
+        const TICKET_TIERS = {
+            1000: { min: 0, max: 100 },
+            3000: { min: 0, max: 300 },
+            5000: { min: 100, max: 500 },
+            10000: { min: 150, max: 750 }
+        };
+
+        const ticketState = {
+            selectedTier: 1000,
+            running: false,
+            totalWon: 0,
+            totalOpened: 0
+        };
+
+        function loadTicketState() {
+            try {
+                const saved = localStorage.getItem('alexandrovaTicketStateV1');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    ticketState.totalWon = parsed.totalWon || 0;
+                    ticketState.totalOpened = parsed.totalOpened || 0;
+                }
+            } catch (e) {}
+            updateTicketStats();
+        }
+
+        function saveTicketState() {
+            try {
+                localStorage.setItem('alexandrovaTicketStateV1', JSON.stringify({
+                    totalWon: ticketState.totalWon,
+                    totalOpened: ticketState.totalOpened
+                }));
+            } catch (e) {}
+        }
+
+        function updateTicketStats() {
+            const wonEl = document.getElementById('ticket-total-won');
+            const openedEl = document.getElementById('ticket-total-opened');
+            if (wonEl) wonEl.textContent = ticketState.totalWon + '₽';
+            if (openedEl) openedEl.textContent = ticketState.totalOpened;
+        }
+
+        function selectTicketTier(tier) {
+            if (ticketState.running) return;
+            ticketState.selectedTier = tier;
+            
+            document.querySelectorAll('.ticket-tier').forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.tier) === tier);
+            });
+            
+            const tierAmountEl = document.getElementById('ticket-tier-amount');
+            if (tierAmountEl) tierAmountEl.textContent = tier + '₽';
+            
+            const idEl = document.getElementById('ticket-id-num');
+            if (idEl) idEl.textContent = '#' + (1000 + Math.floor(Math.random() * 9000));
+            
+            resetTicketVisual();
+        }
+
+        function resetTicketVisual() {
+            const revealEl = document.getElementById('reveal-amount');
+            if (revealEl) {
+                revealEl.textContent = '???';
+                revealEl.className = 'reveal-amount';
+            }
+            // Возвращаем части билета на место
+            document.querySelectorAll('.stub-part').forEach(part => {
+                part.classList.remove('torn-left', 'torn-mid', 'torn-right');
+                part.style.display = '';
+                part.style.animation = '';
+                part.style.transform = '';
+                part.style.opacity = '1';
+            });
+            const btn = document.getElementById('ticket-start-btn');
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M20 6h-2V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM8 4h8v2H8V4zm12 14H4V8h16v10z"/></svg> ОТКРЫТЬ БИЛЕТ';
+            }
+        }
+
+        // Генерация суммы: 70% — минимум/0, 30% — среднее/максимум
+        function generateTicketAmount(tier) {
+            const range = TICKET_TIERS[tier];
+            if (!range) return 0;
+            const { min, max } = range;
+            const span = max - min;
+            const isLucky = Math.random() < 0.30;
+            
+            let amount;
+            if (isLucky) {
+                // 30% — от середины до максимума
+                const lowBound = min + span * 0.5;
+                amount = Math.floor(lowBound + Math.random() * (max - lowBound + 1));
+            } else {
+                // 70% — в основном минимум, иногда чуть больше
+                const r = Math.random();
+                if (r < 0.50) amount = min;
+                else if (r < 0.80) amount = Math.floor(min + Math.random() * span * 0.15);
+                else amount = Math.floor(min + Math.random() * span * 0.40);
+            }
+            
+            // Жесткая гарантия, что сумма не превышает максимум
+            return Math.min(Math.max(amount, min), max);
+        }
+
+        function openTicket() {
+            if (ticketState.running) return;
+            ticketState.running = true;
+            
+            const btn = document.getElementById('ticket-start-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.66-5.66l1.41-1.41M4.93 19.07l1.41-1.41m0-11.32L4.93 4.93m14.14 14.14l-1.41-1.41"/></svg> ОТРЫВАЕМ...';
+            
+            performTear();
+        }
+
+        function performTear() {
+            // Анимация отрыва с левой части (как рвешь бумагу)
+            const parts = document.querySelectorAll('.stub-part');
+            // Левая часть
+            if (parts[0]) parts[0].classList.add('torn-left');
+            // Средняя часть
+            if (parts[1]) setTimeout(() => parts[1].classList.add('torn-mid'), 100);
+            // Правая часть
+            if (parts[2]) setTimeout(() => parts[2].classList.add('torn-right'), 200);
+            
+            spawnTearParticles();
+            
+            const finalAmount = generateTicketAmount(ticketState.selectedTier);
+            
+            // Вспышка и прокрут после того, как части улетят
+            setTimeout(() => {
+                startRevealFlash(finalAmount);
+            }, 900);
+        }
+
+        // Генерация частиц отрыва
+        function spawnTearParticles() {
+            const wrap = document.getElementById('ticket-stub-wrap');
+            if (!wrap) return;
+            const rect = wrap.getBoundingClientRect();
+            const container = document.getElementById('pop-particles');
+            const colors = ['#ffcc00', '#ff6b00', '#ffdd33', '#ffffff', '#ff9500', '#ffaa00'];
+            
+            for (let i = 0; i < 32; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const x = rect.left + rect.width * Math.random();
+                const y = rect.top;
+                const dx = (Math.random() - 0.5) * 280;
+                const dy = Math.random() * 140 + 40;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = 3 + Math.random() * 6;
+                
+                p.style.left = x + 'px';
+                p.style.top = y + 'px';
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.setProperty('--dx', dx + 'px');
+                p.style.setProperty('--dy', dy + 'px');
+                p.style.setProperty('--color', color);
+                p.style.animationDelay = (Math.random() * 0.12) + 's';
+                p.style.animationDuration = (0.9 + Math.random() * 0.5) + 's';
+                container.appendChild(p);
+                setTimeout(() => p.remove(), 1600);
+            }
+        }
+
+        // Прокрутка чисел в reveal (в стиле слот-машины с замедлением)
+        function startRevealFlash(finalAmount) {
+            const revealEl = document.getElementById('reveal-amount');
+            if (!revealEl) return;
+            revealEl.classList.add('flashing');
+            
+            const tier = ticketState.selectedTier;
+            // Жестко ограничиваем максимальное число для прокрутки, чтобы не было больше максимума
+            const maxForFlash = TICKET_TIERS[tier].max;
+            
+            let elapsed = 0;
+            let interval = 40;
+            const duration = 1800;
+            
+            function step() {
+                if (elapsed < duration) {
+                    revealEl.textContent = Math.floor(Math.random() * (maxForFlash + 1)) + '₽';
+                    elapsed += interval;
+                    if (elapsed > duration * 0.5) interval *= 1.15;
+                    if (elapsed > duration * 0.8) interval *= 1.3;
+                    setTimeout(step, interval);
+                } else {
+                    finishReveal(finalAmount);
+                }
+            }
+            step();
+        }
+
+        function finishReveal(finalAmount) {
+            const revealEl = document.getElementById('reveal-amount');
+            if (!revealEl) return;
+            revealEl.classList.remove('flashing');
+            revealEl.classList.add('final');
+            revealEl.textContent = finalAmount + '₽';
+            
+            // Бонус-вспышка при выигрыше
+            if (finalAmount > 0) {
+                spawnWinBurst();
+            }
+            
+            ticketState.totalWon += finalAmount;
+            ticketState.totalOpened++;
+            saveTicketState();
+            updateTicketStats();
+            
+            setTimeout(() => showTicketResult(finalAmount), 650);
+        }
+
+        function spawnWinBurst() {
+            const revealEl = document.getElementById('reveal-amount');
+            if (!revealEl) return;
+            const rect = revealEl.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const container = document.getElementById('pop-particles');
+            const colors = ['#ffcc00', '#ff6b00', '#ffdd33', '#9b5de5', '#ffffff'];
+            
+            for (let i = 0; i < 28; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 60 + Math.random() * 160;
+                const dx = Math.cos(angle) * dist;
+                const dy = Math.sin(angle) * dist;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = 3 + Math.random() * 5;
+                
+                p.style.left = cx + 'px';
+                p.style.top = cy + 'px';
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.setProperty('--dx', dx + 'px');
+                p.style.setProperty('--dy', dy + 'px');
+                p.style.setProperty('--color', color);
+                container.appendChild(p);
+                setTimeout(() => p.remove(), 1500);
+            }
+        }
+
+        function showTicketResult(amount) {
+            const isWin = amount > 0;
+            const tier = ticketState.selectedTier;
+            
+            showModal(
+                '',
+                `<div class="winner-icon-wrap">
+                    <div class="winner-icon" style="font-size:52px; line-height:1;">${isWin ? '🎉' : '😔'}</div>
+                </div>
+                <div class="winner-label" style="color:${isWin ? '#ffcc00' : '#8b94a8'};">${isWin ? 'ПОЗДРАВЛЯЕМ' : 'НЕ ПОВЕЗЛО'}</div>
+                <div style="font-family: var(--font-title); font-size: 42px; color: ${isWin ? '#ffcc00' : '#8b94a8'}; font-weight: 900; text-shadow: 0 0 25px ${isWin ? 'rgba(255,204,0,0.7)' : 'rgba(139,148,168,0.3)'}; margin: 10px 0; letter-spacing: 1px;">
+                    ${amount}₽
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+                    Билет за ${tier}₽
+                </div>`,
+                [{ text: isWin ? 'Забрать!' : 'Новый билет', class: isWin ? 'keep' : 'cyan', action: () => { 
+                    closeModal(); 
+                    ticketState.running = false;
+                    resetTicketVisual();
+                }}]
+            );
+        }
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
         loadState();
         renderParticipants();
         renderWheelSVG();
         renderRocketParticipants();
         updateRocketStats();
-        renderFlowerParticipants();
-        renderFlower();
-        initFlowerSettings();
-        updateFlowerWinnersMax();
+        loadTicketState();
         
         if (rocketState.active && rocketState.endTime) {
             document.getElementById('rocket-duration-panel').style.display = 'none';
@@ -3053,1076 +2646,6 @@
         }
         
         checkUrlJoin();
-    </script>
-
-    <!-- ==================== Боня ИИ ==================== -->
-    <style>
-        /* ---------- Каркас вкладки ---------- */
-        .ai-wrap { display: flex; flex-direction: column; gap: 14px; width: 100%; }
-
-        /* ---------- Левая панель (профиль Боня) ---------- */
-        .ai-side {
-            position: relative; overflow: hidden;
-            background: linear-gradient(160deg, rgba(52, 30, 10, 0.94), rgba(14, 10, 6, 0.97));
-            border: 1px solid rgba(255, 169, 77, 0.28);
-            border-radius: 22px; padding: 18px 16px;
-            display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-        }
-        .ai-side::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 169, 77, 0.9), transparent);
-        }
-        .ai-side::after {
-            content: ''; position: absolute; bottom: -70px; left: 50%; transform: translateX(-50%);
-            width: 280px; height: 180px; border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 169, 77, 0.18), transparent 70%);
-            pointer-events: none;
-        }
-
-        .corgi-avatar {
-            position: relative; width: 128px; height: 128px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 2px;
-        }
-        .corgi-halo {
-            position: absolute; inset: -12px; border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 169, 77, 0.38) 0%, rgba(255, 169, 77, 0.08) 45%, transparent 72%);
-            animation: corgiHalo 3.2s ease-in-out infinite;
-            pointer-events: none;
-        }
-        @keyframes corgiHalo {
-            0%, 100% { transform: scale(1); opacity: 0.75; }
-            50% { transform: scale(1.12); opacity: 1; }
-        }
-        .corgi-svg {
-            position: relative; z-index: 1;
-            width: 100%; height: 100%;
-            animation: corgiBob 3.6s ease-in-out infinite;
-            filter: drop-shadow(0 8px 24px rgba(255, 140, 40, 0.45));
-        }
-        @keyframes corgiBob {
-            0%, 100% { transform: translateY(0) rotate(-1deg); }
-            50% { transform: translateY(-6px) rotate(1.2deg); }
-        }
-        .corgi-svg.thinking { animation: corgiTilt 0.7s ease-in-out infinite; }
-        @keyframes corgiTilt {
-            0%, 100% { transform: rotate(-7deg) translateY(0); }
-            50% { transform: rotate(7deg) translateY(-3px); }
-        }
-
-        .ai-side-name {
-            font-family: var(--font-title); font-size: 20px; font-weight: 900;
-            letter-spacing: 1px;
-            background: linear-gradient(135deg, #ffcf8f, #ff9b2e, #ffcc00);
-            -webkit-background-clip: text; background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 14px rgba(255, 169, 77, 0.55));
-            z-index: 1;
-        }
-        .ai-side-status {
-            display: inline-flex; align-items: center; gap: 7px;
-            font-size: 10px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;
-            color: #8bd8a0;
-            background: rgba(0, 210, 106, 0.08);
-            border: 1px solid rgba(0, 210, 106, 0.25);
-            padding: 5px 12px; border-radius: 20px;
-            z-index: 1;
-        }
-        .ai-status-dot {
-            width: 7px; height: 7px; border-radius: 50%;
-            background: #00d26a;
-            box-shadow: 0 0 8px #00d26a;
-            animation: statusPulse 1.6s ease-in-out infinite;
-        }
-        @keyframes statusPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.75); }
-        }
-        .ai-side-desc {
-            font-size: 12px; line-height: 1.6; color: #d9c3aa;
-            margin-top: 6px; z-index: 1;
-        }
-        .ai-side-stats {
-            display: flex; gap: 10px; margin-top: 12px; width: 100%; z-index: 1;
-        }
-        .ai-stat {
-            flex: 1;
-            display: flex; flex-direction: column; align-items: center; gap: 2px;
-            background: rgba(255, 169, 77, 0.07);
-            border: 1px solid rgba(255, 169, 77, 0.2);
-            border-radius: 12px; padding: 8px 4px;
-        }
-        .ai-stat-val {
-            font-family: var(--font-title); font-size: 15px; font-weight: 800;
-            color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
-        }
-        .ai-stat-lbl {
-            font-size: 8.5px; text-transform: uppercase; letter-spacing: 1px;
-            color: var(--text-muted); font-weight: 800;
-        }
-
-        /* ---------- Окно чата ---------- */
-        .ai-chat {
-            display: flex; flex-direction: column;
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 169, 77, 0.18);
-            border-radius: 22px;
-            overflow: hidden;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-            min-height: 0;
-        }
-
-        .ai-chat-head {
-            display: flex; align-items: center; justify-content: space-between; gap: 10px;
-            padding: 12px 14px;
-            background: linear-gradient(90deg, rgba(255, 169, 77, 0.12), rgba(155, 93, 229, 0.06));
-            border-bottom: 1px solid rgba(255, 169, 77, 0.16);
-        }
-        .ai-chat-head-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-        .ai-mini-avatar {
-            width: 38px; height: 38px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px;
-            background: linear-gradient(135deg, #ffa94d, #ff7b00);
-            box-shadow: 0 0 16px rgba(255, 169, 77, 0.6);
-            flex-shrink: 0;
-        }
-        .ai-chat-title {
-            font-family: var(--font-title); font-size: 13px; font-weight: 800;
-            color: #fff; letter-spacing: 0.5px;
-        }
-        .ai-chat-sub {
-            font-size: 10px; color: var(--text-muted); font-weight: 700;
-            margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .ai-clear-btn {
-            flex-shrink: 0;
-            background: rgba(255, 77, 77, 0.08);
-            border: 1px solid rgba(255, 77, 77, 0.3);
-            color: #ff6b6b;
-            font-family: var(--font-text); font-size: 10px; font-weight: 800;
-            text-transform: uppercase; letter-spacing: 0.6px;
-            padding: 7px 12px; border-radius: 9px;
-            cursor: pointer; transition: all 0.2s;
-        }
-        .ai-clear-btn:hover { background: rgba(255, 77, 77, 0.18); }
-        .ai-clear-btn:active { transform: scale(0.95); }
-
-        .ai-messages {
-            flex: 1;
-            display: flex; flex-direction: column; gap: 12px;
-            padding: 14px;
-            overflow-y: auto;
-            min-height: 300px;
-            max-height: 54vh;
-            scroll-behavior: smooth;
-            background:
-                radial-gradient(circle at 80% 0%, rgba(255, 169, 77, 0.05), transparent 45%),
-                radial-gradient(circle at 0% 100%, rgba(155, 93, 229, 0.05), transparent 45%);
-        }
-
-        .ai-msg {
-            display: flex; gap: 9px; align-items: flex-end;
-            animation: msgIn 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-        }
-        @keyframes msgIn {
-            from { opacity: 0; transform: translateY(12px) scale(0.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .ai-msg.user { flex-direction: row-reverse; }
-
-        .ai-msg-avatar {
-            width: 30px; height: 30px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 15px; flex-shrink: 0;
-            user-select: none;
-        }
-        .ai-msg.bot .ai-msg-avatar {
-            background: linear-gradient(135deg, #ffa94d, #ff7b00);
-            box-shadow: 0 0 12px rgba(255, 169, 77, 0.55);
-        }
-        .ai-msg.user .ai-msg-avatar {
-            background: linear-gradient(135deg, #9b5de5, #6a3fc0);
-            box-shadow: 0 0 12px rgba(155, 93, 229, 0.55);
-        }
-
-        .ai-bubble {
-            padding: 11px 14px;
-            border-radius: 16px;
-            font-size: 13.5px;
-            line-height: 1.6;
-            max-width: 84%;
-            min-width: 0;
-            overflow-wrap: anywhere;
-            word-break: break-word;
-        }
-        .ai-msg.bot .ai-bubble {
-            background: rgba(255, 169, 77, 0.09);
-            border: 1px solid rgba(255, 169, 77, 0.22);
-            border-bottom-left-radius: 4px;
-            color: #ffe9d2;
-        }
-        .ai-msg.user .ai-bubble {
-            background: linear-gradient(135deg, rgba(155, 93, 229, 0.38), rgba(155, 93, 229, 0.18));
-            border: 1px solid rgba(155, 93, 229, 0.45);
-            border-bottom-right-radius: 4px;
-            color: #fff;
-        }
-        .ai-bubble b { color: #ffd98a; font-weight: 800; }
-        .ai-msg.user .ai-bubble b { color: #fff; }
-
-        .ai-bubble .inline-code {
-            background: rgba(0, 212, 255, 0.12);
-            border: 1px solid rgba(0, 212, 255, 0.25);
-            border-radius: 5px; padding: 1px 5px;
-            font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-            font-size: 11.5px; color: #7fe3ff;
-        }
-
-        .code-wrap { position: relative; margin: 9px 0 4px; }
-        .code-wrap pre {
-            margin: 0;
-            background: #080b12;
-            border: 1px solid rgba(0, 212, 255, 0.22);
-            border-radius: 11px;
-            padding: 30px 12px 12px 12px;
-            overflow-x: auto;
-            font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-            font-size: 11.5px;
-            line-height: 1.55;
-            color: #b9e8ff;
-            max-width: 100%;
-            white-space: pre;
-            -webkit-overflow-scrolling: touch;
-        }
-        .code-wrap pre code { font-family: inherit; }
-        .code-copy {
-            position: absolute; top: 6px; right: 6px;
-            background: rgba(0, 212, 255, 0.12);
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            color: #7fe3ff;
-            font-family: var(--font-text); font-size: 9.5px; font-weight: 800;
-            text-transform: uppercase; letter-spacing: 0.5px;
-            padding: 4px 9px; border-radius: 7px;
-            cursor: pointer; transition: all 0.2s;
-            z-index: 2;
-        }
-        .code-copy:hover { background: rgba(0, 212, 255, 0.25); }
-        .code-copy:active { transform: scale(0.94); }
-
-        /* индикатор набора */
-        .ai-typing-bubble {
-            display: flex; align-items: center; gap: 5px;
-            padding: 14px 16px !important;
-            min-height: 44px;
-        }
-        .ai-typing-bubble span {
-            width: 7px; height: 7px; border-radius: 50%;
-            background: #ffa94d;
-            box-shadow: 0 0 8px rgba(255, 169, 77, 0.8);
-            animation: typingBounce 1.15s infinite ease-in-out;
-        }
-        .ai-typing-bubble span:nth-child(2) { animation-delay: 0.15s; }
-        .ai-typing-bubble span:nth-child(3) { animation-delay: 0.3s; }
-        @keyframes typingBounce {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-            30% { transform: translateY(-6px); opacity: 1; }
-        }
-
-        /* ---------- Подсказки ---------- */
-        .ai-suggestions {
-            display: flex; gap: 7px; overflow-x: auto;
-            padding: 10px 12px 4px 12px;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .ai-suggestions::-webkit-scrollbar { display: none; }
-        .ai-sug {
-            flex-shrink: 0;
-            background: rgba(255, 169, 77, 0.08);
-            border: 1px solid rgba(255, 169, 77, 0.28);
-            color: #ffcf8f;
-            font-family: var(--font-text); font-size: 11px; font-weight: 700;
-            padding: 8px 13px; border-radius: 20px;
-            cursor: pointer; transition: all 0.2s;
-            white-space: nowrap;
-        }
-        .ai-sug:hover {
-            background: rgba(255, 169, 77, 0.2);
-            box-shadow: 0 0 14px rgba(255, 169, 77, 0.35);
-            color: #fff;
-        }
-        .ai-sug:active { transform: scale(0.95); }
-
-        /* ---------- Поле ввода ---------- */
-        .ai-input-row {
-            display: flex; gap: 9px; align-items: flex-end;
-            padding: 12px;
-        }
-        #ai-input {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.42);
-            border: 1px solid rgba(255, 169, 77, 0.25);
-            border-radius: 16px;
-            padding: 12px 15px;
-            color: #fff;
-            font-family: var(--font-text);
-            font-size: 13.5px;
-            line-height: 1.5;
-            outline: none;
-            resize: none;
-            max-height: 130px;
-            min-height: 46px;
-            transition: border-color 0.25s, box-shadow 0.25s;
-        }
-        #ai-input::placeholder { color: #7b7468; }
-        #ai-input:focus {
-            border-color: #ffa94d;
-            box-shadow: 0 0 18px rgba(255, 169, 77, 0.25);
-        }
-        .ai-send-btn {
-            width: 46px; height: 46px; flex-shrink: 0;
-            border-radius: 50%; border: none;
-            background: linear-gradient(135deg, #ffcf8f, #ff8c1a);
-            color: #2a1600;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.2s;
-            box-shadow: 0 6px 18px rgba(255, 140, 26, 0.4);
-        }
-        .ai-send-btn svg { width: 20px; height: 20px; fill: currentColor; transform: translateX(1px); }
-        .ai-send-btn:hover { box-shadow: 0 0 22px rgba(255, 169, 77, 0.7); }
-        .ai-send-btn:active { transform: scale(0.92); }
-        .ai-send-btn:disabled {
-            background: #3a3a3a; color: #777;
-            box-shadow: none; cursor: not-allowed;
-        }
-
-        /* ============ ПК: полный экран ============ */
-        @media (min-width: 1024px) {
-            body { padding-bottom: 0; }
-
-            .app-container {
-                max-width: 1440px;
-                width: 100%;
-                padding: 22px 34px 34px;
-                gap: 18px;
-            }
-            .main-title { font-size: 42px; letter-spacing: 1px; }
-            .main-title span { display: inline; margin-left: 10px; }
-
-            nav {
-                justify-content: center;
-                gap: 12px;
-                padding-bottom: 18px;
-            }
-            .nav-btn { padding: 12px 22px; font-size: 12.5px; border-radius: 18px; }
-            .nav-btn svg { width: 22px; height: 22px; }
-            .nav-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.09); }
-
-            footer { font-size: 11px; padding: 22px 0 10px; }
-
-            /* ---- КОЛЕСО ---- */
-            #tab-wheel.active {
-                display: grid;
-                grid-template-columns: minmax(360px, 440px) minmax(380px, 1fr);
-                grid-template-areas:
-                    "wheel controls"
-                    "wheel spin"
-                    "wheel participants";
-                gap: 18px 30px;
-                align-items: start;
-                align-content: start;
-            }
-            #tab-wheel .wheel-container {
-                grid-area: wheel;
-                width: 440px; height: 440px;
-            }
-            #tab-wheel .control-panel { grid-area: controls; max-width: none; margin: 0; padding: 18px 26px; }
-            #tab-wheel .control-value { font-size: 24px; }
-            #tab-wheel .btn-main { grid-area: spin; margin: 0; max-width: none; }
-            #tab-wheel .participants-section { grid-area: participants; max-width: none; margin: 0; }
-            #tab-wheel .participants-list { max-height: 300px; }
-            #tab-wheel .input-area { min-height: 96px; }
-
-            /* ---- ЦВЕТОК ---- */
-            .flower-hero {
-                display: grid;
-                grid-template-columns: minmax(320px, 1.05fr) minmax(340px, 1fr);
-                grid-template-areas:
-                    "header    selector"
-                    "stage     settings"
-                    "stage     participants"
-                    "podium    participants"
-                    "start     start";
-                gap: 14px 34px;
-                align-items: start;
-                padding: 22px 28px;
-            }
-            .flower-header-bar { grid-area: header; }
-            .flower-winners-selector { grid-area: selector; }
-            .flower-stage { grid-area: stage; max-width: 480px; margin: 0 auto; }
-            .flower-podium { grid-area: podium; }
-            .flower-settings { grid-area: settings; }
-            .flower-participants { grid-area: participants; }
-            .flower-participants-list { max-height: 190px; }
-            .flower-start-btn { grid-area: start; }
-
-            /* ---- РАКЕТА ---- */
-            .rocket-hero {
-                display: grid;
-                grid-template-columns: minmax(300px, 1fr) minmax(360px, 1.15fr);
-                grid-template-areas:
-                    "title    title"
-                    "stage    timer"
-                    "stage    stats"
-                    "stage    duration"
-                    "stage    controls"
-                    "stage    launch";
-                gap: 16px 36px;
-                align-items: start;
-                justify-items: stretch;
-                padding: 26px 32px;
-                min-height: auto;
-            }
-            .rocket-title { grid-area: title; text-align: center; font-size: 24px; }
-            .rocket-stage { grid-area: stage; margin: 0 auto; }
-            .rocket-hero > div:nth-child(3) { grid-area: timer; }
-            .rocket-stats { grid-area: stats; }
-            #rocket-duration-panel { grid-area: duration; }
-            .rocket-controls { grid-area: controls; }
-            #launch-now-btn { grid-area: launch; width: 100%; justify-content: center; padding: 12px; }
-            .rocket-participants-list { max-height: 300px; }
-
-            /* ---- ДЛЯ ЧАТА ---- */
-            #tab-chat.active {
-                display: grid;
-                grid-template-columns: minmax(320px, 440px) minmax(340px, 1fr);
-                grid-template-areas:
-                    "cwheel info"
-                    "cwheel controls"
-                    "cwheel btn";
-                gap: 18px 34px;
-                align-items: center;
-                align-content: center;
-                justify-items: stretch;
-            }
-            #tab-chat .wheel-container { grid-area: cwheel; width: 400px; height: 400px; margin: 0 auto; }
-            #tab-chat .chat-wheel-info { grid-area: info; min-height: 120px; }
-            #tab-chat .control-panel { grid-area: controls; max-width: none; margin: 0; padding: 18px 26px; }
-            #tab-chat .btn-main { grid-area: btn; max-width: none; margin: 0; }
-
-            /* ---- Боня ИИ ---- */
-            .ai-wrap {
-                display: grid;
-                grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
-                gap: 22px;
-                align-items: start;
-            }
-            .ai-side { position: sticky; top: 20px; padding: 26px 20px; }
-            .corgi-avatar { width: 158px; height: 158px; }
-            .ai-side-desc { font-size: 12.5px; }
-            .ai-messages { max-height: 62vh; min-height: 420px; padding: 20px; }
-            .ai-bubble { font-size: 14px; max-width: 76%; }
-            .ai-suggestions { padding: 12px 20px 4px 20px; }
-            .ai-input-row { padding: 14px 18px 18px 18px; }
-            #ai-input { font-size: 14px; }
-        }
-
-        @media (min-width: 1600px) {
-            .app-container { max-width: 1600px; }
-            .ai-wrap { grid-template-columns: 380px minmax(0, 1fr); }
-        }
-
-        /* ---------- Мобильная адаптация ---------- */
-        @media (max-width: 640px) {
-            .ai-messages { max-height: 50vh; min-height: 260px; padding: 12px; }
-            .ai-bubble { font-size: 13px; max-width: 88%; }
-            .ai-side { padding: 16px 14px; }
-            .corgi-avatar { width: 110px; height: 110px; }
-            .ai-side-desc { font-size: 11.5px; }
-            .ai-suggestions { padding: 9px 10px 3px 10px; }
-            .ai-sug { font-size: 10.5px; padding: 7px 11px; }
-            .ai-input-row { padding: 10px; }
-            #ai-input { font-size: 13px; }
-            .ai-send-btn { width: 42px; height: 42px; }
-        }
-    </style>
-
-    <script>
-    /* ==================== ИИ Боня ==================== */
-    (function () {
-        'use strict';
-
-        const STORAGE_KEY = 'alexandrovaCorgiChatV1';
-        const FENCE = '\u0060\u0060\u0060';
-
-        const messagesEl = document.getElementById('ai-messages');
-        const inputEl    = document.getElementById('ai-input');
-        const sendBtn    = document.getElementById('ai-send-btn');
-        const clearBtn   = document.getElementById('ai-clear-chat');
-        const subEl      = document.getElementById('ai-chat-sub');
-        const corgiSvg   = document.querySelector('.corgi-svg');
-        const sugsEl     = document.getElementById('ai-suggestions');
-
-        if (!messagesEl || !inputEl) return;
-
-        let history = [];
-        let busy = false;
-        let typingNode = null;
-
-        /* ---------- Утилиты ---------- */
-        const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
-        function escapeHtml(s) {
-            return String(s).replace(/[&<>"']/g, (c) => ({
-                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-            }[c]));
-        }
-
-        /* ---------- Лёгкий рендер разметки ---------- */
-        function formatMessage(text) {
-            const parts = String(text).split(FENCE);
-            let html = '';
-            parts.forEach((part, i) => {
-                if (i % 2 === 1) {
-                    let lang = '';
-                    let code = part;
-                    const nl = part.indexOf('\n');
-                    if (nl > -1) { lang = part.slice(0, nl).trim(); code = part.slice(nl + 1); }
-                    code = code.replace(/\n$/, '');
-                    html += '<div class="code-wrap">'
-                          + '<button class="code-copy" data-code="' + encodeURIComponent(code) + '">Копировать</button>'
-                          + '<pre><code>' + escapeHtml(code) + '</code></pre>'
-                          + '</div>';
-                } else {
-                    let t = escapeHtml(part);
-                    t = t.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
-                    t = t.replace(/`([^`]+)`/g, '<span class="inline-code">$1</span>');
-                    t = t.replace(/\n/g, '<br>');
-                    html += t;
-                }
-            });
-            return html;
-        }
-
-        /* ---------- Сообщения ---------- */
-        function scrollDown() {
-            requestAnimationFrame(() => {
-                messagesEl.scrollTop = messagesEl.scrollHeight;
-            });
-        }
-
-        function addMessage(role, text, persist) {
-            if (persist === undefined) persist = true;
-            const wrap = document.createElement('div');
-            wrap.className = 'ai-msg ' + role;
-
-            const avatar = document.createElement('div');
-            avatar.className = 'ai-msg-avatar';
-            avatar.textContent = role === 'bot' ? '🐶' : '🙂';
-
-            const bubble = document.createElement('div');
-            bubble.className = 'ai-bubble';
-            bubble.innerHTML = formatMessage(text);
-
-            wrap.appendChild(avatar);
-            wrap.appendChild(bubble);
-            messagesEl.appendChild(wrap);
-            scrollDown();
-
-            if (persist) {
-                history.push({ role: role, text: text });
-                saveHistory();
-            }
-            return wrap;
-        }
-
-        function showTyping() {
-            hideTyping();
-            typingNode = document.createElement('div');
-            typingNode.className = 'ai-msg bot';
-            typingNode.innerHTML = '<div class="ai-msg-avatar">🐶</div>'
-                + '<div class="ai-bubble ai-typing-bubble"><span></span><span></span><span></span></div>';
-            messagesEl.appendChild(typingNode);
-            scrollDown();
-            if (corgiSvg) corgiSvg.classList.add('thinking');
-            if (subEl) subEl.textContent = 'Боня печатает…';
-        }
-
-        function hideTyping() {
-            if (typingNode && typingNode.parentNode) typingNode.parentNode.removeChild(typingNode);
-            typingNode = null;
-            if (corgiSvg) corgiSvg.classList.remove('thinking');
-            if (subEl) subEl.textContent = 'Онлайн · отвечает мгновенно';
-        }
-
-        /* ---------- Хранилище ---------- */
-        function saveHistory() {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-80)));
-            } catch (e) { /* ignore */ }
-        }
-
-        function loadHistory() {
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (!raw) return false;
-                const parsed = JSON.parse(raw);
-                if (!Array.isArray(parsed) || parsed.length === 0) return false;
-                parsed.forEach((m) => {
-                    if (m && (m.role === 'bot' || m.role === 'user') && typeof m.text === 'string') {
-                        history.push({ role: m.role, text: m.text });
-                        const el = addMessage(m.role, m.text, false);
-                        void el;
-                    }
-                });
-                scrollDown();
-                return true;
-            } catch (e) { return false; }
-        }
-
-        /* ---------- База кода ---------- */
-        const SNIP_PY = [
-            'def greet(name: str) -> str:',
-            '    """Возвращает приветствие."""',
-            '    return "Привет, " + name + "! 🐾"',
-            '',
-            'names = ["Аня", "Максим", "Боня"]',
-            'for n in names:',
-            '    print(greet(n))'
-        ].join('\n');
-
-        const SNIP_JS = [
-            'const greet = (name) => "Привет, " + name + "! 🐾";',
-            '',
-            'const users = ["Аня", "Максим", "Боня"];',
-            'users.forEach((u) => console.log(greet(u)));'
-        ].join('\n');
-
-        const SNIP_HTML = [
-            '<!DOCTYPE html>',
-            '<html lang="ru">',
-            '<head>',
-            '  <meta charset="UTF-8">',
-            '  <meta name="viewport" content="width=device-width, initial-scale=1.0">',
-            '  <title>Моя страница</title>',
-            '</head>',
-            '<body>',
-            '  <h1>Привет, мир! 🐾</h1>',
-            '  <p>Это моя первая страница.</p>',
-            '</body>',
-            '</html>'
-        ].join('\n');
-
-        const SNIP_CSS = [
-            '.card {',
-            '  padding: 20px;',
-            '  border-radius: 16px;',
-            '  background: linear-gradient(135deg, #1a1f35, #0b0d16);',
-            '  color: #fff;',
-            '  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);',
-            '  transition: transform 0.3s ease;',
-            '}',
-            '',
-            '.card:hover {',
-            '  transform: translateY(-4px);',
-            '}'
-        ].join('\n');
-
-        const SNIP_SQL = [
-            'SELECT u.name, COUNT(o.id) AS orders_count',
-            'FROM users AS u',
-            'LEFT JOIN orders AS o ON o.user_id = u.id',
-            'WHERE u.created_at >= NOW() - INTERVAL \'30 days\'',
-            'GROUP BY u.name',
-            'HAVING COUNT(o.id) > 0',
-            'ORDER BY orders_count DESC',
-            'LIMIT 10;'
-        ].join('\n');
-
-        const SNIP_SORT = [
-            'def quicksort(arr):',
-            '    if len(arr) <= 1:',
-            '        return arr',
-            '    pivot = arr[len(arr) // 2]',
-            '    left  = [x for x in arr if x < pivot]',
-            '    mid   = [x for x in arr if x == pivot]',
-            '    right = [x for x in arr if x > pivot]',
-            '    return quicksort(left) + mid + quicksort(right)',
-            '',
-            'print(quicksort([5, 2, 9, 1, 7, 3]))',
-            '# [1, 2, 3, 5, 7, 9]'
-        ].join('\n');
-
-        const SNIP_FIB = [
-            'def fib(n, memo=None):',
-            '    if memo is None:',
-            '        memo = {}',
-            '    if n in memo:',
-            '        return memo[n]',
-            '    if n < 2:',
-            '        return n',
-            '    memo[n] = fib(n - 1, memo) + fib(n - 2, memo)',
-            '    return memo[n]',
-            '',
-            'print([fib(i) for i in range(10)])',
-            '# [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]'
-        ].join('\n');
-
-        const SNIP_TG = [
-            'import asyncio',
-            'from aiogram import Bot, Dispatcher, types',
-            '',
-            'bot = Bot(token="ВАШ_ТОКЕН")',
-            'dp = Dispatcher()',
-            '',
-            '@dp.message()',
-            'async def echo(message: types.Message):',
-            '    await message.answer("Гав! Ты написал: " + message.text)',
-            '',
-            'asyncio.run(dp.start_polling(bot))'
-        ].join('\n');
-
-        const SNIP_REACT = [
-            'import { useState } from "react";',
-            '',
-            'export default function Counter() {',
-            '  const [count, setCount] = useState(0);',
-            '',
-            '  return (',
-            '    <button onClick={() => setCount(count + 1)}>',
-            '      Нажато: {count}',
-            '    </button>',
-            '  );',
-            '}'
-        ].join('\n');
-
-        function codeBlock(lang, code) {
-            return FENCE + lang + '\n' + code + '\n' + FENCE;
-        }
-
-        function codeAnswer(text) {
-            const t = text.toLowerCase();
-            if (/телеграм|telegram|aiogram|бот[ае]?\b/.test(t)) {
-                return 'Держи заготовку Telegram-бота на **aiogram 3** 🐾\n\n' + codeBlock('python', SNIP_TG)
-                     + '\nНе забудь вставить свой токен от @BotFather!';
-            }
-            if (/react|реакт|компонент/.test(t)) {
-                return 'Вот простой React-компонент 🐶\n\n' + codeBlock('jsx', SNIP_REACT);
-            }
-            if (/python|питон|пайтон/.test(t)) {
-                return 'Вот базовый пример на **Python** 🐾\n\n' + codeBlock('python', SNIP_PY)
-                     + '\nХочешь что-то конкретнее — скажи, что именно нужно посчитать или сделать.';
-            }
-            if (/javascript|джаваскрипт|\bjs\b|нод|node/.test(t)) {
-                return 'Лови пример на **JavaScript** 🐶\n\n' + codeBlock('javascript', SNIP_JS);
-            }
-            if (/html|верстк|страниц|сайт/.test(t)) {
-                return 'Вот скелет HTML-страницы 🐾\n\n' + codeBlock('html', SNIP_HTML)
-                     + '\nСкажи, если нужен красивый CSS или адаптив — накидаю.';
-            }
-            if (/css|стил/.test(t)) {
-                return 'Красивая карточка на **CSS** 🐶\n\n' + codeBlock('css', SNIP_CSS);
-            }
-            if (/\bsql\b|база данных|бд|запрос/.test(t)) {
-                return 'Пример **SQL**-запроса с JOIN и агрегацией 🐾\n\n' + codeBlock('sql', SNIP_SQL);
-            }
-            if (/сортиров|sort|пузыр|быстр/.test(t)) {
-                return 'Быстрая сортировка на Python 🐶\n\n' + codeBlock('python', SNIP_SORT)
-                     + '\nАлгоритм: выбираем опорный элемент, делим массив на меньшие/равные/большие и рекурсивно сортируем части. Сложность в среднем — **O(n log n)**.';
-            }
-            if (/фибоначчи|fib/.test(t)) {
-                return 'Числа Фибоначчи через мемоизацию 🐾\n\n' + codeBlock('python', SNIP_FIB)
-                     + '\nМемоизация превращает экспоненциальный перебор в **O(n)**.';
-            }
-            return 'Расскажи чуть конкретнее, что нужно написать 🐶\n\n'
-                 + 'Например: «функция на Python для сортировки», «Telegram-бот», «адаптивная верстка».\n\n'
-                 + 'А пока — универсальный шаблон на Python:\n\n' + codeBlock('python', SNIP_PY);
-        }
-
-        /* ---------- Правила ---------- */
-        const RULES = [
-            /* --- Поддержка --- */
-            {
-                test: /(мне\s+)?(грустно|плохо|тяжело|тоскливо|одиноко|страшно|тревожно|больно|обидно|паршиво)|устал[аи]?\b|устала\b|нет сил|выгор|сдаюсь|депресс|плачу|стресс|паник|не могу больше|всё бесит|все бесит/i,
-                answers: [
-                    'Эй, я рядом 🐾\n\nТо, что ты это чувствуешь — уже нормально. Ты не обязан быть сильным 24/7. Сделай маленький шаг: попей воды, открой окно, разомни шею. А потом скажи мне, что тревожит — я выслушаю без осуждения.',
-                    'Обнимаю тебя лапками 🐶\n\nПлохие периоды — не приговор и не твоя вина. Попробуй сейчас самое простое: выдох на 4 счёта, вдох на 4. И напиши мне, что случилось — вместе разберёмся.',
-                    'Слышу тебя 💛\n\nОтъебись',
-                    'Пошел нахуй'
-                ]
-            },
-            /* --- Технические проблемы --- */
-            {
-                test: /(не работает|не запускается|ошибка|error|баг|bug|падает|крашится|exception|сломал|why.*not work)/i,
-                answers: [
-                    'О, знакомое 🐾 Давай разберём по шагам:\n\n**1.** Прочитай текст ошибки полностью — там часто прямо написан виновник.\n**2.** Проверь последнее изменение: скорее всего, дело в нём.\n**3.** Выведи значения переменных через `console.log` / `print` перед проблемным местом.\n**4.** Убедись, что типы данных и скобки совпадают.\n\nСкинь код и текст ошибки — посмотрю вместе с тобой 🐶'
-                ]
-            },
-            /* --- Благодарность --- */
-            {
-                test: /(спасибо|благодар|спс|thanks|thank you|thx|пасиб)/i,
-                answers: [
-                    'Всегда пожалуйста! 🐾 Хвост виляет.',
-                    'Рад помочь! 🐶 Обращайся в любое время.',
-                    'Гав! 💛 Для этого я и существую.'
-                ]
-            },
-            /* --- Прощание --- */
-            {
-                test: /(пока\b|до свидания|прощай|увидимся|bye|до встречи|спокойной ночи)/i,
-                answers: [
-                    'Пока-пока! 🐾 Буду ждать тебя здесь.',
-                    'До встречи! 🐶 Береги себя.',
-                    'Спокойной ночи 🌙 Пусть приснится что-то тёплое.'
-                ]
-            },
-            /* --- Признания --- */
-            {
-                test: /(люблю тебя|ты классн|ты лучший|обожаю|ты милый|хороший пёс|хороший пес)/i,
-                answers: [
-                    'Ой… 🐾 Я аж засмущался. Ты тоже отличный!',
-                    'Гав-гав! 💛 Взаимно, человек.',
-                    'Ушки покраснели 🐶 Ты лучший!'
-                ]
-            },
-            /* --- Код --- */
-            {
-                test: /(код|code|программ|скрипт|функци|python|питон|javascript|\bjs\b|html|css|sql|телеграм|бот|сортиров|фибоначчи|алгоритм|regex|регулярк|верстк|react|компонент|массив|цикл)/i,
-                answer: (t) => codeAnswer(t)
-            },
-            /* --- Шутки --- */
-            {
-                test: /(шутк|анекдот|рассмеши|пошути|смешн|joke)/i,
-                answers: [
-                    'Почему программисты путают Хэллоуин и Рождество? 🎃\nПотому что **OCT 31 == DEC 25**! 🐾',
-                    'Заходит Боня в бар, а бармен ему: «Вам как обычно?»\nБоня: «Гав». 🐶\n(Он ходит туда каждый день, у него всё по расписанию)',
-                    '— Сколько нужно Боня, чтобы вкрутить лампочку?\n— Один. Но он будет вилять хвостом и всё равно уронит её. 🐾',
-                    'Программист ставит на ночь два стакана: один с водой — если захочет пить, второй пустой — если не захочет. 🐶'
-                ]
-            },
-            /* --- Мотивация / совет --- */
-            {
-                test: /(мотивир|мотивац|вдохнови|дай совет|что делать|подскажи|как жить|что посоветуешь)/i,
-                answers: [
-                    'Совет от Боня 🐾\n\nНе жди мотивации — она приходит **во время** дела, а не до него. Поставь таймер на 10 минут и просто начни. Десять минут — это не страшно, а дальше втянешься.',
-                    'Вот что работает 🐶\n\n**1.** Разбей большую задачу на кусочки по 15 минут.\n**2.** Сделай самый неприятный кусок первым — утром.\n**3.** Хвали себя за каждый шаг, даже крошечный.\n\nПрогресс — это не скорость, а направление 🐾',
-                    'Держи 🐾\n\nСравнивай себя только с собой вчерашним. Мир не требует от тебя идеальности, он требует движения. Один маленький шаг сегодня > сто идеальных планов.'
-                ]
-            },
-            /* --- Кто ты --- */
-            {
-                test: /(кто ты|как тебя зовут|ты кто|что ты такое|тво[её] имя|представься)/i,
-                answers: [
-                    'Я **Боня** 🐶 — цифровой пёс-помощник, который живёт прямо в этом приложении. Пишу код, объясняю сложное простыми словами и всегда готов поддержать.',
-                    'Меня зовут Боня! 🐾 Умею всё: от сортировки массивов до утешительных слов в три часа ночи.'
-                ]
-            },
-            /* --- Возможности --- */
-            {
-                test: /(что ты умеешь|твои возможности|чем можешь помочь|что можешь|умеешь делать|help)/i,
-                answers: [
-                    'Могу много чего 🐾\n\n**💻 Код** — примеры на Python, JavaScript, HTML, CSS, SQL, React, Telegram-боты.\n**📚 Объясню** — сложное простыми словами.\n**💛 Поддержу** — если грустно, тревожно или тяжело.\n**😄 Пошучу** — если нужно разрядить обстановку.\n**🧮 Посчитаю** — просто напиши пример вроде `25 * 4 + 10`.\n\nПросто напиши, что нужно!'
-                ]
-            },
-            /* --- Приветствие --- */
-            {
-                test: /(привет|прив\b|хай|hello|\bhi\b|\bку\b|здравствуй|здорово|добрый день|добрый вечер|доброе утро|доброй ночи|йо\b|салют)/i,
-                answers: [
-                    'Гав-гав! 🐾 Привет! Я Боня — рад тебя видеть. Чем займёмся?',
-                    'Приветик! 🐶 Хвост виляет от радости. Спрашивай что угодно!',
-                    'Гав! 🐾 Я на месте. Могу написать код, объяснить что-то или просто поболтать.',
-                    'Привет! 🐾 Ушки навострил, лапки готовы печатать. Что нужно?'
-                ]
-            },
-            /* --- Как дела --- */
-            {
-                test: /(как дела|как ты\b|как жизнь|как сам|как оно|что делаешь|чем занят|как настроение)/i,
-                answers: [
-                    'У меня всё отлично — я же Боня! 🐾 Лежу на облачке из кода и жду твоих вопросов. А у тебя как?',
-                    'Гав-гав, замечательно! 😄 Хвост метёт пол, лапы готовы печатать. А ты как?',
-                    'Отлично! Только что съел пару багов на завтрак 🐶 А у тебя что нового?'
-                ]
-            },
-            /* --- Дата/время --- */
-            {
-                test: /(сколько времени|который час|какое время)/i,
-                answer: () => {
-                    const d = new Date();
-                    return 'Сейчас **' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0')
-                         + '** 🐾 (по времени твоего устройства)';
-                }
-            },
-            {
-                test: /(какое сегодня число|какая дата|какой сегодня день|какое число)/i,
-                answer: () => {
-                    const d = new Date();
-                    const months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
-                    const days = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
-                    return 'Сегодня **' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear()
-                         + ' года**, ' + days[d.getDay()] + ' 🐶';
-                }
-            }
-        ];
-
-        const DEFAULT_ANSWERS = [
-            'Гав! 🐾 Я пока не совсем понял вопрос, но очень хочу помочь. Расскажи чуть подробнее?',
-            'Хм, интересно! 🤔 Можешь переформулировать? Я умею писать код, объяснять и поддерживать.',
-            'Ушки навострил, но суть не уловил 🐶 Спроси иначе — например «напиши код на Python» или «расскажи шутку».',
-            'Я весь внимание! Только не совсем понял. Попробуй спросить по-другому 🐾',
-            'Гав-гав, а можно чуть конкретнее? 🐾 Я быстро учусь, честно!'
-        ];
-
-        /* ---------- Математика ---------- */
-        function tryMath(text) {
-            let clean = String(text).replace(/\s/g, '').replace(/,/g, '.').replace(/[?=]/g, '');
-            if (!clean) return null;
-            if (!/^[\d+\-*/().^%]+$/.test(clean)) return null;
-            if (!/\d/.test(clean)) return null;
-            if (!/[+\-*/^%]/.test(clean)) return null;
-            try {
-                const expr = clean.replace(/\^/g, '**');
-                const val = Function('"use strict";return (' + expr + ')')();
-                if (typeof val !== 'number' || !isFinite(val)) return null;
-                return Math.round(val * 1e10) / 1e10;
-            } catch (e) { return null; }
-        }
-
-        /* ---------- Мозг ---------- */
-        function getReply(text) {
-            const t = String(text).trim();
-
-            const mathResult = tryMath(t);
-            if (mathResult !== null) {
-                return 'Считаю… 🐾\n\n`' + t.replace(/\s+/g, ' ') + '` = **' + mathResult + '**';
-            }
-
-            for (let i = 0; i < RULES.length; i++) {
-                const rule = RULES[i];
-                if (rule.test.test(t)) {
-                    if (typeof rule.answer === 'function') return rule.answer(t);
-                    return pick(rule.answers);
-                }
-            }
-            return pick(DEFAULT_ANSWERS);
-        }
-
-        /* ---------- Отправка ---------- */
-        function autoResize() {
-            inputEl.style.height = 'auto';
-            inputEl.style.height = Math.min(inputEl.scrollHeight, 130) + 'px';
-        }
-
-        function sendMessage(raw) {
-            const text = String(raw || '').trim();
-            if (!text || busy) return;
-
-            busy = true;
-            addMessage('user', text);
-            inputEl.value = '';
-            autoResize();
-
-            showTyping();
-
-            const reply = getReply(text);
-            const plainLen = reply.replace(/\s+/g, ' ').length;
-            const delay = Math.max(450, Math.min(2100, 380 + plainLen * 7));
-
-            setTimeout(() => {
-                hideTyping();
-                addMessage('bot', reply);
-                busy = false;
-                inputEl.focus();
-            }, delay);
-        }
-
-        /* ---------- События ---------- */
-        sendBtn.addEventListener('click', () => sendMessage(inputEl.value));
-
-        inputEl.addEventListener('input', autoResize);
-
-        inputEl.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage(inputEl.value);
-            }
-        });
-
-        messagesEl.addEventListener('click', (e) => {
-            const btn = e.target.closest('.code-copy');
-            if (!btn) return;
-            const code = decodeURIComponent(btn.dataset.code || '');
-            const done = () => {
-                btn.textContent = '✓ Скопировано';
-                setTimeout(() => { btn.textContent = 'Копировать'; }, 1600);
-            };
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(code).then(done).catch(() => {
-                    btn.textContent = 'Выдели вручную';
-                    setTimeout(() => { btn.textContent = 'Копировать'; }, 1800);
-                });
-            } else {
-                const ta = document.createElement('textarea');
-                ta.value = code;
-                ta.style.position = 'fixed';
-                ta.style.opacity = '0';
-                document.body.appendChild(ta);
-                ta.select();
-                try { document.execCommand('copy'); done(); } catch (err) { /* ignore */ }
-                document.body.removeChild(ta);
-            }
-        });
-
-        if (sugsEl) {
-            sugsEl.addEventListener('click', (e) => {
-                const btn = e.target.closest('.ai-sug');
-                if (!btn) return;
-                sendMessage(btn.dataset.q || btn.textContent);
-            });
-        }
-
-        if (clearBtn) {
-            clearBtn.addEventListener('click', () => {
-                showModal('Очистить чат с Боней?', 'История переписки будет удалена.', [
-                    { text: 'Отмена', class: 'cancel', action: closeModal },
-                    { text: 'Очистить', class: 'delete', action: () => {
-                        history = [];
-                        saveHistory();
-                        messagesEl.innerHTML = '';
-                        closeModal();
-                        greet(true);
-                    }}
-                ]);
-            });
-        }
-
-        /* ---------- Старт ---------- */
-        function greet(force) {
-            const greetings = [
-                'Гав-гав! 🐾 Я **Боня** — твой цифровой помощник.\n\nМогу написать код, объяснить сложное простыми словами, посчитать пример или просто поддержать, если грустно.\n\nС чего начнём?',
-                'Привет! 🐶 Рад тебя видеть.\n\nСпроси что угодно: «напиши код на Python», «расскажи шутку», «мне грустно» — я разберусь 🐾'
-            ];
-            setTimeout(() => {
-                addMessage('bot', pick(greetings));
-            }, 380);
-        }
-
-        const restored = loadHistory();
-        if (!restored || force) {
-            if (force) {
-                setTimeout(() => addMessage('bot', pick([
-                    'Гав! 🐾 Начнём с чистого листа. Чем помочь?',
-                    'Чат очищен 🐶 Но я всё ещё здесь. Спрашивай!'
-                ])), 250);
-            } else {
-                greet(false);
-            }
-        }
-    })();
     </script>
 </body>
 </html>
