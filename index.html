@@ -250,7 +250,7 @@
             display: flex; justify-content: space-between; align-items: center;
             font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);
         }
-        .header-actions { display: flex; gap: 8px; }
+        .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
         .btn-small {
             background: rgba(255, 255, 255, 0.05); color: var(--text-main);
@@ -653,7 +653,6 @@
             background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.8), transparent);
         }
 
-        /* Сетка тарифов - расширенная на мобильных */
         .ticket-tiers {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -709,7 +708,6 @@
         }
         .ticket-tier.active .tier-range { color: #ffdd33; }
 
-        /* Сцена билета */
         .ticket-stage {
             width: 100%;
             display: flex; justify-content: center;
@@ -734,7 +732,6 @@
             overflow: hidden;
             box-shadow: inset 0 0 60px rgba(255, 140, 0, 0.25), inset 0 1px 0 rgba(255,255,255,0.4);
         }
-        /* блик */
         .ticket-body::before {
             content: '';
             position: absolute; top: 0; left: -80%; width: 50%; height: 100%;
@@ -791,7 +788,6 @@
             margin-top: 4px;
         }
 
-        /* Зона reveal */
         .ticket-reveal {
             position: absolute;
             bottom: 0; left: 0; right: 0;
@@ -842,7 +838,6 @@
             100% { transform: scale(1); }
         }
 
-        /* Обрывок (стаб) - Перфорация */
         .ticket-stub-wrap {
             position: absolute;
             bottom: 0; left: 0; right: 0;
@@ -916,7 +911,6 @@
             100% { transform: translate(160px, 200px) rotate(35deg); opacity: 0; }
         }
 
-        /* Кнопка */
         .ticket-start-btn {
             position: relative; overflow: hidden; width: 100%;
             background: linear-gradient(135deg, #ffcc00, #ff8c00);
@@ -1032,7 +1026,6 @@
             #tab-chat .control-panel { grid-area: controls; max-width: none; margin: 0; padding: 18px 26px; }
             #tab-chat .btn-main { grid-area: btn; max-width: none; margin: 0; }
 
-            /* --- БИЛЕТИК НА ПК --- */
             #tab-ticket.active {
                 display: grid;
                 grid-template-columns: 1fr 1.2fr;
@@ -1157,6 +1150,10 @@
                 <div class="participants-header">
                     <span>УЧАСТНИКИ</span>
                     <div class="header-actions">
+                        <button class="btn-small" onclick="copyParticipants()" title="Скопировать участников">
+                            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                            КОПИРОВАТЬ
+                        </button>
                         <button class="btn-small" onclick="openPermanentModal()">
                             <svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
                             ПОСТОЯННЫЕ
@@ -1177,6 +1174,11 @@
                 </div>
 
                 <div class="participants-list" id="participants-list"></div>
+
+                <button class="btn-small" onclick="copyParticipants()" style="width: 100%; justify-content: center; padding: 10px; margin-top: 4px;" title="Скопировать участников">
+                    <svg viewBox="0 0 24 24" style="width: 14px; height: 14px;"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    СКОПИРОВАТЬ УЧАСТНИКОВ
+                </button>
             </div>
         </div>
 
@@ -1316,7 +1318,6 @@
                 
                 <div class="ticket-hero">
                     
-                    <!-- Левая колонка (на ПК) / Блоки сверху (на телефонах) -->
                     <div class="ticket-settings-col" style="width: 100%;">
                         <div class="ticket-tiers" id="ticket-tiers">
                             <button class="ticket-tier active" data-tier="1000" onclick="selectTicketTier(1000)">
@@ -1342,7 +1343,6 @@
                         </div>
                     </div>
 
-                    <!-- Правая колонка (на ПК) / Билет снизу (на телефонах) -->
                     <div class="ticket-display-col" style="width: 100%;">
                         <div class="ticket-stage">
                             <div class="ticket" id="ticket">
@@ -1522,6 +1522,48 @@
                 endTime: rocketState.endTime,
                 launched: rocketState.launched
             }));
+        }
+
+        // Функция копирования участников
+        function copyParticipants() {
+            if (state.current.length === 0) {
+                showModal('Внимание', 'Список участников пуст.', [{ text: 'ОК', class: 'keep', action: closeModal }]);
+                return;
+            }
+            const textToCopy = state.current.join('\n');
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showModal('Успешно', 'Список участников скопирован в буфер обмена!', [{ text: 'ОК', class: 'keep', action: closeModal }]);
+                }).catch(() => {
+                    fallbackCopy(textToCopy);
+                });
+            } else {
+                fallbackCopy(textToCopy);
+            }
+        }
+
+        function fallbackCopy(text) {
+            try {
+                const temp = document.createElement('textarea');
+                temp.value = text;
+                temp.style.position = 'fixed';
+                temp.style.top = '0';
+                temp.style.left = '0';
+                temp.style.opacity = '0';
+                document.body.appendChild(temp);
+                temp.focus();
+                temp.select();
+                temp.setSelectionRange(0, text.length);
+                const success = document.execCommand('copy');
+                document.body.removeChild(temp);
+                if (success) {
+                    showModal('Успешно', 'Список участников скопирован в буфер обмена!', [{ text: 'ОК', class: 'keep', action: closeModal }]);
+                } else {
+                    showModal('Ошибка', 'Не удалось скопировать список.', [{ text: 'ОК', class: 'delete', action: closeModal }]);
+                }
+            } catch (e) {
+                showModal('Ошибка', 'Не удалось скопировать список.', [{ text: 'ОК', class: 'delete', action: closeModal }]);
+            }
         }
 
         // Звёзды
@@ -2433,7 +2475,6 @@
             }
         }
 
-        // НАСТРОЙКА ПРОКРУТА НА 6 СЕКУНД
         function startгромкоеВращение(finalAmount) {
             const revealEl = document.getElementById('reveal-amount');
             if (!revealEl) return;
@@ -2443,7 +2484,7 @@
             const maxForFlash = TICKET_TIERS[tier].max;
             
             let elapsed = 0;
-            const duration = 6000; // Ровно 6 секунд прокрута
+            const duration = 6000;
             
             function step() {
                 if (elapsed < duration) {
@@ -2453,7 +2494,6 @@
                     
                     elapsed += 50;
                     
-                    // Плавное замедление за 6 секунд
                     const progress = elapsed / duration;
                     const delay = 30 + Math.pow(progress, 3) * 350;
                     
